@@ -4,14 +4,11 @@
 
       <select
         class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
-        x-cloak
         id="select"
+        v-model="underlying"
       >
-        <option value="large">BTC</option>
-        <option value="medium">ETH</option>
-        <option value="" disabled selected style="display: none">
-          Select...
-        </option>
+        <option value="BTC" selected>BTC</option>
+        <option value="ETH">ETH</option>
       </select>
     </div>
 </template>
@@ -19,5 +16,18 @@
 <script>
 export default {
   name: "v-select-underlying",
+  emits: ['receiveMaturity'],
+
+  data() {
+    return {
+      underlying: ''
+    }
+  },
+
+  watch: {
+    underlying() {
+      this.$emit('receiveMaturity', this.underlying)
+    }
+  }
 };
 </script>

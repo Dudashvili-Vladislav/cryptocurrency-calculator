@@ -5,13 +5,29 @@ let store = createStore({
 
     state() {
         return {
-            maturity: []
+            maturityList: [],
+            maturity: null,
+            underlying: null,
+            amount: null,
         }
     },
 
     mutations: {
+        setMaturityList_mutations(state, maturityList) {
+            state.maturityList = maturityList
+        },
+
         setMaturity_mutations(state, maturity) {
             state.maturity = maturity
+        }, 
+
+        setUnderlying_mutations(state, underlying) {
+            state.underlying = underlying
+        },
+
+        setAmount_mutations(state, count) {
+            state.amount = count
+
         }
     },
 
@@ -21,16 +37,20 @@ let store = createStore({
                 axios({ url: 'http://localhost:5000/maturities', params: {currency: underlying}, method: 'GET'})
                 .then(resp => {
                     const data = resp.data.data[underlying]
-                    console.log(data)
-                    commit('setMaturity_mutations', data)
+                    commit('setMaturityList_mutations', data)
                     resolve(resp)
                 })
+                .catch(resp => {
+                    reject(resp)
+                })
             })
-        }
+        },
+
+
     },
 
     getters: {
-        maturity: state => state.maturity
+        maturityList: state => state.maturityList
     }
 })
 

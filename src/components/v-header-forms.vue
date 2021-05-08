@@ -4,13 +4,13 @@
     <div class="containet mx-auto px-10 text-sm">
       <div class="header flex justify-start">
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start">
-          <vSelectUnderlying />
+          <vSelectUnderlying @receiveMaturity="getMaturity" />
         </div>
 
-        <vSelectMaturity :maturityData="maturity" />
+        <vSelectMaturity :maturityData="maturityList" @upMaturity="setMaturity"/>
         
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
-          <vAmount />
+          <vAmount @upAmount="setAmount" />
         </div>
 
         <label class="ml-8 flex justify-start items-start pt-7">
@@ -46,15 +46,24 @@ export default {
   name: "v-header-forms",
 
   computed: {
-    ...mapGetters(["maturity"]),
+    ...mapGetters(["maturityList"]),
   },
 
   methods: {
     ...mapActions(["getMaturity_actions"]),
-  },
 
-  mounted() {
-    this.getMaturity_actions('BTC');
+    getMaturity(underlying) {
+      this.$store.commit('setUnderlying_mutations', underlying);
+      this.getMaturity_actions(underlying)
+    },
+
+    setMaturity(event) {
+      this.$store.commit('setMaturity_mutations', event);
+    },
+    
+    setAmount(count) {
+      this.$store.commit('setAmount_mutations', count);
+    }
   },
 
   components: {

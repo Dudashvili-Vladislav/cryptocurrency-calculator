@@ -1,5 +1,5 @@
 <template>
-  <div class="v-recommended pt-6">
+  <div class="v-recommended pt-6 container mx-auto">
     <v-header-forms />
 
     <div class="grap-table flex justify-between w-full mt-10">
