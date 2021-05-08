@@ -3,58 +3,14 @@
     
     <div class="containet mx-auto px-10 text-sm">
       <div class="header flex justify-start">
-        <div
-          class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
-        >
-          <label class="block" for="Underlying">Underlying</label>
+        <div class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start">
+          <vSelectUnderlying />
+        </div>
 
-          <select
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
-            x-cloak
-            id="select"
-          >
-            <option value="large">BTC</option>
-            <option value="medium">ETH</option>
-            <option value="" disabled selected style="display: none">
-              Select...
-            </option>
-          </select>
-        </div>
+        <vSelectMaturity :maturityData="maturity" />
+        
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
-          <label class="block" for="Underlying">Maturity</label>
-          <select
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
-            x-cloak
-            id="select"
-          >
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="large"></option>
-            <option value="" disabled selected style="display: none">
-              Select...
-            </option>
-          </select>
-        </div>
-        <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
-          <label for="money">Amount of BTC</label>
-          <input
-            type="number"
-            min="0"
-            name="money"
-            placeholder="0"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
-            x-cloak
-          />
-          <div class="absolute top-0 left-0 mt-3 ml-1 text-gray-400"></div>
-          <span class="text-sm text-red-600 hidden" id="error"></span>
+          <vAmount />
         </div>
 
         <label class="ml-8 flex justify-start items-start pt-7">
@@ -80,10 +36,32 @@
 
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
+import vSelectMaturity from './forms/v-select-maturity'
+import vSelectUnderlying from './forms/v-select-underlying'
+import vAmount from './forms/v-amount'
+
 export default {
-  components: {
-    name: "v-header-forms",
+  name: "v-header-forms",
+
+  computed: {
+    ...mapGetters(["maturity"]),
   },
+
+  methods: {
+    ...mapActions(["getMaturity_actions"]),
+  },
+
+  mounted() {
+    this.getMaturity_actions('BTC');
+  },
+
+  components: {
+    vSelectMaturity,
+    vSelectUnderlying,
+    vAmount
+  }
 };
 </script>
 
