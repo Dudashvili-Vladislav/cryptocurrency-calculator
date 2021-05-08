@@ -1,17 +1,19 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <h1 class=" font-bold containet mx-auto px-10  text-left text-xl font-sans ">Calculator. Hedge</h1>
+    <v-recommended />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import vRecommended from "./components/v-recommended";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    vRecommended,
+  },
+};
 </script>
 
 <style>
