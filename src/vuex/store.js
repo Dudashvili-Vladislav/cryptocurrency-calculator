@@ -51,7 +51,7 @@ let store = createStore({
 
         getStatisctics_actions({ commit }) {
             return new Promise(( resolve, reject) => {
-                axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
+                axios({ url: 'http://localhost:5000/recStructs?currency=BTC&maturity=25JUN21&amount=1&fut_hedge_flag=True', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
                 .then(resp => {
                     console.log(resp.data)
                     resolve(resp)
