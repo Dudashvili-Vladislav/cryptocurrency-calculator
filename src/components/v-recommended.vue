@@ -1,13 +1,17 @@
 <template>
   <div class="v-recommended pt-6 container mx-auto">
     <v-header-forms />
-
     <vChartsStatisctics />
 
     <v-call-spread-right />
 
+
     <div class="table" v-if="fullDataList">
-      <vTable v-for="information in fullDataList" :key="information" :tableData="information['table']" />
+      <vTable
+        v-for="information in fullDataList"
+        :key="information"
+        :tableData="information['table']"
+      />
     </div>
   </div>
 </template>

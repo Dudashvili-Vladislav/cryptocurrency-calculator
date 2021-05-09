@@ -13,33 +13,33 @@
       <tbody class="border border-gray-400">
         <tr class="border-gray-400">
           <td>Amount of underlying</td>
-          <td>{{ tableData['BTC']['Amount of underlying'] }}</td>
-          <td>{{ tableData['%']['Amount of underlying'] }}</td>
-          <td>{{ tableData['USD']['Amount of underlying'] }}</td>
+          <td>{{ tableData ['BTC'] ['Amount of underlying'] }}</td>
+          <td>{{ tableData ['%'] ['Amount of underlying'] }}</td>
+          <td>{{ tableData ['USD'] ['Amount of underlying'] }}</td>
         </tr>
         <tr class="border-gray-400 bg-emerald-200">
           <td>Max profit</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
+          <td>{{ tableData ['BTC'] ["Max profit"] }}</td>
+          <td>{{ tableData ['%'] ["Max profit"]}}</td>
+          <td>{{ tableData ['USD'] ["Max profit"] }}</td>
         </tr>
         <tr class="border-gray-400">
           <td>Structure product price</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
+          <td>{{ tableData ['BTC'] ["Structure product price"] }}</td>
+          <td>{{ tableData ['%'] ["Structure product price"] }}</td>
+          <td>{{ tableData ['USD'] ["Structure product price"] }}</td>
         </tr>
         <tr class="border-gray-400">
           <td>Maintenance margin</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
+          <td>{{ tableData ['BTC'] ["Maintenace margin"].toFixed(2)}}</td>
+          <td>{{ tableData ['%'] ["Maintenace margin"].toFixed(2) }}</td>
+          <td>{{ tableData ['USD'] ["Maintenace margin"].toFixed(2) }}</td>
         </tr>
         <tr class="border-gray-400">
           <td>Total margin</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
+          <td>{{ tableData['BTC'] ["Total margin"].toFixed(2) }}</td>
+          <td>{{ tableData ['%'] ["Total margin"].toFixed(2) }}</td>
+          <td>{{ tableData ['USD'] ["Total margin"].toFixed(2) }}</td>
         </tr>
       </tbody>
     </table>
