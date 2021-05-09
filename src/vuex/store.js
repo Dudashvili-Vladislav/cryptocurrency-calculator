@@ -9,6 +9,7 @@ let store = createStore({
             maturity: null,
             underlying: null,
             amount: null,
+            futHedgeFlag: null,
         }
     },
 
@@ -27,7 +28,9 @@ let store = createStore({
 
         setAmount_mutations(state, count) {
             state.amount = count
-
+        },
+        setFlagFutures_mutations(state, flag) {
+            state.futHedgeFlag = flag
         }
     },
 
@@ -46,7 +49,18 @@ let store = createStore({
             })
         },
 
-
+        getStatisctics_actions({ commit }) {
+            return new Promise(( resolve, reject) => {
+                axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
+                .then(resp => {
+                    console.log(resp.data)
+                    resolve(resp)
+                })
+                .catch(resp => {
+                    reject(resp)
+                })
+            })
+        }
     },
 
     getters: {
