@@ -19,15 +19,15 @@
         </tr>
         <tr class="border-gray-400 bg-emerald-200">
           <td>Max profit</td>
-          <td>{{ tableData ['BTC'] ["Max profit"] }}</td>
-          <td>{{ tableData ['%'] ["Max profit"]}}</td>
-          <td>{{ tableData ['USD'] ["Max profit"] }}</td>
+          <td>{{ tableData ['BTC'] ["Max profit"].toFixed(2) }}</td>
+          <td>{{ tableData ['%'] ["Max profit"].toFixed(2)}}</td>
+          <td>{{ tableData ['USD'] ["Max profit"].toFixed(2) }}</td>
         </tr>
         <tr class="border-gray-400">
           <td>Structure product price</td>
-          <td>{{ tableData ['BTC'] ["Structure product price"] }}</td>
-          <td>{{ tableData ['%'] ["Structure product price"] }}</td>
-          <td>{{ tableData ['USD'] ["Structure product price"] }}</td>
+          <td>{{ tableData ['BTC'] ["Structure product price"].toFixed(2) }}</td>
+          <td>{{ tableData ['%'] ["Structure product price"].toFixed(2) }}</td>
+          <td>{{ tableData ['USD'] ["Structure product price"].toFixed(2) }}</td>
         </tr>
         <tr class="border-gray-400">
           <td>Maintenance margin</td>
