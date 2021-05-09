@@ -2,6 +2,7 @@
   <div class="v-recommended pt-6 container mx-auto">
     <v-header-forms />
 
+    <vChartsStatisctics />
 
     <v-call-spread-right />
   </div>
@@ -10,6 +11,7 @@
 <script>
 import vHeaderForms from "./v-header-forms";
 import vCallSpreadRight from "./v-call-spread-right";
+import vChartsStatisctics from "./v-charts-statistics"
 
 
 export default {
@@ -17,6 +19,7 @@ export default {
   components: {
     vHeaderForms,
     vCallSpreadRight,
+    vChartsStatisctics
   },
   props: {},
   data() {
