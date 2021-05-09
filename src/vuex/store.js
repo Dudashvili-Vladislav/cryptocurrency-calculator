@@ -10,6 +10,7 @@ let store = createStore({
             underlying: null,
             amount: null,
             futHedgeFlag: false,
+            fullDataList: null, 
         }
     },
 
@@ -31,6 +32,9 @@ let store = createStore({
         },
         setFlagFutures_mutations(state, flag) {
             state.futHedgeFlag = flag
+        },
+        setFullData_mutations(state, data) {
+            state.fullDataList = data
         }
     },
 
@@ -53,7 +57,7 @@ let store = createStore({
             return new Promise(( resolve, reject) => {
                 axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
                 .then(resp => {
-                    console.log(resp.data)
+                    commit('setFullData_mutations', resp.data.data)
                     resolve(resp)
                 })
                 .catch(resp => {
@@ -64,7 +68,8 @@ let store = createStore({
     },
 
     getters: {
-        maturityList: state => state.maturityList
+        maturityList: state => state.maturityList,
+        fullDataList: state => state.fullDataList
     }
 })
 

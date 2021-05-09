@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import vText from "./text/v-text";
+import vText from "../text/v-text";
 import vSendOrder from "./forms/v-send-order"
 
 import { mapActions } from "vuex"
