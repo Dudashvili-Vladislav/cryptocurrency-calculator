@@ -11,6 +11,7 @@ let store = createStore({
             amount: null,
             futHedgeFlag: false,
             fullDataList: null, 
+            chartData: null, 
         }
     },
 
@@ -35,6 +36,9 @@ let store = createStore({
         },
         setFullData_mutations(state, data) {
             state.fullDataList = data
+        },
+        setStatiscticsForChart_mutations(state, statistic) {
+            state.chartData = statistic
         }
     },
 
@@ -58,6 +62,8 @@ let store = createStore({
                 axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
                 .then(resp => {
                     commit('setFullData_mutations', resp.data.data)
+                    // Этот запрос возвращает всю дату, поэтому, напиши здесь код соединения двух списков
+                    // А после передай получившийся список сюда: commit('setStatiscticsForChart_mutations', Твоя переменная)
                     resolve(resp)
                 })
                 .catch(resp => {

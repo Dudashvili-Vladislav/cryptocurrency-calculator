@@ -1,10 +1,11 @@
 <template>
   <div class="v-recommended pt-6 container mx-auto">
     <v-header-forms />
-    <vChartsStatisctics />
 
+    <div class="chart" v-if="fullDataList">
+      <vChartsStatisctics :dataForChart="fullDataList[5]" />
+    </div>
     <v-call-spread-right />
-
 
     <div class="table" v-if="fullDataList">
       <vTable
@@ -18,7 +19,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-
 import vHeaderForms from "./header/v-header-forms";
 import vCallSpreadRight from "./menu-right/v-call-spread-right";
 import vChartsStatisctics from "./v-charts-statistics";
@@ -32,12 +32,10 @@ export default {
     vChartsStatisctics,
     vTable,
   },
-
   props: {},
   data() {
     return {};
   },
-
   computed: {
     ...mapGetters(["fullDataList"]),
   },

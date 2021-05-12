@@ -1,5 +1,8 @@
 <template>
   <div class="v-charts-statistics">
+    {{ dataForChart['chart'] }}
+    <hr>
+    {{ dataForChart }}
     <vScatterStatistics :chartData="test" />
   </div>
 </template>
@@ -9,38 +12,17 @@ import vScatterStatistics from "./charts/v-scatter-statistics";
 
 export default {
   name: "v-charts-statistics",
+  props: {
+    dataForChart: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
+  },
 
   data() {
     return {
-      test: {
-        datasets: [
-          {
-            label: "GitHub Commits",
-            showLine: true,
-            color: "red",
-            borderColor: "red",
-            backgroundColor: "rgba(0, 0, 0, 0)",
-            data: [
-              {
-                x: -10,
-                y: 0,
-              },
-              {
-                x: 0,
-                y: 10,
-              },
-              {
-                x: 10,
-                y: 5,
-              },
-              {
-                x: 0.5,
-                y: 5.5,
-              },
-            ],
-          },
-        ],
-      },
     };
   },
 
