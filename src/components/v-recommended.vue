@@ -3,7 +3,7 @@
     <v-header-forms />
 
     <div class="chart" v-if="fullDataList">
-      <vChartsStatisctics :dataForChart="fullDataList[5]" />
+      <vChartsStatisctics :dataForChart="fullDataList[5]" /> 
     </div>
     <v-call-spread-right />
 

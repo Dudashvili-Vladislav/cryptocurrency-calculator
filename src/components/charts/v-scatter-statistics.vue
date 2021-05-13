@@ -15,7 +15,7 @@ export default defineComponent({
   },
 
   mounted() {
-    this.renderChart(this.chartData);
+    this.renderChart(this.chartData); // renderChart создаст ваш экземпляр диаграммы. // this.chartData - это данные  диаграммы
   },
 })
 </script>
