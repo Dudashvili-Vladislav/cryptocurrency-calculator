@@ -66,14 +66,12 @@ let store = createStore({
                 .then(resp => {
                     commit('setFullData_mutations', resp.data.data)
 
-                    const key = this.fullDataList[5]["chart"]["y_struct"]
-                    const value = this.fullDataList[5]["chart"]["x"]
+                    const key = store.state.fullDataList[5]["chart"]["y_struct"]
+                    const value = store.state.fullDataList[5]["chart"]["x"]
                     const result = {}
                     key.forEach((key,i) => result[key] = value[i])
+                    console.log(result)
                     commit('setStatiscticsForChart_mutations',result)
-                    .catch((error) =>{
-                        console.log(error)
-                    })
                     resolve(resp)
                 })
                 .catch(resp => {
