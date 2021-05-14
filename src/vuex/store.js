@@ -95,7 +95,8 @@ let store = createStore({
     getters: {
         maturityList: state => state.maturityList,
         fullDataList: state => state.fullDataList,
-        chartData: state=> state.chartData,
+        chartData: state => state.chartData,
+        underlyingChoice: state => state.underlying 
     }
 })
 

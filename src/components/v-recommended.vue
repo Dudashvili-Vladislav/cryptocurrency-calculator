@@ -45,8 +45,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["fullDataList"]),
-    ...mapGetters(["chartData"]),
+    ...mapGetters(["fullDataList", "chartData"]),
   },
 };
 </script>
