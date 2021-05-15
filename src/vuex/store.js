@@ -74,12 +74,14 @@ let store = createStore({
             return new Promise(( resolve, reject) => {
                 axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
                 .then(resp => {
+                    console.log(resp)
                     commit('setFullData_mutations', resp.data.data)
 
                     const key = store.state.fullDataList[5]["chart"]["y_struct"]
                     const value = store.state.fullDataList[5]["chart"]["x"]
                     const result = key.reduce((acc,n,i) => ({...acc, [n]: value[i] }), {})
-
+                    console.log(key)
+                    console.log(value)
                     console.log(result)
                     commit('setStatiscticsForChart_mutations',result)
 

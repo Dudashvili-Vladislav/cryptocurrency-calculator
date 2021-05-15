@@ -2,23 +2,23 @@
   <div class="v-recommended pt-6 container mx-auto">
     <v-header-forms />
 
+    <div class="wrapper flex items-center w-full">
+      <div class="chart ml-10 flex-auto min-w-1/3 ">
+        <!--    CHARTDATA {{ chartData}} -->
+        <vChart class="chart-v" :dataset="chartData" />
+      </div>
 
-    <div class="chart">
-     CHARTDATA {{ chartData}}
-      <vChart
-       
-        :dataset="chartData"
-      />
+      <v-call-spread-right class="call min-w-1/4 ml-5  " />
     </div>
 
-    <v-call-spread-right />
-
-    <div class="table" v-if="fullDataList">
+<div class="tabe-wrapper flex justify-end">
+    <div class="table " v-if="fullDataList">
       <vTable
         v-for="information in fullDataList"
         :key="information"
         :tableData="information['table']"
       />
+    </div>
     </div>
   </div>
 </template>

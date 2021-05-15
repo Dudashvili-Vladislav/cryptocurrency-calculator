@@ -19,7 +19,8 @@ export default {
           datasets: [
             {
               label: "Data 1",
-              showLine:true,
+              backgroundColor: 'red',
+              /* showLine:true, */
               data: this.dataset,
             },
           ],
