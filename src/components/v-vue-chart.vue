@@ -22,14 +22,13 @@ export default {
                 label: "Data 1",
                 /* backgroundColor: "red", */
                 showLine:true,
-                data: this.dataset,
-              
-                
+                data: this.dataset[0]
               },
+   
+               
             ],
           };
           this.$nextTick().then(() => {
-            console.log(this.dataset)
             this.dataset.forEach((item) => {
               chartData.labels.push(item.x);
               chartData.datasets[0].data.push(item.y);

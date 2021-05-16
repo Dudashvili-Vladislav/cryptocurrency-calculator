@@ -1,7 +1,7 @@
 <template>
-  <div class="v-table-statistics flex justify-between">
+  <div class="v-table-statistics flex justify-between w-full items-center">
 <!--     {{ fullDataList }} -->
-      <vChart  class="chart-v" :dataset="chartData" />
+      <vChart  class="chart-v min-w-2/3 w-2/3" :dataset="chartData" />
     <table class="table-auto text-center mt-5 justify-end">
       <thead class="border border-gray-400 bg-gray-100">
         <tr>

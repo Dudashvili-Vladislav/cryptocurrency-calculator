@@ -5,14 +5,14 @@
     <div class="wrapper flex items-center w-full">
       <div class="chart ml-10 flex-auto min-w-1/3 ">
         <!--    CHARTDATA {{ chartData}} -->
-        <vChart  class="chart-v" :dataset="chartData" />
+        <vChart  class="chart-v w-full" :dataset="chartData" />
       </div>
 
       <v-call-spread-right class="call min-w-1/4 ml-5  " />
     </div>
 
-<div class="tabe-wrapper flex justify-end">
-    <div class="table " v-if="fullDataList">
+<div class="tabe-wrapper flex justify-between w-full">
+    <div class="table w-full " v-if="fullDataList">
       
       <vTable
         
