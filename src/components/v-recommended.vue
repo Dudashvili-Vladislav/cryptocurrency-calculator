@@ -5,7 +5,7 @@
     <div class="wrapper flex items-center w-full">
       <div class="chart ml-10 flex-auto min-w-1/3 ">
         <!--    CHARTDATA {{ chartData}} -->
-        <vChart class="chart-v" :dataset="chartData" />
+        <vChart  class="chart-v" :dataset="chartData" />
       </div>
 
       <v-call-spread-right class="call min-w-1/4 ml-5  " />
@@ -13,10 +13,13 @@
 
 <div class="tabe-wrapper flex justify-end">
     <div class="table " v-if="fullDataList">
+      
       <vTable
+        
         v-for="information in fullDataList"
         :key="information"
         :tableData="information['table']"
+  
       />
     </div>
     </div>
@@ -24,6 +27,7 @@
 </template>
 
 <script>
+import watch from "vue"
 import vChart from "./v-vue-chart";
 import { mapGetters } from "vuex";
 import vHeaderForms from "./header/v-header-forms";
@@ -40,6 +44,7 @@ export default {
     vChartsStatisctics,
     vTable,
   },
+
   props: {},
   data() {
     return {};
@@ -47,6 +52,12 @@ export default {
   computed: {
     ...mapGetters(["fullDataList", "chartData"]),
   },
+  watch: {
+    dataset: {
+      handler(newVal, oldVal) {},
+      immediate: true
+    }
+},
 };
 </script>
 

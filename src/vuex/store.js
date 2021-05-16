@@ -51,7 +51,6 @@ let store = createStore({
               })
             state.chartData = result
             
-            console.log(state.chartData) 
         }
     },
 
@@ -60,6 +59,7 @@ let store = createStore({
             return new Promise(( resolve, reject) => {
                 axios({ url: 'http://localhost:5000/maturities', params: {currency: underlying}, method: 'GET'})
                 .then(resp => {
+                    console.log("getMaturity_actions: ", data)
                     const data = resp.data.data[underlying]
                     commit('setMaturityList_mutations', data)
                     resolve(resp)
@@ -74,15 +74,18 @@ let store = createStore({
             return new Promise(( resolve, reject) => {
                 axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
                 .then(resp => {
-                    console.log(resp)
+                    
                     commit('setFullData_mutations', resp.data.data)
 
-                    const key = store.state.fullDataList[5]["chart"]["y_struct"]
+                    const key_y_1 = store.state.fullDataList[5]["chart"]["y_struct"]
+                    const key_y_2 = store.state.fullDataList[5]["chart"]["y_portf"]
+                    const key = [...key_y_1, ...key_y_2]
+                    console.log(key)
                     const value = store.state.fullDataList[5]["chart"]["x"]
                     const result = key.reduce((acc,n,i) => ({...acc, [n]: value[i] }), {})
+                    console.log("getStatisctics_actions: ", this.chartData)
                     console.log(key)
                     console.log(value)
-                    console.log(result)
                     commit('setStatiscticsForChart_mutations',result)
 
                     resolve(resp)

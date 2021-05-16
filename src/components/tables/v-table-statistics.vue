@@ -1,10 +1,7 @@
 <template>
-  <div class="v-table-statistics">
+  <div class="v-table-statistics flex justify-between">
 <!--     {{ fullDataList }} -->
-        <div class="chart ml-10 flex-auto min-w-1/3 ">
-      CHARTDATA {{ chartData}}
-      <vChart class="chart-v" :dataset="chartData" />
-    </div>
+      <vChart  class="chart-v" :dataset="chartData" />
     <table class="table-auto text-center mt-5 justify-end">
       <thead class="border border-gray-400 bg-gray-100">
         <tr>
@@ -54,6 +51,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import vChart from "../v-vue-chart"
+import watch from "vue"
 
 export default {
   components:{
@@ -72,6 +70,12 @@ export default {
   computed: {
     ...mapGetters(["underlyingChoice","fullDataList", "chartData"])
   },
+  watch: {
+    dataset: {
+      handler(newVal, oldVal) {},
+      immediate: true
+    }
+},
 
   data() {
     return {};
