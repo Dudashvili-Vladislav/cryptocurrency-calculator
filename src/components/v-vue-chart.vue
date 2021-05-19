@@ -1,44 +1,57 @@
 <script>
-import { Line } from "vue3-chart-v2";
+import {Line  } from "vue3-chart-v2";
 import watch from "vue";
 
 export default {
-  extends: Line,
+  extends: Line ,
   props: {
     dataset: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => {},
     },
+    title:{
+      type: String,
+      default: "",
+    }
   },
 
   watch: {
     dataset: {
       handler(newValue, oldValue) {
-        if (newValue && newValue.length) {
+        console.log("newValue",newValue)
+        if (newValue ) {
           let chartData = {
-            labels: [],
+            labels: 
+              this.dataset["x"]
+            ,
             datasets: [
               {
-                label: "Data 1",
+                label: "First Y Data 1",
                 /* backgroundColor: "red", */
                 showLine:true,
-                data: this.dataset[0]
+                data: this.dataset["y_portf"]
               },
-   
-               
+                 {
+                label: "Second Y Data 2",
+                /* backgroundColor: "red", */
+                showLine:true,
+                data: this.dataset["y_struct"]
+              },
+
             ],
           };
           this.$nextTick().then(() => {
-            this.dataset.forEach((item) => {
-              chartData.labels.push(item.x);
-              chartData.datasets[0].data.push(item.y);
-            });
+            console.log("chartDataAAAAAAAAAAAAAAAAAAAAAAAAA",chartData)
             this.renderChart(chartData, {
               responsive: true,
               maintainAspectRatio: false,
               title: {
                 display: true,
-                text: "My Data",
+                text: this.title,
+               
+                
+                
+                
               },
             });
           });
@@ -48,6 +61,10 @@ export default {
     },
   },
 
-  mounted() {},
+
+  mounted() {
+    console.log("Данные data: ", this.dataset)
+    
+  },
 };
 </script>

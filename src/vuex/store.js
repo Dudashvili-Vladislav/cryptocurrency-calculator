@@ -38,24 +38,33 @@ let store = createStore({
         },
         setFlagFutures_mutations(state, flag) {
             state.futHedgeFlag = flag
+            console.log("flaggggggggggggg",flag)
         },
         setFullData_mutations(state, data) {
             state.fullDataList = data
         },
         setStatiscticsForChart_mutations(state, statistic) {
-            const result = Object.entries(statistic).map(item => {
-                console.log("item",item[1])
-                const key = Object.keys(item[1])
-                const parsedX = parseInt(key[0])
-                return {
-                
-                  x: parsedX,
-                  y: item[1][key]
-                }
-              })
+         
+              function setStatiscticsForChart(statistic) {
+                return statistic.map(el => {
+                  let newEl = [];
+                  for(const [key, value] of Object.entries(el)) {
 
-            console.log("RESULT",result)
-            state.chartData.push(result)
+                    newEl.push(parseFloat(key),value)
+                  }
+                  return newEl;
+                })
+              }
+
+              const result = setStatiscticsForChart(statistic)
+              const change = [].concat.apply([], result)
+
+
+            console.log("result",result)
+
+            console.log("statistic",statistic)
+            console.log("change",change)
+            state.chartData.push(change)
             
         }
     },
@@ -80,33 +89,8 @@ let store = createStore({
             return new Promise(( resolve, reject) => {
                 axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
                 .then(resp => {
-                    commit('setFullData_mutations', resp.data.data)
-
-                    const yStruct = store.state.fullDataList[5]["chart"]["y_struct"]
-                    const yPortf = store.state.fullDataList[5]["chart"]["y_portf"]
-                    const value = store.state.fullDataList[5]["chart"]["x"]
-
-                    const structData = yStruct.map((data, i) => {
-                        return {
-                          [data]: value[i],
-                        };
-                      });
-                    commit('setStatiscticsForChart_mutations',structData)
-                    
-                    const portfData = yPortf.map((data, i) => {
-                        return {
-                          [data]: value[i],
-                        };
-                      });
-                    commit('setStatiscticsForChart_mutations',portfData)
-
-                    console.log("structData",structData)
-                    console.log("portfData",portfData)
-                    console.log(store.state.chartData)
-
-                    console.log("yPortf",yPortf)
-                    console.log("yStruct",yStruct)
-
+                    commit('setFullData_mutations', resp.data.data) // Получаем все графики
+                    console.log("resp",resp.data.data) 
                     resolve(resp)
                 })
                 .catch(resp => {

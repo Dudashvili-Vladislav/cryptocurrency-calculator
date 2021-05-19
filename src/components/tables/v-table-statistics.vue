@@ -1,8 +1,10 @@
 <template>
   <div class="v-table-statistics flex justify-between w-full items-center">
-<!--     {{ fullDataList }} -->
-      <vChart  class="chart-v min-w-2/3 w-2/3" :dataset="chartData" />
-    <table class="table-auto text-center mt-5 justify-end">
+
+      <vChart  class="text-left chart-v min-w-2/3 w-2/3" :dataset="chartData" :title="title" />
+    <div class="wrapper-text w-1/3 mt-20 ml-5 ">
+      <div class="text pr-3 ">{{description}} </div>
+    <table class="table-auto text-center mt-5 justify-end m-left">
       <thead class="border border-gray-400 bg-gray-100">
         <tr>
           <th></th>
@@ -13,6 +15,7 @@
       </thead>
       <tbody class="border border-gray-400">
         <tr class="border-gray-400">
+
           <td>Amount of underlying</td>
           <td>{{ tableData [underlyingChoice] ['Amount of underlying'] }}</td>
           <td>{{ tableData ['%'] ['Amount of underlying'] }}</td>
@@ -45,21 +48,46 @@
         </tr>
       </tbody>
     </table>
+    <div class="v-call-spread-right">
+
+  <vSendOrder @upGetStatisctics="getStatisctics_actions" />
   </div>
+  </div>
+</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import vSendOrder from "@/components/menu-right/forms/v-send-order"
+import { mapGetters, mapActions } from 'vuex'
 import vChart from "../v-vue-chart"
 import watch from "vue"
 
 export default {
   components:{
     vChart,
+    vSendOrder
   },
   name: "v-table-statistics",
   props: {
     tableData: {
+      type: Object, 
+      default() {
+        return {}
+      }
+    },
+      description:{
+      type: String, 
+      default() {
+        return ""
+      }
+    },
+      title:{
+      type: String, 
+      default() {
+        return ""
+      }
+    },
+     chartData:{
       type: Object, 
       default() {
         return {}
@@ -74,8 +102,15 @@ export default {
     dataset: {
       handler(newVal, oldVal) {},
       immediate: true
+    },
+    logData() {
+      console.log("tableData",this.tableData)
     }
 },
+methods: {
+    ...mapActions(['getStatisctics_actions']),
+
+  },
 
   data() {
     return {};

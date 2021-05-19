@@ -3,11 +3,6 @@
     <v-header-forms />
 
     <div class="wrapper flex items-center w-full">
-      <div class="chart ml-10 flex-auto min-w-1/3 ">
-        <!--    CHARTDATA {{ chartData}} -->
-        <vChart  class="chart-v w-full" :dataset="chartData" />
-      </div>
-
       <v-call-spread-right class="call min-w-1/4 ml-5  " />
     </div>
 
@@ -19,7 +14,11 @@
         v-for="information in fullDataList"
         :key="information"
         :tableData="information['table']"
-  
+        :description="information.description"
+        :title="information.title"
+        :chartData="information['chart']"
+        
+
       />
     </div>
     </div>
@@ -45,10 +44,11 @@ export default {
     vTable,
   },
 
-  props: {},
-  data() {
-    return {};
+  props: {
+
   },
+
+  
   computed: {
     ...mapGetters(["fullDataList", "chartData"]),
   },
@@ -56,7 +56,8 @@ export default {
     dataset: {
       handler(newVal, oldVal) {},
       immediate: true
-    }
+    },
+ 
 },
 };
 </script>
