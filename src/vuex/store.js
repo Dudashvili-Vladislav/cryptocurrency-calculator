@@ -10,10 +10,9 @@ let store = createStore({
             maturityList: [],
             maturity: null,
             underlying: null,
-            amount: null,
+            amount: 0,
             futHedgeFlag: false,
             fullDataList: null, 
-            chartData: [], 
             result: null,
             value: null,
            
@@ -35,6 +34,7 @@ let store = createStore({
 
         setAmount_mutations(state, count) {
             state.amount = count
+            console.log("teststtststs")
         },
         setFlagFutures_mutations(state, flag) {
             state.futHedgeFlag = flag
@@ -43,30 +43,7 @@ let store = createStore({
         setFullData_mutations(state, data) {
             state.fullDataList = data
         },
-        setStatiscticsForChart_mutations(state, statistic) {
-         
-              function setStatiscticsForChart(statistic) {
-                return statistic.map(el => {
-                  let newEl = [];
-                  for(const [key, value] of Object.entries(el)) {
 
-                    newEl.push(parseFloat(key),value)
-                  }
-                  return newEl;
-                })
-              }
-
-              const result = setStatiscticsForChart(statistic)
-              const change = [].concat.apply([], result)
-
-
-            console.log("result",result)
-
-            console.log("statistic",statistic)
-            console.log("change",change)
-            state.chartData.push(change)
-            
-        }
     },
 
     actions: {
@@ -86,6 +63,7 @@ let store = createStore({
         },
 
         getStatisctics_actions({ commit }) {
+            console.log("getStatisctics_actions",this.state.amount)
             return new Promise(( resolve, reject) => {
                 axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
                 .then(resp => {
@@ -103,7 +81,6 @@ let store = createStore({
     getters: {
         maturityList: state => state.maturityList,
         fullDataList: state => state.fullDataList,
-        chartData: state => state.chartData,
         underlyingChoice: state => state.underlying,
     }
 })

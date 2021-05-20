@@ -80,7 +80,9 @@ export default {
       default() {
         return ""
       }
+      
     },
+  
       title:{
       type: String, 
       default() {
@@ -105,7 +107,8 @@ export default {
     },
     logData() {
       console.log("tableData",this.tableData)
-    }
+    },
+
 },
 methods: {
     ...mapActions(['getStatisctics_actions']),

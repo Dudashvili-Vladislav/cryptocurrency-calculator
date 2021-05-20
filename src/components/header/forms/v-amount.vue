@@ -27,7 +27,10 @@ export default {
   watch: {
     amountCount() {
       this.$emit("upAmount", this.amountCount);
+
     },
+    
   },
+
 };
 </script>
