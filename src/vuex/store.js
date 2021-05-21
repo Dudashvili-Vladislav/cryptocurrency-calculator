@@ -42,6 +42,7 @@ let store = createStore({
         },
         setFullData_mutations(state, data) {
             state.fullDataList = data
+
         },
 
     },
@@ -53,6 +54,7 @@ let store = createStore({
                 .then(resp => {
 
                     const data = resp.data.data[underlying]
+                    console.log("data", data)
                     commit('setMaturityList_mutations', data)
                     resolve(resp)
                 })
@@ -68,7 +70,8 @@ let store = createStore({
                 axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
                 .then(resp => {
                     commit('setFullData_mutations', resp.data.data) // Получаем все графики
-                    console.log("resp",resp.data.data) 
+                    console.log("resp resp.data.data",resp.data.data) 
+                    console.log("resp",resp) 
                     resolve(resp)
                 })
                 .catch(resp => {

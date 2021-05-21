@@ -53,12 +53,12 @@ export default {
   },
   watch: {
     amount(newValue, oldValue) {
-      console.log(this.selectedCoin)
-      console.log(this.selectedHedg)
+       this.FieldsCheck()
 
     },
      selectedCoin(newValue, oldValue) {
-       this.FieldsCheck()
+      console.log(this.selectedCoin)
+      console.log(this.selectedHedg)
     },
      selectedHedg(newValue, oldValue) {
       console.log(this.selectedCoin)
@@ -85,6 +85,7 @@ export default {
     FieldsCheck(){
       if (this.amount != 0  &&  this.selectedHedg !=  null && this.selectedCoin != null){
         console.log("amount",this.amount)
+        this.$store.dispatch('getStatisctics_actions');
       }
       
     },
