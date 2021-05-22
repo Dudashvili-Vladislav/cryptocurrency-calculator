@@ -86,6 +86,8 @@ export default {
       if (this.amount != 0  &&  this.selectedHedg !=  null && this.selectedCoin != null){
         console.log("amount",this.amount)
         this.$store.dispatch('getStatisctics_actions');
+        this.$store.dispatch('getTableStaticsics_actions'); 
+
       }
       
     },

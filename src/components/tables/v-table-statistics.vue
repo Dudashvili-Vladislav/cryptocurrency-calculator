@@ -50,7 +50,7 @@
     </table>
     <div class="v-call-spread-right">
 
-  <vSendOrder @upGetStatisctics="getStatisctics_actions" />
+  <vSendOrder @upGetStatisctics="sendOrder(tableData)" />
   </div>
   </div>
 </div>
@@ -94,11 +94,17 @@ export default {
       default() {
         return {}
       }
-    }
+    },
+    tableList: {
+      type: Object, 
+      default() {
+        return {}
+      }
+    },
   },
 
   computed: {
-    ...mapGetters(["underlyingChoice","fullDataList", "chartData"])
+    ...mapGetters(["underlyingChoice","fullDataList", "chartData","tableList"])
   },
   watch: {
     dataset: {
@@ -111,7 +117,7 @@ export default {
 
 },
 methods: {
-    ...mapActions(['getStatisctics_actions']),
+    ...mapActions(['getStatisctics_actions','getTableStaticsics_actions', 'sendOrder']),
 
   },
 

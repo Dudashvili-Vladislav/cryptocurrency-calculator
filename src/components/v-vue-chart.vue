@@ -1,9 +1,9 @@
 <script>
-import {Line  } from "vue3-chart-v2";
+import {Scatter  } from "vue3-chart-v2";
 import watch from "vue";
 
 export default {
-  extends: Line ,
+  extends: Scatter ,
   props: {
     dataset: {
       type: Object,
@@ -27,16 +27,21 @@ export default {
             datasets: [
               {
                 label: "First Y Data 1",
-                /* backgroundColor: "red", */
                 showLine:true,
+                backgroundColor :"rgb(185, 223, 250, 1)",
+                borderColor: "rgb(57, 86, 204, 1)",
                 data: this.dataset["y_portf"]
+   
               },
                  {
                 label: "Second Y Data 2",
-                /* backgroundColor: "red", */
                 showLine:true,
+                backgroundColor :"rgb(247, 173, 186, 1)",
+                borderColor: "rgba(201, 26, 41, 1)",
                 data: this.dataset["y_struct"]
               },
+
+             
 
             ],
           };

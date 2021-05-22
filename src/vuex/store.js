@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+import { setInterval } from 'core-js'
 
 
 
@@ -15,6 +16,8 @@ let store = createStore({
             fullDataList: null, 
             result: null,
             value: null,
+            key: 0,
+
            
         }
     },
@@ -42,7 +45,21 @@ let store = createStore({
         },
         setFullData_mutations(state, data) {
             state.fullDataList = data
+            console.log('data', data)
+        },
 
+        setTable_mutations(state, table) {
+            for (const key in state.fullDataList) {
+                console.log('key',key )
+                
+                    console.log('key',key )
+                    const element = state.fullDataList[key];
+                    element.table = table[key].table
+                    console.log('element',element )
+            }
+
+            console.log('state.fullDataList',state.fullDataList )
+            console.log("setTable_mutations", table)
         },
 
     },
@@ -54,7 +71,6 @@ let store = createStore({
                 .then(resp => {
 
                     const data = resp.data.data[underlying]
-                    console.log("data", data)
                     commit('setMaturityList_mutations', data)
                     resolve(resp)
                 })
@@ -78,6 +94,28 @@ let store = createStore({
                     reject(resp)
                 })
             })
+        },
+
+
+ getTableStaticsics_actions({ commit }) {
+            return new Promise(( resolve, reject) => {
+                let timerId = setInterval(() => axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
+                .then(resp => {
+                    console.log("resp-key", resp)
+                    commit('setTable_mutations', resp.data.data)
+                    resolve(resp)
+                })
+                .catch(resp => {
+                    reject(resp)
+                })
+                , 2000) })
+
+        },
+
+       async sendOrder({commit}, data ) {
+        console.log('data_sendOrder', data)
+           const url = "http://localhost:5000/sendOrder"
+           axios.post(url , data)
         }
     },
 
@@ -85,6 +123,7 @@ let store = createStore({
         maturityList: state => state.maturityList,
         fullDataList: state => state.fullDataList,
         underlyingChoice: state => state.underlying,
+        tableList: state => state.key,
     }
 })
 

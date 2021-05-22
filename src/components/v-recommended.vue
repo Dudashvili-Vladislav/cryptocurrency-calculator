@@ -2,12 +2,12 @@
   <div class="v-recommended pt-6 container mx-auto">
     <v-header-forms />
 
-    <div class="wrapper flex items-center w-full">
+   <!--  <div class="wrapper flex items-center w-full">
       <v-call-spread-right class="call min-w-1/4 ml-5  " />
-    </div>
+    </div> -->
 
 <div class="tabe-wrapper flex justify-between w-full">
-    <div class="table w-full " v-if="fullDataList">
+    <div class="table w-full " v-if="fullDataList" >
       
       <vTable
         
@@ -17,7 +17,9 @@
         :description="information.description"
         :title="information.title"
         :chartData="information['chart']"
-        
+        :tableList="information['table']"
+
+      
 
       />
     </div>
@@ -50,15 +52,14 @@ export default {
 
   
   computed: {
-    ...mapGetters(["fullDataList", "chartData"]),
+    ...mapGetters(["fullDataList","tableList"]),
   },
+
   watch: {
-    dataset: {
-      handler(newVal, oldVal) {},
-      immediate: true
-    },
-    
- 
+    test() {
+      console.log("tableListRECOMMMMMMMMMMM",this.tableList)
+    }
+
 },
 };
 </script>
