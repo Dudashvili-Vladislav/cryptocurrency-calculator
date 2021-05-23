@@ -1,7 +1,7 @@
 <template>
   <div class="v-table-statistics flex justify-between w-full items-center">
 
-      <vChart  class="text-left chart-v min-w-2/3 w-2/3" :dataset="chartData" :title="title" />
+      <vChart  class="text-left chart-v min-w-2/3 w-2/3" :dataset="chartData" :title="title" :ChartGraph="ChartGraph" />
     <div class="wrapper-text w-1/3 mt-20 ml-5 ">
       <div class="text pr-3 ">{{description}} </div>
     <table class="table-auto text-center mt-5 justify-end m-left">
@@ -104,7 +104,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["underlyingChoice","fullDataList", "chartData","tableList"])
+    ...mapGetters(["underlyingChoice","fullDataList", "chartData","tableList","ChartGraph"])
   },
   watch: {
     dataset: {

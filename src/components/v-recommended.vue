@@ -18,6 +18,7 @@
         :title="information.title"
         :chartData="information['chart']"
         :tableList="information['table']"
+        :ChartGraph="information['ChartGraph']"
 
       
 
@@ -52,7 +53,7 @@ export default {
 
   
   computed: {
-    ...mapGetters(["fullDataList","tableList"]),
+    ...mapGetters(["fullDataList","tableList","ChartGraph"]),
   },
 
   watch: {
