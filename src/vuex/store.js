@@ -2,10 +2,9 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 import { setInterval } from 'core-js'
 
-
+axios.defaults.baseURL = 'http://localhost:5000';
 
 let store = createStore({
-
     state() {
         return {
             maturityList: [],
@@ -17,8 +16,6 @@ let store = createStore({
             result: null,
             value: null,
             key: 0,
-
-           
         }
     },
 
@@ -37,83 +34,82 @@ let store = createStore({
 
         setAmount_mutations(state, count) {
             state.amount = count
-            console.log("teststtststs")
         },
+
         setFlagFutures_mutations(state, flag) {
             state.futHedgeFlag = flag
-            console.log("flaggggggggggggg",flag)
         },
+        
         setFullData_mutations(state, data) {
             state.fullDataList = data
-            console.log('data', data)
         },
 
         setTable_mutations(state, table) {
             for (const key in state.fullDataList) {
-                console.log('key',key )
-        
-                    console.log('key',key )
-                    const element = state.fullDataList[key];
-                    element.table = table[key].table
-                    console.log('element',element )
+                const element = state.fullDataList[key];
+                element.table = table[key].table
             }
-
-            console.log('state.fullDataList',state.fullDataList )
-            console.log("setTable_mutations", table)
         },
 
     },
 
     actions: {
-        getMaturity_actions({ commit }, underlying) {
-            return new Promise(( resolve, reject) => {
-                axios({ url: 'http://localhost:5000/maturities', params: {currency: underlying}, method: 'GET'})
-                .then(resp => {
-
-                    const data = resp.data.data[underlying]
-                    commit('setMaturityList_mutations', data) // Получаем все даты 
-                    resolve(resp)
-                })
-                .catch(resp => {
-                    reject(resp)
-                })
-            })
+        async getMaturity_actions({ commit }, underlying) {
+            try {
+                const url = '/maturities'
+                const options = {
+                    params: {currency: underlying}
+                }
+                const response = await axios.get(url, options)
+                const data = response.data.data[underlying]
+                commit('setMaturityList_mutations', data) // Получаем все даты 
+            } catch (error) {
+                return error
+            }
         },
 
-        getStatisctics_actions({ commit }) {
-            console.log("getStatisctics_actions",this.state.amount)
-            return new Promise(( resolve, reject) => {
-                axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
-                .then(resp => {
-                    commit('setFullData_mutations', resp.data.data) // Получаем все графики
-                    console.log("resp resp.data.data",resp.data.data) 
-                    console.log("resp",resp) 
-                    resolve(resp)
-                })
-                .catch(resp => {
-                    reject(resp)
-                })
-            })
+        async getStatisctics_actions({ commit }) {
+            try {
+                const url = '/recStructs'
+                const options = {
+                    params: {
+                        currency: this.state.underlying, 
+                        maturity: this.state.maturity, 
+                        amount: this.state.amount, 
+                        fut_hedge_flag: this.state.futHedgeFlag
+                    }
+                }
+                const response = await axios.get(url, options)
+                commit('setFullData_mutations', response.data.data) // Получаем все графики
+            } catch (error) {
+                return error
+            }
         },
 
 
- getTableStaticsics_actions({ commit }) {
-            return new Promise(( resolve, reject) => {
-                let timerId = setInterval(() => axios({ url: 'http://localhost:5000/recStructs', params: {currency: this.state.underlying, maturity: this.state.maturity, amount: this.state.amount, fut_hedge_flag: this.state.futHedgeFlag}, method: 'GET'})
-                .then(resp => {
-                    console.log("resp-key", resp)
-                    commit('setTable_mutations', resp.data.data)
-                    resolve(resp)
-                })
-                .catch(resp => {
-                    reject(resp)
-                })
-                , 2000) })
+        getTableStaticsics_actions({ commit }) {
+            try {
+                const url = '/recStructs'
+                const options = {
+                    params: {
+                        currency: this.state.underlying, 
+                        maturity: this.state.maturity, 
+                        amount: this.state.amount, 
+                        fut_hedge_flag: this.state.futHedgeFlag
+                    }
+                }
+                setInterval(async () => {
+                   const response = await axios.get(url, options)
+                   commit('setTable_mutations', response.data.data) 
+                }, 2000);
+            } catch (error) {
+                return error
+            }
         },
 
        async sendOrder({commit}, data ) {
         console.log('data_sendOrder', data)
-           const url = "http://localhost:5000/sendOrder"
+           const url = "/sendOrder"
            axios.post(url , data)
         }
     },

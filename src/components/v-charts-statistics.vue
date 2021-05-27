@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import vScatterStatistics from "./charts/v-scatter-statistics";
+import vScatterStatistics from "./charts/v-scatter-chart";
 
 export default {
   name: "v-charts-statistics",

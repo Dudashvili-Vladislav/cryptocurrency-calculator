@@ -1,9 +1,11 @@
 <template>
   <div class="v-table-statistics flex justify-between w-full items-center">
 
-      <vChart  class="text-left chart-v min-w-2/3 w-2/3" :dataset="chartData" :title="title" />
+    <vLineChart  class="text-left chart-v min-w-2/3 w-2/3" :dataset="chartData" :title="title" />
+    
     <div class="wrapper-text w-1/3 mt-20 ml-5 ">
-      <div class="text pr-3 ">{{description}} </div>
+    <div class="text pr-3 ">{{description}} </div>
+    
     <table class="table-auto text-center mt-5 justify-end m-left">
       <thead class="border border-gray-400 bg-gray-100">
         <tr>
@@ -50,24 +52,25 @@
     </table>
     <div class="v-call-spread-right">
 
-  <vSendOrder @upGetStatisctics="sendOrder(tableData)" />
+  <v-button @upGetStatisctics="sendOrder(tableData)" />
   </div>
   </div>
 </div>
 </template>
 
 <script>
-import vSendOrder from "@/components/menu-right/forms/v-send-order"
+import vButton from "@/components/v-button"
 import { mapGetters, mapActions } from 'vuex'
-import vChart from "../v-vue-chart"
-import watch from "vue"
+import vLineChart from "@/components/charts/v-line-chart"
 
 export default {
-  components:{
-    vChart,
-    vSendOrder
-  },
   name: "v-table-statistics",
+
+  components:{
+    vLineChart,
+    vButton
+  },
+
   props: {
     tableData: {
       type: Object, 
@@ -75,26 +78,28 @@ export default {
         return {}
       }
     },
-      description:{
+
+    description:{
       type: String, 
       default() {
         return ""
       }
-      
     },
   
-      title:{
+    title:{
       type: String, 
       default() {
         return ""
       }
     },
-     chartData:{
+
+    chartData:{
       type: Object, 
       default() {
         return {}
       }
     },
+
     tableList: {
       type: Object, 
       default() {
@@ -106,19 +111,21 @@ export default {
   computed: {
     ...mapGetters(["underlyingChoice","fullDataList", "chartData","tableList"])
   },
+
   watch: {
     dataset: {
       handler(newVal, oldVal) {},
       immediate: true
     },
+
     logData() {
       console.log("tableData",this.tableData)
     },
 
-},
-methods: {
+  },
+  
+  methods: {
     ...mapActions(['getStatisctics_actions','getTableStaticsics_actions', 'sendOrder']),
-
   },
 
   data() {

@@ -5,15 +5,23 @@
         <div
           class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
         >
-          <vSelectUnderlying @receiveMaturity="getMaturity" />
+          <vSelect 
+            :label="'Underlying'"
+            :options="underlyingList"
+            @change="getMaturity"
+          ></vSelect>
         </div>
+
         <div
           class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start ml-8"
         >
-          <vSelectMaturity
-            :maturityData="maturityList"
-            @upMaturity="setMaturity"
-          />
+
+          <vSelect 
+            :label="'Maturity'"
+            :options="maturityList"
+            @change="setMaturity"
+          ></vSelect>
+
         </div>
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
           <vAmount @click.prevent="this.$emit('upGetStatisctics')"  @upAmount="setAmount"  />
@@ -27,19 +35,25 @@
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";
 
-import vSelectMaturity from "./forms/v-select-maturity";
-import vSelectUnderlying from "./forms/v-select-underlying";
+import vSelect from "./forms/v-select";
 import vAmount from "./forms/v-amount";
 import vCheckbox from "./forms/v-checkbox";
 
 export default {
-  emits: ["upGetStatisctics"],
   name: "v-header-forms",
+
+  components: {
+    vAmount,
+    vSelect,
+    vCheckbox,
+  },
+
+  emits: ["upGetStatisctics"],
+
   data() {
     return {
       msg: "waiting",
-
-
+      underlyingList: ['BTC', 'ETH']
     }
   },
 
@@ -89,22 +103,8 @@ export default {
         this.$store.dispatch('getTableStaticsics_actions'); 
 
       }
-      
     },
-       
-      
- 
-
   },
-  
 
-  
-
-  components: {
-    vSelectMaturity,
-    vSelectUnderlying,
-    vAmount,
-    vCheckbox,
-  },
 };
 </script>

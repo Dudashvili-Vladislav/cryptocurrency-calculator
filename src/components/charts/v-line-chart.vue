@@ -1,9 +1,9 @@
 <script>
-import {Line  } from "vue3-chart-v2";
-import watch from "vue";
+import { Line } from "vue3-chart-v2";
 
 export default {
   extends: Line ,
+
   props: {
     dataset: {
       type: Object,
@@ -21,9 +21,7 @@ export default {
         console.log("newValue",newValue)
         if (newValue ) {
           let chartData = {
-            labels: 
-              this.dataset["x"]
-            ,
+            labels: this.dataset["x"],
             datasets: [
               {
                 label: "First Y Data 1",
@@ -40,23 +38,16 @@ export default {
                 borderColor: "rgba(201, 26, 41, 1)",
                 data: this.dataset["y_struct"]
               },
-
-             
-
             ],
           };
+
           this.$nextTick().then(() => {
-            console.log("chartDataAAAAAAAAAAAAAAAAAAAAAAAAA",chartData)
             this.renderChart(chartData, {
               responsive: true,
               maintainAspectRatio: false,
               title: {
                 display: true,
                 text: this.title,
-               
-                
-                
-                
               },
             });
           });

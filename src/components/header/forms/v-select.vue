@@ -1,0 +1,51 @@
+<template>
+  <div class="v-select-underlying">
+      <label class="block" for="Underlying">{{ label }}</label>
+
+      <select
+        class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
+        id="select"
+        v-model="selected"
+      >
+        <option 
+          v-for="item in options" 
+          :value="item" 
+          :key="item"
+        >
+          {{ item }}
+        </option>
+      </select>
+    </div>
+</template>
+
+<script>
+export default {
+  name: "v-select",
+
+  emits: ['change'],
+
+  data() {
+    return {
+      selected: ''
+    }
+  },
+
+  props: {
+    options: {
+      type: Array,
+      default: () => []
+    },
+
+    label: {
+      type: String,
+      default: ''
+    },
+  },
+
+  watch: {
+    selected() {
+      this.$emit('change', this.selected)
+    }
+  }
+};
+</script>
