@@ -1,6 +1,6 @@
 <template>
   <div class="v-amount">
-    <label for="money">Amount of BTC</label>
+    <label  for="money">Amount of BTC</label>
     <input
       type="number"
       min="0"
@@ -23,6 +23,7 @@ export default {
       amountCount: 0,
     };
   },
+
 
   watch: {
     amountCount() {

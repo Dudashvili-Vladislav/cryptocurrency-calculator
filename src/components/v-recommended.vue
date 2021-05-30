@@ -33,9 +33,7 @@ export default {
 
   computed: {
     ...mapGetters(["fullDataList", "tableList"]),
-    username() {
-      return this.$route.params.username;
-    },
+
   },
 
   
