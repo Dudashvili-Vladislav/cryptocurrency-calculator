@@ -3,8 +3,7 @@
     <v-header-forms />
 
     <div class="tabe-wrapper flex justify-between w-full">
-      <div class="table w-full " v-if="fullDataList" >
-        
+      <div class="table w-full " v-if="fullDataList">
         <vTable
           v-for="information in fullDataList"
           :key="information"
@@ -31,15 +30,20 @@ export default {
     vHeaderForms,
     vTable,
   },
-  
+
   computed: {
-    ...mapGetters(["fullDataList","tableList"]),
+    ...mapGetters(["fullDataList", "tableList"]),
+    username() {
+      return this.$route.params.username;
+    },
   },
+
+  
 
   watch: {
     test() {
-      console.log("tableListRECOMMMMMMMMMMM",this.tableList)
-    }
+      console.log("tableListRECOMMMMMMMMMMM", this.tableList);
+    },
   },
 };
 </script>
