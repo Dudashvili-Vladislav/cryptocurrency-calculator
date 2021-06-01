@@ -25,23 +25,24 @@ export default {
       amountCount: 0,
     };
   },
-  methods: {
-    debounce() {
-      let timeout = null;
-      return function(fnc, delayMs) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          fnc();
-        }, delayMs || 500);
-      };
-    },
-  },
+ /*  methods: {
+     debounce = (fn, ms) => {
+       let timeout;
+       return function () {
 
+         const fnCall = () => {fn.apply(this, arguments)}
+         clearTimeout(timeout);
+         timeout = setTimeout(fnCall, ms)
+
+       };
+    }
+     
+  },
+ */
   watch: {
     amountCount() {
       this.$emit("upAmount", this.amountCount); 
-      console.log('debounce 1')
-
+/*       amountCount = this.debounce(amountCount, 2000) */
     },
   },
 };
