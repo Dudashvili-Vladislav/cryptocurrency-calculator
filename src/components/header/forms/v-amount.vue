@@ -6,8 +6,7 @@
       min="0"
       name="money"
       placeholder="0"
-      
-      @input="debounce(() => { state.filterText = $event.target.value })"
+      @input="throttledSave"
       class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
       v-model="amountCount"
     />
@@ -17,6 +16,8 @@
 </template>
 
 <script>
+import throttle from "../../../throttle.js";
+
 export default {
   name: "v-amount",
 
@@ -26,22 +27,16 @@ export default {
     };
   },
   methods: {
-    debounce() {
-      let timeout = null;
-      return function(fnc, delayMs) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          fnc();
-        }, delayMs || 500);
-      };
+    toEmitAmountCount() {
+      console.log(this.amountCount)
+      this.$emit("upAmount", this.amountCount);
     },
   },
 
-  watch: {
-    amountCount() {
-      this.$emit("upAmount", this.amountCount); 
-      console.log('debounce 1')
-
+  computed: {
+    throttledSave: function() {
+      let DELAY = 1000; // Задержка
+      return throttle(this.toEmitAmountCount, DELAY);
     },
   },
 };
