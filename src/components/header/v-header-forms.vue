@@ -27,7 +27,7 @@
 
         </div>
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
-          <vAmount @click.prevent="this.$emit('upGetStatisctics')"  @upAmount="setAmount"  />
+          <vAmount @upAmount="setAmount"  />
         </div>
         <vCheckbox />
       </div>
@@ -96,14 +96,13 @@ export default {
 
     setAmount(count) {
       this.$store.commit("setAmount_mutations", count);
+      this.$emit('upGetStatisctics')
     },
 
     FieldsCheck(){
       if (this.amount != 0  &&  this.selectedHedg !=  null && this.selectedCoin != null){
-        console.log("amount",this.amount)
         this.$store.dispatch('getStatisctics_actions');
         this.$store.dispatch('getTableStaticsics_actions'); 
-
       }
     },
   },

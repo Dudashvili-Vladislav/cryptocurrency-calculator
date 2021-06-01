@@ -83,7 +83,9 @@ let store = createStore({
           },
         };
         const response = await axios.get(url, options);
-        commit("setFullData_mutations", response.data.data); 
+        if (response.status === 200) {
+          commit("setFullData_mutations", response.data.data); 
+        }
       }
 
        catch (error) {
