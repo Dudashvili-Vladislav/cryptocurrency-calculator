@@ -2,6 +2,7 @@
   <div class="v-header-forms">
     <div class="containet mx-auto px-10 text-sm">
       <div class="header flex justify-start">
+
         <div
           class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
         >
@@ -9,7 +10,8 @@
             :label="'Underlying'"
             :options="underlyingList"
             @change="getMaturity"
-          ></vSelect>
+          >
+          </vSelect>
         </div>
 
         <div
@@ -20,7 +22,8 @@
             :label="'Maturity'"
             :options="maturityList"
             @change="setMaturity"
-          ></vSelect>
+          >
+          </vSelect>
 
         </div>
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
@@ -31,7 +34,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";
 
