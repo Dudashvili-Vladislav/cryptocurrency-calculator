@@ -6,7 +6,7 @@
     <div class="wrapper-text w-1/3 mt-20 ml-5 ">
     <div class="text pr-3 ">{{description}} </div>
     
-    <table class="table-auto text-center mt-5 justify-end m-left">
+    <table class="table-auto text-center mt-5 justify-end m-left w-full table-statistic">
       <thead class="border border-gray-400 bg-gray-100">
         <tr>
           <th></th>
@@ -109,7 +109,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["underlyingChoice","fullDataList", "chartData","tableList"])
+    ...mapGetters(["underlyingChoice","fullDataList", "chartData", "tableList"])
   },
 
   watch: {
@@ -133,3 +133,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.table-statistic td {
+  padding: 5px 10px;
+  border: 1px solid;
+} 
+</style>

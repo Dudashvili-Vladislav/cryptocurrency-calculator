@@ -24,19 +24,18 @@ export default {
   data() {
     return {
       amountCount: 0,
+      timerId: null
     };
   },
   methods: {
-    toEmitAmountCount() {
-      console.log(this.amountCount)
-      this.$emit("upAmount", this.amountCount);
-    },
-  },
 
-  computed: {
-    throttledSave: function() {
+    throttledSave() {
       let DELAY = 1000; // Задержка
-      return throttle(this.toEmitAmountCount, DELAY);
+
+      clearTimeout(this.timerId)
+      this.timerId = setTimeout(() => {
+        this.$emit("upAmount", this.amountCount);
+      }, DELAY);
     },
   },
 };

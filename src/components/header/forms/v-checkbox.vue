@@ -29,7 +29,7 @@ export default {
 
     watch: {
       checkFutures() {
-        this.$store.commit('setFlagFutures_mutations', this.checkFutures);
+        this.$emit('checked', this.checkFutures)
       }
     },
 /*     methods: {
