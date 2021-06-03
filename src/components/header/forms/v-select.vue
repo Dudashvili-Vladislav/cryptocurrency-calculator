@@ -6,6 +6,7 @@
         class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
         id="select"
         v-model="selected"
+        @change="onChangeSelect"
       >
         <option 
           v-for="item in options" 
@@ -22,15 +23,26 @@
 export default {
   name: "v-select",
 
-  emits: ['change'],
+  emits: ['change', 'input'],
 
   data() {
     return {
-      selected: ''
+      selected: this.modelValue
+    }
+  },
+
+  watch: {
+    modelValue(newValue) {
+      this.selected = newValue
     }
   },
 
   props: {
+    modelValue: {
+      type: String,
+      default: ''
+    },
+
     options: {
       type: Array,
       default: () => []
@@ -42,10 +54,11 @@ export default {
     },
   },
 
-  watch: {
-    selected() {
+  methods: {
+    onChangeSelect() {
+      this.$emit('update:modelValue', this.selected)
       this.$emit('change', this.selected)
     }
-  }
+  },
 };
 </script>

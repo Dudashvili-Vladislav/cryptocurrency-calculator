@@ -1,12 +1,11 @@
 <template>
   <div class="v-amount">
-    <label for="money">Amount of BTC</label>
+    <label for="money">Amount of {{ $store.state.underlying }}</label>
     <input
       type="number"
       min="0"
       name="money"
       placeholder="0"
-      
       @input="debounce(() => { state.filterText = $event.target.value })"
       class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
       v-model="amountCount"
@@ -17,33 +16,32 @@
 </template>
 
 <script>
+
 export default {
   name: "v-amount",
 
+  props: {
+    modelValue: {
+      type: Number,
+      default: 0
+    },
+  },
+
   data() {
     return {
-      amountCount: 0,
+      amountCount: this.modelValue,
     };
   },
- /*  methods: {
-     debounce = (fn, ms) => {
-       let timeout;
-       return function () {
 
-         const fnCall = () => {fn.apply(this, arguments)}
-         clearTimeout(timeout);
-         timeout = setTimeout(fnCall, ms)
-
-       };
-    }
-     
-  },
- */
   watch: {
     amountCount() {
-      this.$emit("upAmount", this.amountCount); 
-/*       amountCount = this.debounce(amountCount, 2000) */
+      this.$emit("upAmount", Number(this.amountCount));
+      this.$emit("update:modelValue", Number(this.amountCount));
     },
+
+    modelValue(newValue) {
+      this.amountCount = newValue
+    }
   },
 };
 </script>

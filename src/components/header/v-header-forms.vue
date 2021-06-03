@@ -6,7 +6,8 @@
         <div
           class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
         >
-          <vSelect 
+          <vSelect
+            v-model="selectedUnderlying"
             :label="'Underlying'"
             :options="underlyingList"
             @change="getMaturity"
@@ -18,7 +19,8 @@
           class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start ml-8"
         >
 
-          <vSelect 
+          <vSelect
+            v-model="selectedMaturity"
             :label="'Maturity'"
             :options="maturityList"
             @change="setMaturity"
@@ -27,16 +29,16 @@
 
         </div>
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
-          <vAmount @click.prevent="this.$emit('upGetStatisctics')"  @upAmount="setAmount"  />
+          <vAmount v-model="coinAmount" @click.prevent="this.$emit('upGetStatisctics')"  @upAmount="setAmount"  />
         </div>
-        <vCheckbox @checked="handleCheckbox" />
+        <vCheckbox v-model="futuresHedgeFunding" @checked="handleCheckbox" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import { mapGetters, mapActions, mapState } from "vuex";
 
+import { mapActions, mapState } from "vuex";
 import vSelect from "./forms/v-select";
 import vAmount from "./forms/v-amount";
 import vCheckbox from "./forms/v-checkbox";
@@ -55,12 +57,16 @@ export default {
   data() {
     return {
       msg: "waiting",
-      underlyingList: ['BTC', 'ETH']
+      underlyingList: ['BTC', 'ETH'],
+      maturityList: [],
+      selectedMaturity: null,
+      selectedUnderlying: null,
+      coinAmount: 0,
+      futuresHedgeFunding: false
     }
   },
 
   computed: {
-    ...mapGetters(["maturityList"]),
     ...mapState({
       amount: state => state.amount,
       selectedCoin: state => state.underlying,
@@ -90,9 +96,12 @@ export default {
       this.fieldsCheck()
     },
 
-    getMaturity(underlying) {
+    async getMaturity(underlying) {
       this.$store.commit("setUnderlying_mutations", underlying);
-      this.getMaturity_actions(underlying);
+      const respo = await this.getMaturity_actions(underlying);
+      this.selectedMaturity = null
+      this.coinAmount = 0
+      this.maturityList = respo
     },
 
     setMaturity(event) {
