@@ -16,6 +16,8 @@ let store = createStore({
       result: null,
       value: null,
       key: 0,
+      timerId: null,
+      loading: false 
     };
   },
 
@@ -50,6 +52,14 @@ let store = createStore({
         element.table = table[key].table;
       }
     },
+
+    setTimerId (state, timerId) {
+      state.timerId = timerId
+    },
+
+    setLoading (state, value) {
+      state.loading = value
+    }
   },
 
   actions: {
@@ -59,10 +69,13 @@ let store = createStore({
         const options = {
           params: { currency: underlying },
         };
-
+        commit('setLoading', true)
         const response = await axios.get(url, options);
         const data = response.data.data[underlying];
+        commit('setLoading', false)
         commit("setMaturityList_mutations", data); 
+
+        return data
       }
        catch (error) {
         return error;
@@ -71,19 +84,22 @@ let store = createStore({
 
 
 
-    async getStatisctics_actions({ commit }) { // Получаем все графики
+    async getStatisctics_actions({ commit, rootState }) { // Получаем все графики
       try {
         const url = "/recStructs";
         const options = {
           params: {
-            currency: this.state.underlying,
-            maturity: this.state.maturity,
-            amount: this.state.amount,
-            fut_hedge_flag: this.state.futHedgeFlag,
+            currency: rootState.underlying,
+            maturity: rootState.maturity,
+            amount: rootState.amount,
+            fut_hedge_flag: rootState.futHedgeFlag,
           },
         };
+        console.log('options 1', options.params.fut_hedge_flag)
         const response = await axios.get(url, options);
-        commit("setFullData_mutations", response.data.data); 
+        commit("setFullData_mutations", response.data.data);
+
+        return response.data.data
       }
 
        catch (error) {
@@ -91,25 +107,27 @@ let store = createStore({
       }
     },
 
-    
-
-
-    getTableStaticsics_actions({ commit }) {
+    getTableStaticsics_actions({ commit, rootState }) {
       try {
+        
         const url = "/recStructs";
         const options = {
           params: {
-            currency: this.state.underlying,
-            maturity: this.state.maturity,
-            amount: this.state.amount,
-            fut_hedge_flag: this.state.futHedgeFlag,
+            currency: rootState.underlying,
+            maturity: rootState.maturity,
+            amount: rootState.amount,
+            fut_hedge_flag: rootState.futHedgeFlag,
           },
         };
-
-        setInterval(async () => {
+        
+        clearInterval(rootState.timerId)
+        const timerId = setInterval(async () => {
           const response = await axios.get(url, options);
+          console.log('rootState 2', rootState.futHedgeFlag)
           commit("setTable_mutations", response.data.data);
-        }, 2000);
+        }, 200000);
+
+        commit('setTimerId', timerId)
       }
        catch (error) {
         return error;

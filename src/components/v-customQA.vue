@@ -54,11 +54,12 @@ export default {
     return {
       msg: "waiting",
       underlyingList: ["BTC", "ETH"],
+      maturityList: []
     };
   },
 
   computed: {
-    ...mapGetters(["maturityList"]),
+
     ...mapState({
       amount: (state) => state.amount,
       selectedCoin: (state) => state.underlying,
@@ -82,9 +83,8 @@ export default {
   methods: {
     ...mapActions(["getMaturity_actions"]),
 
-    getMaturity(underlying) {
-      this.$store.commit("setUnderlying_mutations", underlying);
-      this.getMaturity_actions(underlying);
+    async getMaturity(underlying) {
+      this.maturityList = await this.getMaturity_actions(underlying);
     },
 
     setMaturity(event) {

@@ -29,7 +29,7 @@
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
           <vAmount @click.prevent="this.$emit('upGetStatisctics')"  @upAmount="setAmount"  />
         </div>
-        <vCheckbox />
+        <vCheckbox @checked="handleCheckbox" />
       </div>
     </div>
   </div>
@@ -69,7 +69,7 @@ export default {
   },
   watch: {
     amount(newValue, oldValue) {
-       this.FieldsCheck()
+       this.fieldsCheck()
 
     },
      selectedCoin(newValue, oldValue) {
@@ -85,6 +85,11 @@ export default {
   methods: {
     ...mapActions(["getMaturity_actions"]),
 
+    handleCheckbox(value) {
+      this.$store.commit('setFlagFutures_mutations', value);
+      this.fieldsCheck()
+    },
+
     getMaturity(underlying) {
       this.$store.commit("setUnderlying_mutations", underlying);
       this.getMaturity_actions(underlying);
@@ -98,12 +103,10 @@ export default {
       this.$store.commit("setAmount_mutations", count);
     },
 
-    FieldsCheck(){
-      if (this.amount != 0  &&  this.selectedHedg !=  null && this.selectedCoin != null){
-        console.log("amount",this.amount)
+    fieldsCheck(){
+      if (this.amount !== 0  &&  this.selectedHedg !== null && this.selectedCoin !== null){
         this.$store.dispatch('getStatisctics_actions');
         this.$store.dispatch('getTableStaticsics_actions'); 
-
       }
     },
   },
