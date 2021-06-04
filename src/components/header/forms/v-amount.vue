@@ -1,0 +1,43 @@
+<template>
+  <div class="v-amount">
+    <label for="money">Amount {{ $store.state.underlying }}</label>
+    <input
+      type="number"
+      min="0"
+      name="money"
+      placeholder="0"
+      @input="throttledSave" 
+      class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
+      v-model="amountCount"
+    />
+    <div class="absolute top-0 left-0 mt-3 ml-1 text-gray-400"></div>
+    <span class="text-sm text-red-600 hidden" id="error"></span>
+  </div>
+</template>
+
+<script>
+import throttle from "../../../throttle.js";
+
+export default {
+  name: "v-amount",
+
+  data() {
+    return {
+      amountCount: 0,
+      timerId: null
+    };
+  },
+  methods: {
+
+    throttledSave() {
+      let DELAY = 1000; // Задержка
+
+      clearTimeout(this.timerId)
+      this.timerId = setTimeout(() => {
+        this.$emit("upAmount", this.amountCount);
+      }, DELAY);
+    },
+  },
+  
+};
+</script>
