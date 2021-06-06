@@ -109,7 +109,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["underlyingChoice","fullDataList", "chartData", "tableList"])
+    ...mapGetters(["underlyingChoice","fullDataList","maturity"])
   },
 
   watch: {

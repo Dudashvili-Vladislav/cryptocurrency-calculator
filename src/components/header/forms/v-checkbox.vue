@@ -4,7 +4,11 @@
       <div
         class="bg-white border-2 rounded border-gray-400 w-6 h-6 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500"
       >
-        <input type="checkbox"  v-model="checkFutures"/>
+        <input
+          type="checkbox"
+          v-model="checkFutures"
+          @change="onChangeCheckbox"
+        />
         <svg
           class="fill-current hidden w-4 h-4 text-green-500 pointer-events-none"
           viewBox="0 0 20 20"
@@ -19,23 +23,35 @@
 
 <script>
 export default {
-    name: 'v-checkbox',
+  name: "v-checkbox",
 
-    data() {
-        return {
-            checkFutures: false,
-        }
-    },
+  data() {
+    return {
+      checkFutures: this.modelValue,
+    };
+  },
 
-    watch: {
-      checkFutures() {
+  watch: {
+       checkFutures() {
         this.$emit('checked', this.checkFutures)
-      }
-    },
-/*     methods: {
-      changeFlag(){
+      }, 
 
-      }
-    }, */
-}
+    modelValue(newValue) {
+      this.checkFutures = newValue;
+    },
+  },
+
+  props: {
+    modelValue: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  methods: {
+    onChangeCheckbox() {
+      this.$emit("update:modelValue", Boolean(this.checkFutures));
+    },
+  },
+};
 </script>

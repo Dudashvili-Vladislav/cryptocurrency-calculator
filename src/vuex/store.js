@@ -33,6 +33,7 @@ let store = createStore({
 
     setUnderlying_mutations(state, underlying) {
       state.underlying = underlying;
+      console.log('underlying', underlying)
     },
 
     setAmount_mutations(state, count) {
@@ -48,7 +49,7 @@ let store = createStore({
     },
 
     setTable_mutations(state, table) {
-      console.log('setTable_mutations', table)
+/*       console.log('setTable_mutations', table) */
       for (const key in state.fullDataList) {
         const element = state.fullDataList[key];
         element.table = table[key].table;
@@ -100,10 +101,10 @@ let store = createStore({
           },
           
         };
-        console.log('options 1', options)
+/*         console.log('options 1', options) */
         const response = await axios.get(url, options);
         commit("setFullData_mutations", response.data.data);
-        console.log('RESPONCE', rootState.fullDataList)
+/*         console.log('RESPONCE', rootState.fullDataList) */
         return response.data.data
 
       }
@@ -129,8 +130,8 @@ let store = createStore({
         clearInterval(rootState.timerId)
         const timerId = setInterval(async () => {
           const response = await axios.get(url, options);
-          console.log('rootState 2', rootState.futHedgeFlag)
-          console.log('rootState DATA', rootState.fullDataList)
+/*           console.log('rootState 2', rootState.futHedgeFlag)
+          console.log('rootState DATA', rootState.fullDataList) */
           commit("setTable_mutations", response.data.data);
         }, 2000);
 
@@ -181,6 +182,7 @@ let store = createStore({
     fullDataList: (state) => state.fullDataList,
     underlyingChoice: (state) => state.underlying,
     tableList: (state) => state.key,
+    maturity: (state) => state.maturity,
   },
 });
 

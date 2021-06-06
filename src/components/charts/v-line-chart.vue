@@ -12,13 +12,14 @@ export default {
     title:{
       type: String,
       default: "",
-    }
+    },
+    
   },
 
   watch: {
     dataset: {
       handler(newValue, oldValue) {
-        console.log("newValue",newValue)
+/*         console.log("newValue",newValue) */
         if (newValue ) {
           let chartData = {
             labels: this.dataset["x"],
@@ -60,7 +61,7 @@ export default {
 
 
   mounted() {
-    console.log("Данные data: ", this.dataset)
+/*     console.log("Данные data: ", this.dataset) */
     
   },
 };

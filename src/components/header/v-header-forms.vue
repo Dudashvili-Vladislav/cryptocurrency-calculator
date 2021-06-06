@@ -11,6 +11,7 @@
             :label="'Underlying'"
             :options="underlyingList"
             @change="getMaturity"
+            @click="change"
           >
           </vSelect>
         </div>
@@ -24,15 +25,17 @@
             :label="'Maturity'"
             :options="maturityList"
             @change="setMaturity"
+
+
           >
           </vSelect>
-          <h1>{{ selectedMaturity }}gfwefw</h1>
+
 
         </div>
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
-          <vAmount @click.prevent="this.$emit('upGetStatisctics')"  @upAmount="setAmount"  />
+          <vAmount v-model="coinAmount" @click.prevent="$emit('upGetStatisctics')"  @upAmount="setAmount"  />
         </div>
-        <vCheckbox @checked="handleCheckbox">
+        <vCheckbox v-model="Checkbox"  @checked="handleCheckbox">
           Futures hedge funding
         </vCheckbox>
       </div>
@@ -61,8 +64,10 @@ export default {
     return {
       msg: "waiting",
       underlyingList: ['BTC', 'ETH'],
-      selectedMaturity: "",
-      selectedunderlying: "",
+      selectedMaturity: null,
+      selectedunderlying: null,
+      coinAmount: 0,
+      Checkbox: false,
     }
   },
 
@@ -90,25 +95,34 @@ export default {
 
     selectedunderlying() {
       this.selectedMaturity = null;
-    }
+    },
+
   },
 
   methods: {
     ...mapActions(["getMaturity_actions"]),
+ 
 
     handleCheckbox(value) {
       console.log('valueeeeeeeeeeeee', value)
       this.$store.commit('setFlagFutures_mutations', value);
       this.fieldsCheck()
+
     },
 
     getMaturity(underlying) {
       this.$store.commit("setUnderlying_mutations", underlying);
       this.getMaturity_actions(underlying);
+      this.selectedMaturity = null,
+      this.selectedunderlying = null,
+      this.coinAmount = 0,
+      this.Checkbox = false
+      this.$store.commit("setFullData_mutations", null)
     },
 
     setMaturity(event) {
       this.$store.commit("setMaturity_mutations", event);
+      this.fieldsCheck()
     },
 
     setAmount(count) {
@@ -117,8 +131,9 @@ export default {
 
     fieldsCheck(){
       if (this.amount !== 0  &&  this.selectedHedg !== null && this.selectedCoin !== null){
-        this.$store.dispatch('getStatisctics_actions');
-        this.$store.dispatch('getTableStaticsics_actions'); 
+          this.$store.dispatch('getStatisctics_actions');
+          this.$store.dispatch('getTableStaticsics_actions'); 
+          console.log('amount',this.amount);
       }
     },
   },

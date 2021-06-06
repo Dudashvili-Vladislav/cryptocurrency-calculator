@@ -6,7 +6,7 @@
       min="0"
       name="money"
       placeholder="0"
-      @input="throttledSave" 
+      @input="throttledSave"
       class="w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
       v-model="amountCount"
     />
@@ -18,26 +18,44 @@
 <script>
 import throttle from "../../../throttle.js";
 
+
 export default {
   name: "v-amount",
 
+  props: {
+    modelValue: {
+      type: Number,
+      default: 0,
+    },
+  },
+
   data() {
     return {
-      amountCount: 0,
-      timerId: null
+      amountCount: this.modelValue,
+      timerId: null,
     };
   },
-  methods: {
 
+  watch: {
+    amountCount() {
+      this.$emit("update:modelValue", Number(this.amountCount));
+    },
+
+    modelValue(newValue) {
+      this.amountCount = newValue;
+    },
+  },
+
+
+  methods: {
     throttledSave() {
       let DELAY = 1000; // Задержка
 
-      clearTimeout(this.timerId)
+      clearTimeout(this.timerId);
       this.timerId = setTimeout(() => {
         this.$emit("upAmount", this.amountCount);
       }, DELAY);
     },
   },
-  
 };
 </script>
