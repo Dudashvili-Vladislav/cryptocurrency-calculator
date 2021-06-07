@@ -150,14 +150,7 @@ let store = createStore({
       axios.post(url, data);
     },
 
-
-
-
-
-
-
-
-    async getQaStructs_actions ( context, selectedCoin ) {
+    async getStrikes_actions ( context, selectedCoin ) {
       try {
         const url = "/strikes";
         const options = {
@@ -172,7 +165,19 @@ let store = createStore({
       catch (error) {
         return error;
       }
-    }  
+    },
+
+    async getQaStructs_actions ( context, params ) {
+      console.log('params', params)
+      try {
+        const url = `/qaStructs?currency=${params.currency}&maturity=${params.maturity}&amount=${params.amount}&fut_hedge_flag=${params.fut_hedge_flag}&main_direction=${params.main_direction}&main_range=[${params.main_range}]&sub_direction_flag=${params.sub_direction_flag}&sub_range=[${params.sub_range}]`;
+        const response = await axios.get(url);
+        return response.data.data
+      }
+      catch (error) {
+        return error;
+      }
+    } 
     
   },
 

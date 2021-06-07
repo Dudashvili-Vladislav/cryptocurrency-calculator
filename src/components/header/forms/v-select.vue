@@ -51,15 +51,8 @@ export default {
   },
 
   watch: {
-    selected() {
-      this.$emit("update:modelValue", String(this.selected));
-
-      
-    },
-
     modelValue(newValue) {
       this.selected = newValue;
-      console.log("throttleSELECT", this.throttledSave); 
     },
   },
 
@@ -70,6 +63,7 @@ export default {
 
   methods: {
     onChangeSelect() {
+      this.$emit("update:modelValue", String(this.selected));
       this.$emit("change", String(this.selected));
     },
 

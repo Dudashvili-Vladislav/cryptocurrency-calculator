@@ -45,39 +45,38 @@
       <div
         class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start mt-2 "
       >
-        <vSelect :options="directionOptions" @change="setMaturity"> </vSelect>
+        <vSelect v-model="selectedDirection" :options="directionOptions" @change="setDirection"> </vSelect>
       </div>
       <div class="slederCustomQa">
-        <Slider class="mt-20" v-model="value" :max="150000" />
+        <Slider class="mt-20" v-model="expectedMinPrice" :min="minSlider" :max="maxSlider" :step="stepSlider" />
         <div class="number flex justify-between">
-          <span>0</span>
-          <span>10000</span>
-          <span>20000</span>
-          <span>30000</span>
-          <span>40000</span>
-          <span>50000</span>
-          <span>60000</span>
-          <span>70000</span>
-          <span>80000</span>
-          <span>90000</span>
-          <span>100000</span>
-          <span>110000</span>
-          <span>120000</span>
-          <span>130000</span>
-          <span>140000</span>
-          <span>150000</span>
+          <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
         </div>
       </div>
+
+      <vCheckbox v-model="futHedgeFlag">
+        Выбрать рекомендуемый диапазон
+      </vCheckbox>
+
+      <h3 class="w-full mt-10 ml-8 ">
+        Хотите ли застраховаться от противоположного направления движения цены?
+      </h3>
+      <vCheckbox v-model="saveDirection">
+        Да / Нет
+      </vCheckbox>
+
+    <div class="slederCustomQa">
+      <Slider class="mt-20" v-model="expectedMaxPrice" :min="minSlider" :max="maxSlider" :step="stepSlider" />
+      <div class="number flex justify-between">
+        <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
+      </div>
+
+      <vCheckbox v-model="subDirectionFlag">
+        Выбрать рекомендуемый диапазон
+      </vCheckbox>
     </div>
-    <vCheckbox>
-      Выбрать рекомендуемый диапазон
-    </vCheckbox>
-    <h3 class="w-full mt-10 ml-8 ">
-      Хотите ли застраховаться от противоположного направления движения цены?
-    </h3>
-    <vCheckbox>
-      Да / Нет
-    </vCheckbox>
+    </div>
+    
     
     <h3 class="w-full mt-10 ml-8 ">
       Продажа фьючерса требует внесения на счет базового актива в количестве равном номиналу проданных фьючерсов.
@@ -132,6 +131,7 @@ import vCheckbox from "./header/forms/v-checkbox";
 import vLineChart from "@/components/charts/v-line-chart";
 import vButton from "@/components/v-button";
 import vTable from "@/components/tables/v-table-statistics";
+import axios from "axios";
 
 export default {
   name: "v-customQA",
@@ -150,17 +150,33 @@ export default {
 
   data() {
     return {
+      futHedgeFlag: false,
+      subDirectionFlag: false,
+      saveDirection: false,
+      minSlider: 0,
+      maxSlider: 150000,
+      stepSlider: 100,
       msg: "waiting",
       underlyingList: ["BTC", "ETH"],
       directionOptions: ["Up", "Down"],
       maturityList: [],
-      value: [20, 40],
+      expectedMinPrice: [0, 150000],
+      expectedMaxPrice: [0, 150000],
+
+      sliderLabelsBtc: [0 , 2000, 3000],
+      sliderLabelsEth: [0 , 150, 400],
+
       tableData: {},
       underlyingChoice: [],
       selectedCoin: null,
       selectedDate: null,
+      selectedDirection: null,
+
       coinAmount: 0,
-      
+      description: 'Description from DATA',
+      chartData: {},
+      title: 'Chart title from DATA',
+      sliderLabels: []
     };
   },
 
@@ -178,14 +194,52 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getMaturity_actions"]),
+    ...mapActions(["getMaturity_actions", 'getStrikes_actions', 'getQaStructs_actions']),
 
     async getMaturity(underlying) {
       this.maturityList = await this.getMaturity_actions(underlying);
+      const result = await this.getStrikes_actions(this.selectedCoin);
+      this.minSlider = result[this.selectedCoin].min
+      this.maxSlider = result[this.selectedCoin].max
+      this.stepSlider = result[this.selectedCoin].step
+      this.expectedMinPrice = result[this.selectedCoin].main_value
+      this.expectedMaxPrice = result[this.selectedCoin].sub_value
+      
+      this.setupSliderLabels()
+    },
+
+    setupSliderLabels () {
+      this.sliderLabels = []
+      const labelsAmount = 16
+      const labelStep = Math.ceil(this.maxSlider / labelsAmount / 100) * 100
+      let currentLabel = 0
+      for (let index = 0; index < labelsAmount; index++) {
+        this.sliderLabels.push(currentLabel)
+        currentLabel = currentLabel + labelStep
+      }
     },
 
     setMaturity(event) {
       this.$store.commit("setMaturity_mutations", event);
+    },
+
+    convertBooleanToString (flag) {
+      return String(flag).charAt(0).toUpperCase() + String(flag).slice(1)
+    },
+
+    async setDirection (selectedDirection) {
+      const options = {
+        currency: this.selectedCoin,
+        maturity: this.selectedDate,
+        amount: this.coinAmount,
+        main_direction: selectedDirection,
+        fut_hedge_flag: this.convertBooleanToString(this.futHedgeFlag),
+        sub_direction_flag: this.convertBooleanToString(this.subDirectionFlag),
+        main_range: [...this.expectedMinPrice],
+        sub_range: [...this.expectedMaxPrice],
+      }
+      const result = await this.$store.dispatch("getQaStructs_actions", options);
+      console.log('result', result)
     },
 
     setAmount(count) {
@@ -193,14 +247,13 @@ export default {
     },
     
 
-    FieldsCheck() {
+    async FieldsCheck() {
       if (
         this.selectedCoin != null &&
         this.selectedDate != null &&
         this.coinAmount != 0
       ) {
-        this.$store.dispatch("getQaStructs_actions", this.selectedCoin);
-        this.$store.dispatch("");
+        // TODO
       }
     },
   },
