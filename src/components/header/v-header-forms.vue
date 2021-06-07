@@ -11,7 +11,7 @@
             :label="'Underlying'"
             :options="underlyingList"
             @change="getMaturity"
-            @click="change"
+
           >
           </vSelect>
         </div>
@@ -43,6 +43,7 @@
   </div>
 </template>
 <script>
+
 import { mapGetters, mapActions, mapState } from "vuex";
 
 import vSelect from "./forms/v-select";
@@ -68,6 +69,7 @@ export default {
       selectedunderlying: null,
       coinAmount: 0,
       Checkbox: false,
+      timerId: null,
     }
   },
 
@@ -84,14 +86,8 @@ export default {
        this.fieldsCheck()
 
     },
-     selectedCoin(newValue, oldValue) {
-      console.log(this.selectedCoin)
-      console.log(this.selectedHedg)
-    },
-     selectedHedg(newValue, oldValue) {
-      console.log(this.selectedCoin)
-      console.log(this.selectedHedg)
-    },
+ 
+
 
     selectedunderlying() {
       this.selectedMaturity = null;
@@ -121,8 +117,12 @@ export default {
     },
 
     setMaturity(event) {
+      setTimeout(()=>{
       this.$store.commit("setMaturity_mutations", event);
       this.fieldsCheck()
+      },1000)
+
+
     },
 
     setAmount(count) {
@@ -136,6 +136,8 @@ export default {
           console.log('amount',this.amount);
       }
     },
+
+
   },
 
 };

@@ -11,6 +11,7 @@
           :label="'Выберите базовый актив:'"
           :options="underlyingList"
           @change="getMaturity"
+          v-model="selectedCoin"
         >
         </vSelect>
       </div>
@@ -22,12 +23,17 @@
       <div
         class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start mt-14 "
       >
-        <vSelect :options="maturityList" @change="setMaturity"> </vSelect>
+        <vSelect 
+        :options="maturityList" 
+        @change="setMaturity"
+        v-model="selectedDate"
+        > </vSelect>
       </div>
       <div class="form-control text-gray-700 pointer-events-auto w-1/6 mt-6">
         <vAmount
-          @click.prevent="this.$emit('upGetStatisctics')"
+          @click.prevent="$emit('upGetStatisctics')"
           @upAmount="setAmount"
+          v-model="coinAmount"
         />
       </div>
       <h2 class="text-2xl  pb-5 font-medium mt-5 ">
@@ -42,7 +48,7 @@
         <vSelect :options="directionOptions" @change="setMaturity"> </vSelect>
       </div>
       <div class="slederCustomQa">
-        <Slider class="mt-20" v-model="value" :max="15000" />
+        <Slider class="mt-20" v-model="value" :max="150000" />
         <div class="number flex justify-between">
           <span>0</span>
           <span>10000</span>
@@ -151,27 +157,23 @@ export default {
       value: [20, 40],
       tableData: {},
       underlyingChoice: [],
+      selectedCoin: null,
+      selectedDate: null,
+      coinAmount: 0,
+      
     };
   },
 
-  computed: {
-    ...mapState({
-      amount: (state) => state.amount,
-      selectedCoin: (state) => state.underlying,
-      selectedHedg: (state) => state.maturity,
-    }),
-  },
+
   watch: {
-    amount(newValue, oldValue) {
+    selectedCoin(newValue, oldValue) {
       this.FieldsCheck();
     },
-    selectedCoin(newValue, oldValue) {
-      console.log(this.selectedCoin);
-      console.log(this.selectedHedg);
+    selectedDate(newValue, oldValue) {
+      this.FieldsCheck();
     },
-    selectedHedg(newValue, oldValue) {
-      console.log(this.selectedCoin);
-      console.log(this.selectedHedg);
+    coinAmount(newValue, oldValue) {
+      this.FieldsCheck();
     },
   },
 
@@ -189,15 +191,16 @@ export default {
     setAmount(count) {
       this.$store.commit("setAmount_mutations", count);
     },
+    
 
     FieldsCheck() {
       if (
-        this.amount != 0 &&
-        this.selectedHedg != null &&
-        this.selectedCoin != null
+        this.selectedCoin != null &&
+        this.selectedDate != null &&
+        this.coinAmount != 0
       ) {
-        this.$store.dispatch("getStatisctics_actions");
-        this.$store.dispatch("getTableStaticsics_actions");
+        this.$store.dispatch("getQaStructs_actions", this.selectedCoin);
+        this.$store.dispatch("");
       }
     },
   },

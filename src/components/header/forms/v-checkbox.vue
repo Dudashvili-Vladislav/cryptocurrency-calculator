@@ -7,7 +7,8 @@
         <input
           type="checkbox"
           v-model="checkFutures"
-          @change="onChangeCheckbox"
+  
+          @input="throttledSave"
         />
         <svg
           class="fill-current hidden w-4 h-4 text-green-500 pointer-events-none"
@@ -22,24 +23,12 @@
 </template>
 
 <script>
+import throttle from "../../../throttle.js";
+
 export default {
   name: "v-checkbox",
 
-  data() {
-    return {
-      checkFutures: this.modelValue,
-    };
-  },
-
-  watch: {
-       checkFutures() {
-        this.$emit('checked', this.checkFutures)
-      }, 
-
-    modelValue(newValue) {
-      this.checkFutures = newValue;
-    },
-  },
+  emits: ["checked", "update:modelValue", "upAmount"],
 
   props: {
     modelValue: {
@@ -48,9 +37,32 @@ export default {
     },
   },
 
-  methods: {
-    onChangeCheckbox() {
+  data() {
+    return {
+      checkFutures: this.modelValue,
+      timerId: null,
+    };
+  },
+
+  watch: {
+    checkFutures() {
       this.$emit("update:modelValue", Boolean(this.checkFutures));
+    },
+
+    modelValue(newValue) {
+      this.checkFutures = newValue;
+    },
+  },
+
+  methods: {
+
+    throttledSave() {
+      let DELAY = 1000; // Задержка
+
+      clearTimeout(this.timerId);
+      this.timerId = setTimeout(() => {
+        this.$emit("checked", this.checkFutures);
+      }, DELAY);
     },
   },
 };

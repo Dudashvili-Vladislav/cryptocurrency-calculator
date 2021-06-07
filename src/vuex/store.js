@@ -153,25 +153,26 @@ let store = createStore({
 
 
 
-   /*  getQaStructs_actions ({ commit, rootState}) {
+
+
+
+
+    async getQaStructs_actions ( context, selectedCoin ) {
       try {
-        const flag = String(rootState.flagQaStruct)
-        const url = "/qaStructs";
+        const url = "/strikes";
         const options = {
           params: {
-            currency: rootState.underlying,
-            maturity: rootState.maturity,
-            amount: rootState.amount,
-            fut_hedge_flag: flag.charAt(0).toUpperCase() + flag.slice(1)
-            
+            currency: selectedCoin,
           },
-          
         };
+
+        const response = await axios.get(url, options);
+        return response.data.data
       }
       catch (error) {
         return error;
       }
-    } */
+    }  
     
   },
 

@@ -22,6 +22,8 @@ import throttle from "../../../throttle.js";
 export default {
   name: "v-amount",
 
+emits: ["upAmount", "update:modelValue"],
+
   props: {
     modelValue: {
       type: Number,

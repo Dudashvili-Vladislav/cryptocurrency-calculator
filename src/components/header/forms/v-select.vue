@@ -19,6 +19,8 @@
 <script>
 import throttle from "../../../throttle.js";
 
+import {mapState } from "vuex";
+
 export default {
   name: "v-select",
 
@@ -39,7 +41,7 @@ export default {
     },
   },
 
-  emits: ["change", "input"],
+  emits: ["change", "input","upAmount","update:modelValue"],
 
   data() {
     return {
@@ -61,6 +63,11 @@ export default {
     },
   },
 
+  ...mapState({
+      underlying: state => state.underlying,
+      maturity: state => state.maturity,
+    }),
+
   methods: {
     onChangeSelect() {
       this.$emit("change", String(this.selected));
@@ -68,11 +75,11 @@ export default {
 
     throttledSave() {
       let DELAY = 1000; // Задержка
-
       clearTimeout(this.timerId);
-      this.timerId = setTimeout(() => {
+      this.timerId = setTimeout(() => { 
         this.$emit("upAmount", this.selected);
       }, DELAY);
+    
     },
   },
 };
