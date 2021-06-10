@@ -103,7 +103,6 @@ export default {
       console.log('valueeeeeeeeeeeee', value)
       this.$store.commit('setFlagFutures_mutations', value);
       this.fieldsCheck()
-
     },
 
     getMaturity(underlying) {
@@ -112,8 +111,10 @@ export default {
       this.selectedMaturity = null,
       this.selectedunderlying = null,
       this.coinAmount = 0,
-      this.Checkbox = false
-      this.$store.commit("setFullData_mutations", null)
+      this.Checkbox = false,
+      this.$store.commit("setFullData_mutations", null),
+      this.$store.commit('setAmount_mutations', 0)
+      
     },
 
     setMaturity(event) {

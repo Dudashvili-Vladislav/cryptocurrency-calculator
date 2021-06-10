@@ -19,6 +19,7 @@ let store = createStore({
       timerId: null,
       loading: false,
       flagQaStruct: false,
+      selectedDirection: null,
     };
   },
 
@@ -46,6 +47,7 @@ let store = createStore({
 
     setFullData_mutations(state, data) {
       state.fullDataList = data;
+/*       console.log("data",data); */
     },
 
     setTable_mutations(state, table) {
@@ -62,7 +64,12 @@ let store = createStore({
 
     setLoading (state, value) {
       state.loading = value
-    }
+    },
+
+/*     selectedDirection(state, selectedDirection) {
+      state.selectedDirection = selectedDirection;
+    }, */
+
   },
 
   actions: {
@@ -173,6 +180,7 @@ let store = createStore({
         const url = `/qaStructs?currency=${params.currency}&maturity=${params.maturity}&amount=${params.amount}&fut_hedge_flag=${params.fut_hedge_flag}&main_direction=${params.main_direction}&main_range=[${params.main_range}]&sub_direction_flag=${params.sub_direction_flag}&sub_range=[${params.sub_range}]`;
         const response = await axios.get(url);
         return response.data.data
+
       }
       catch (error) {
         return error;
