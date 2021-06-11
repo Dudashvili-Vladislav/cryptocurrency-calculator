@@ -28,13 +28,14 @@ let store = createStore({
       state.maturityList = maturityList;
     },
 
-    setMaturity_mutations(state, maturity) {
+    setMaturity_mutations(state, maturity) { // Получаем дату которую выбрали
       state.maturity = maturity;
+       console.log('maturity',maturity); 
     },
 
     setUnderlying_mutations(state, underlying) {
       state.underlying = underlying;
-      console.log('underlying', underlying)
+/*       console.log('underlying', underlying) */
     },
 
     setAmount_mutations(state, count) {
@@ -47,7 +48,7 @@ let store = createStore({
 
     setFullData_mutations(state, data) {
       state.fullDataList = data;
-/*       console.log("data",data); */
+/*       console.log("data",data);  */
     },
 
     setTable_mutations(state, table) {

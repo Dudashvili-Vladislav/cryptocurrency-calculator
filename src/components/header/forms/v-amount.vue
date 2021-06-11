@@ -1,6 +1,6 @@
 <template>
   <div class="v-amount">
-    <label for="money">Amount {{ $store.state.underlying }}</label>
+    <label for="money">{{ label }} {{ $store.state.underlying }}</label>
     <input
       type="number"
       min="0"
@@ -18,16 +18,19 @@
 <script>
 import throttle from "../../../throttle.js";
 
-
 export default {
   name: "v-amount",
 
-emits: ["upAmount", "update:modelValue"],
+  emits: ["upAmount", "update:modelValue"],
 
   props: {
     modelValue: {
       type: Number,
       default: 0,
+    },
+    label: {
+      type: String,
+      default: "",
     },
   },
 
@@ -47,7 +50,6 @@ emits: ["upAmount", "update:modelValue"],
       this.amountCount = newValue;
     },
   },
-
 
   methods: {
     throttledSave() {

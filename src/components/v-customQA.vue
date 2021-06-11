@@ -5,7 +5,7 @@
     </h1>
     <div class="header-form ml-10 w-full">
       <div
-        class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
+        class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start  "
       >
         <vSelect
           :label="'Выберите базовый актив:'"
@@ -16,7 +16,7 @@
         </vSelect>
       </div>
 
-      <h3 class="w-full mt-8 absolute ">
+      <h3 class="w-full mt-7 absolute ">
         Какой срок хеджирования вас интересует?
       </h3>
 
@@ -30,7 +30,10 @@
         >
         </vSelect>
       </div>
-      <div class="form-control text-gray-700 pointer-events-auto w-1/6 mt-6">
+      <h3 class="w-full absolute mt-7 ">
+        Укажите сумму активов для хеджирования:
+      </h3>
+      <div class="form-control text-gray-700 pointer-events-auto w-1/6 mt-14">
         <vAmount
           @click.prevent="$emit('upGetStatisctics')"
           @upAmount="setAmount"
@@ -66,7 +69,7 @@
         </div>
       </div>
 
-      <vCheckbox v-model="futHedgeFlag">
+      <vCheckbox v-model="futHedgeFlag" @checked="SelectRecommendedRange">
         Выбрать рекомендуемый диапазон
       </vCheckbox>
 
@@ -89,7 +92,7 @@
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
         </div>
 
-        <vCheckbox v-model="subDirectionFlag">
+        <vCheckbox v-model="futHedgeFlag" @checked="SelectRecommendedRange">
           Выбрать рекомендуемый диапазон
         </vCheckbox>
       </div>
@@ -97,7 +100,7 @@
       <h3 class="w-full mt-10 ml-8 ">
         Хотите ли получать дополнительную прибыль за счет продажи фьючерса?
       </h3>
-      <vCheckbox v-model="saveDirection">
+      <vCheckbox v-model="subDirectionFlag">
         Да / Нет
       </vCheckbox>
     </div>
@@ -117,7 +120,8 @@
       <div class="wrapper-text w-1/3 mt-20 ml-5 ">
         <div class="text pr-3 ">{{ description }}</div>
 
-        <table v-if="tableData"
+        <table
+          v-if="tableData"
           class="table-auto text-center mt-5 justify-end m-left w-full table-statistic"
         >
           <thead class="border border-gray-400 bg-gray-100">
@@ -128,40 +132,48 @@
               <th>USD</th>
             </tr>
           </thead>
-     <tbody class="border border-gray-400">
-        <tr class="border-gray-400">
-
-          <td>Amount of underlying</td>
-          <td>{{ tableData [selectedCoin] ['Amount of underlying'] }}</td>
-          <td>{{ tableData ['%'] ['Amount of underlying'] }}</td>
-          <td>{{ tableData ['USD'] ['Amount of underlying'] }}</td>
-          
-        </tr>
-        <tr class="border-gray-400 bg-emerald-200">
-          <td>Max profit</td>
-          <td>{{ tableData [selectedCoin] ["Max profit"].toFixed(2) }}</td>
-          <td>{{ tableData ['%'] ["Max profit"].toFixed(2)}}</td>
-          <td>{{ tableData ['USD'] ["Max profit"].toFixed(2) }}</td>
-        </tr>
-        <tr class="border-gray-400">
-          <td>Structure product price</td>
-          <td>{{ tableData [selectedCoin] ["Structure product price"].toFixed(2) }}</td>
-          <td>{{ tableData ['%'] ["Structure product price"].toFixed(2) }}</td>
-          <td>{{ tableData ['USD'] ["Structure product price"].toFixed(2) }}</td>
-        </tr>
-        <tr class="border-gray-400">
-          <td>Maintenance margin</td>
-          <td>{{ tableData [selectedCoin] ["Maintenace margin"].toFixed(2)}}</td>
-          <td>{{ tableData ['%'] ["Maintenace margin"].toFixed(2) }}</td>
-          <td>{{ tableData ['USD'] ["Maintenace margin"].toFixed(2) }}</td>
-        </tr>
-        <tr class="border-gray-400">
-          <td>Total margin</td>
-          <td>{{ tableData[selectedCoin] ["Total margin"].toFixed(2) }}</td>
-          <td>{{ tableData ['%'] ["Total margin"].toFixed(2) }}</td>
-          <td>{{ tableData ['USD'] ["Total margin"].toFixed(2) }}</td>
-        </tr>
-      </tbody>
+          <tbody class="border border-gray-400">
+            <tr class="border-gray-400">
+              <td>Amount of underlying</td>
+              <td>{{ tableData[selectedCoin]["Amount of underlying"] }}</td>
+              <td>{{ tableData["%"]["Amount of underlying"] }}</td>
+              <td>{{ tableData["USD"]["Amount of underlying"] }}</td>
+            </tr>
+            <tr class="border-gray-400 bg-emerald-200">
+              <td>Max profit</td>
+              <td>{{ tableData[selectedCoin]["Max profit"].toFixed(2) }}</td>
+              <td>{{ tableData["%"]["Max profit"].toFixed(2) }}</td>
+              <td>{{ tableData["USD"]["Max profit"].toFixed(2) }}</td>
+            </tr>
+            <tr class="border-gray-400">
+              <td>Structure product price</td>
+              <td>
+                {{
+                  tableData[selectedCoin]["Structure product price"].toFixed(2)
+                }}
+              </td>
+              <td>
+                {{ tableData["%"]["Structure product price"].toFixed(2) }}
+              </td>
+              <td>
+                {{ tableData["USD"]["Structure product price"].toFixed(2) }}
+              </td>
+            </tr>
+            <tr class="border-gray-400">
+              <td>Maintenance margin</td>
+              <td>
+                {{ tableData[selectedCoin]["Maintenace margin"].toFixed(2) }}
+              </td>
+              <td>{{ tableData["%"]["Maintenace margin"].toFixed(2) }}</td>
+              <td>{{ tableData["USD"]["Maintenace margin"].toFixed(2) }}</td>
+            </tr>
+            <tr class="border-gray-400">
+              <td>Total margin</td>
+              <td>{{ tableData[selectedCoin]["Total margin"].toFixed(2) }}</td>
+              <td>{{ tableData["%"]["Total margin"].toFixed(2) }}</td>
+              <td>{{ tableData["USD"]["Total margin"].toFixed(2) }}</td>
+            </tr>
+          </tbody>
         </table>
         <div class="v-call-spread-right">
           <v-button @upGetStatisctics="sendOrder(tableData)" />
@@ -223,7 +235,6 @@ export default {
       selectedDate: null,
       selectedDirection: null,
 
-
       coinAmount: 0,
       description: "Description from DATA",
       chartData: {},
@@ -234,8 +245,8 @@ export default {
 
   watch: {
     selectedCoin(newValue, oldValue) {
-/*       this.FieldsCheck(); */
-      this.setDirection();
+      /*       this.FieldsCheck();  */
+      /*       this.setDirection(); */
     },
     selectedDate(newValue, oldValue) {
       this.FieldsCheck();
@@ -254,7 +265,7 @@ export default {
 
     async getMaturity(underlying) {
       this.maturityList = await this.getMaturity_actions(underlying);
-      const result = await this.getStrikes_actions(this.selectedCoin);
+      const result = await this.getStrikes_actions(this.selectedCoin); //BTC-ETH
       this.minSlider = result[this.selectedCoin].min;
       this.maxSlider = result[this.selectedCoin].max;
       this.stepSlider = result[this.selectedCoin].step;
@@ -265,7 +276,7 @@ export default {
       this.coinAmount = 0;
       this.chartData = {};
       this.tableData = null;
-      this.selectedDirection = null
+      this.selectedDirection = null;
     },
 
     setupSliderLabels() {
@@ -281,6 +292,7 @@ export default {
 
     setMaturity(event) {
       this.$store.commit("setMaturity_mutations", event);
+      this.FieldsCheck();
     },
 
     convertBooleanToString(flag) {
@@ -302,17 +314,15 @@ export default {
         main_range: [...this.expectedMinPrice],
         sub_range: [...this.expectedMaxPrice],
       };
-      var _this = this
+      var _this = this;
       const result = await _this.$store.dispatch(
         "getQaStructs_actions",
-          options
+        options
       );
-      _this.chartData = result[0].chart,
-      _this.tableData =result[0].table
+      (_this.chartData = result[0].chart), (_this.tableData = result[0].table);
 
-
-      console.log("tableData",this.tableData);
-/*       console.log("result", result); */
+      console.log("tableData", this.tableData);
+      console.log("result", result);
     },
 
     setAmount(selectedDirection) {
@@ -325,12 +335,10 @@ export default {
         this.selectedDate != null &&
         this.coinAmount != 0
       ) {
-
-
-/*           this.$store.dispatch('getStrikes_actions'); */
-          this.$store.dispatch('getQaStructs_actions');  
+        this.setDirection();
       }
     },
+
   },
 };
 </script>

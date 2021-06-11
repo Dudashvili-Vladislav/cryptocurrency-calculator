@@ -33,7 +33,12 @@
 
         </div>
         <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
-          <vAmount v-model="coinAmount" @click.prevent="$emit('upGetStatisctics')"  @upAmount="setAmount"  />
+          <vAmount 
+          v-model="coinAmount" 
+          @click.prevent="$emit('upGetStatisctics')"  
+          @upAmount="setAmount"
+          :label="'Amount'"
+            />
         </div>
         <vCheckbox v-model="Checkbox"  @checked="handleCheckbox">
           Futures hedge funding
@@ -112,8 +117,8 @@ export default {
       this.selectedunderlying = null,
       this.coinAmount = 0,
       this.Checkbox = false,
-      this.$store.commit("setFullData_mutations", null),
-      this.$store.commit('setAmount_mutations', 0)
+      this.$store.commit("setFullData_mutations", null), // обнуляем объект с графиками
+      this.$store.commit('setAmount_mutations', 0) // обнуляем количество валюты
       
     },
 
