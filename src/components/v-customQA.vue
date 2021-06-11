@@ -243,6 +243,21 @@ export default {
     };
   },
 
+  computed: {
+    requestParams() {
+      return {
+        currency: this.selectedCoin,
+        maturity: this.selectedDate,
+        amount: this.coinAmount,
+        main_direction: this.selectedDirection,
+        fut_hedge_flag: this.convertBooleanToString(this.saveDirection),
+        sub_direction_flag: this.convertBooleanToString(this.subDirectionFlag),
+        main_range: [...this.expectedMinPrice],
+        sub_range: [...this.expectedMaxPrice],
+      }
+    }
+  },
+
   watch: {
     selectedCoin(newValue, oldValue) {
       /*       this.FieldsCheck();  */
@@ -292,7 +307,6 @@ export default {
 
     setMaturity(event) {
       this.$store.commit("setMaturity_mutations", event);
-      this.FieldsCheck();
     },
 
     convertBooleanToString(flag) {
@@ -303,26 +317,23 @@ export default {
       );
     },
 
-    async setDirection(selectedDirection) {
-      const options = {
-        currency: this.selectedCoin,
-        maturity: this.selectedDate,
-        amount: this.coinAmount,
-        main_direction: selectedDirection,
-        fut_hedge_flag: this.convertBooleanToString(this.futHedgeFlag),
-        sub_direction_flag: this.convertBooleanToString(this.subDirectionFlag),
-        main_range: [...this.expectedMinPrice],
-        sub_range: [...this.expectedMaxPrice],
-      };
-      var _this = this;
-      const result = await _this.$store.dispatch(
-        "getQaStructs_actions",
-        options
-      );
-      (_this.chartData = result[0].chart), (_this.tableData = result[0].table);
+    async setDirection() {
 
+      let shit = 0
+      setInterval(async () => {
+        const result = await this.$store.dispatch(
+          "getQaStructs_actions",
+          this.requestParams
+        );
+        shit++
+        if (shit === 1) {
+          this.chartData = result[0].chart;
+        }
+        this.tableData = result[0].table;
+        console.log("result", result);
+      }, 2000);
+      
       console.log("tableData", this.tableData);
-      console.log("result", result);
     },
 
     setAmount(selectedDirection) {
@@ -331,9 +342,10 @@ export default {
 
     async FieldsCheck() {
       if (
-        this.selectedCoin != null &&
-        this.selectedDate != null &&
-        this.coinAmount != 0
+        this.selectedCoin &&
+        this.selectedDate &&
+        this.coinAmount != 0 &&
+        this.selectedDirection
       ) {
         this.setDirection();
       }

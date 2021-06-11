@@ -138,8 +138,6 @@ let store = createStore({
         clearInterval(rootState.timerId)
         const timerId = setInterval(async () => {
           const response = await axios.get(url, options);
-/*           console.log('rootState 2', rootState.futHedgeFlag)
-          console.log('rootState DATA', rootState.fullDataList) */
           commit("setTable_mutations", response.data.data);
         }, 2000);
 
