@@ -63,13 +63,14 @@
           :min="minSlider"
           :max="maxSlider"
           :step="stepSlider"
+          @change="changeMinPrice"
         />
         <div class="number flex justify-between">
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
         </div>
       </div>
 
-      <vCheckbox v-model="futHedgeFlag" @checked="SelectRecommendedRange">
+      <vCheckbox v-model="futHedgeFlag_top">
         Выбрать рекомендуемый диапазон
       </vCheckbox>
 
@@ -87,12 +88,13 @@
           :min="minSlider"
           :max="maxSlider"
           :step="stepSlider"
+          @change="changeMaxPrice"
         />
         <div class="number flex justify-between">
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
         </div>
 
-        <vCheckbox v-model="futHedgeFlag" @checked="SelectRecommendedRange">
+        <vCheckbox v-model="futHedgeFlag_down">
           Выбрать рекомендуемый диапазон
         </vCheckbox>
       </div>
@@ -121,7 +123,7 @@
         <div class="text pr-3 ">{{ description }}</div>
 
         <table
-          v-if="tableData"
+          v-if="tableData && selectedCoin"
           class="table-auto text-center mt-5 justify-end m-left w-full table-statistic"
         >
           <thead class="border border-gray-400 bg-gray-100">
@@ -213,7 +215,8 @@ export default {
 
   data() {
     return {
-      futHedgeFlag: false,
+      futHedgeFlag_down: false,
+      futHedgeFlag_top: false,
       subDirectionFlag: false,
       saveDirection: false,
       minSlider: 0,
@@ -226,10 +229,14 @@ export default {
       expectedMinPrice: [0, 150000],
       expectedMaxPrice: [0, 150000],
 
+      defolt_expectedMinPrice: [0, 150000],
+      defolt_expectedMaxPrice: [0, 150000],
+
       sliderLabelsBtc: [0, 2000, 3000],
       sliderLabelsEth: [0, 150, 400],
 
       tableData: null,
+
       underlyingChoice: [],
       selectedCoin: null,
       selectedDate: null,
@@ -254,11 +261,23 @@ export default {
         sub_direction_flag: this.convertBooleanToString(this.subDirectionFlag),
         main_range: [...this.expectedMinPrice],
         sub_range: [...this.expectedMaxPrice],
-      }
-    }
+      };
+    },
   },
 
   watch: {
+    futHedgeFlag_top(newValue, oldValue) {
+      if (newValue) {
+        this.expectedMinPrice = this.defolt_expectedMinPrice;
+
+      }
+    },
+    futHedgeFlag_down(newValue, oldValue) {
+      if (newValue) {
+        this.expectedMaxPrice = this.defolt_expectedMaxPrice;
+      }
+    },
+
     selectedCoin(newValue, oldValue) {
       /*       this.FieldsCheck();  */
       /*       this.setDirection(); */
@@ -285,7 +304,9 @@ export default {
       this.maxSlider = result[this.selectedCoin].max;
       this.stepSlider = result[this.selectedCoin].step;
       this.expectedMinPrice = result[this.selectedCoin].main_value;
+      this.defolt_expectedMinPrice = result[this.selectedCoin].main_value;
       this.expectedMaxPrice = result[this.selectedCoin].sub_value;
+      this.defolt_expectedMaxPrice = result[this.selectedCoin].sub_value;
       this.setupSliderLabels();
       this.selectedDate = null;
       this.coinAmount = 0;
@@ -318,22 +339,26 @@ export default {
     },
 
     async setDirection() {
-
-      let shit = 0
+      let shit = 0;
       setInterval(async () => {
-        const result = await this.$store.dispatch(
-          "getQaStructs_actions",
-          this.requestParams
-        );
-        shit++
-        if (shit === 1) {
-          this.chartData = result[0].chart;
+        try {
+          const result = await this.$store.dispatch(
+            "getQaStructs_actions",
+            this.requestParams
+          );
+          if (result) {
+            shit++;
+            if (shit === 1) {
+              this.chartData = result[0].chart;
+            }
+            this.tableData = result[0].table;
+          }
+        } catch (error) {
+          console.log(error);
         }
-        this.tableData = result[0].table;
-        console.log("result", result);
       }, 2000);
-      
-      console.log("tableData", this.tableData);
+
+/*       console.log("tableData", this.tableData); */
     },
 
     setAmount(selectedDirection) {
@@ -351,6 +376,13 @@ export default {
       }
     },
 
+    changeMinPrice() {
+      this.futHedgeFlag_top = false;
+    },
+
+    changeMaxPrice() {
+      this.futHedgeFlag_down = false;
+    },
   },
 };
 </script>
