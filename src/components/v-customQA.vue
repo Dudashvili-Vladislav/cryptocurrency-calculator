@@ -177,8 +177,18 @@
             </tr>
           </tbody>
         </table>
-        <div class="v-call-spread-right">
-          <v-button @upGetStatisctics="sendOrder(tableData)" />
+        <div class="v-call-spread-right flex pb-2 " >
+          <div class="slippage mt-14 text-lg border-b-2 border-gray-500">
+            {{ max_slippage }}
+          </div>
+          <v-button
+            @upGetStatisctics="
+              sendOrder({
+                tableData: tableData,
+                max_slippage: max_slippage,
+              })
+            "
+          />
         </div>
       </div>
     </div>
@@ -187,6 +197,7 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";
+import throttle from "../../../calculator-master_v1.1/src/throttle";
 
 import vHeaderForms from "./header/v-header-forms";
 import vSelect from "./header/forms/v-select";
@@ -195,7 +206,6 @@ import Slider from "@vueform/slider";
 import vCheckbox from "./header/forms/v-checkbox";
 import vLineChart from "@/components/charts/v-line-chart";
 import vButton from "@/components/v-button";
-import vTable from "@/components/tables/v-table-statistics";
 import axios from "axios";
 
 export default {
@@ -209,7 +219,6 @@ export default {
     vCheckbox,
     vLineChart,
     vButton,
-    vTable,
   },
   emits: ["upGetStatisctics"],
 
@@ -245,8 +254,11 @@ export default {
       coinAmount: 0,
       description: "Description from DATA",
       chartData: {},
+      max_slippage: null,
       title: "Chart title from DATA",
       sliderLabels: [],
+
+      timerId: null,
     };
   },
 
@@ -261,15 +273,74 @@ export default {
         sub_direction_flag: this.convertBooleanToString(this.subDirectionFlag),
         main_range: [...this.expectedMinPrice],
         sub_range: [...this.expectedMaxPrice],
+        max_slippage: this.slippage,
       };
     },
+    
+    ...mapGetters(["fullDataList", "tableList"]),
   },
 
   watch: {
+    defolt_expectedMaxPrice(newValue, oldValue) {
+      if (newValue) {
+        let DELAY = 1000; // Задержка
+
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(() => {
+          this.expectedMaxPrice = this.defolt_expectedMaxPrice;
+        }, DELAY);
+        console.log("newValue-defolt_expectedMaxPrice", newValue);
+      }
+    },
+
+    subDirectionFlag(newValue, oldValue) {
+      if (newValue) {
+        let DELAY = 1000; // Задержка
+
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(() => {
+          this.FieldsCheck();
+        }, DELAY);
+        console.log("newValue-subDirectionFlag", newValue);
+      }
+      if (oldValue) {
+        let DELAY = 1000; // Задержка
+
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(() => {
+          this.FieldsCheck();
+        }, DELAY);
+        console.log("oldValue-subDirectionFlag", oldValue);
+      }
+    },
+
+    expectedMaxPrice(newValue, oldValue) {
+      if (newValue) {
+        let DELAY = 1000; // Задержка
+
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(() => {
+          this.FieldsCheck();
+        }, DELAY);
+        console.log("newValue-expectedMaxPrice", newValue);
+      }
+    },
+
+    expectedMinPrice(newValue, oldValue) {
+      if (newValue) {
+        let DELAY = 1000; // Задержка
+
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(() => {
+          this.FieldsCheck();
+        }, DELAY);
+        console.log("newValue-expectedMinPrice", newValue);
+      }
+    },
+
     futHedgeFlag_top(newValue, oldValue) {
       if (newValue) {
         this.expectedMinPrice = this.defolt_expectedMinPrice;
-
       }
     },
     futHedgeFlag_down(newValue, oldValue) {
@@ -279,8 +350,7 @@ export default {
     },
 
     selectedCoin(newValue, oldValue) {
-      /*       this.FieldsCheck();  */
-      /*       this.setDirection(); */
+      console.log("newValue-selectedCoin", newValue);
     },
     selectedDate(newValue, oldValue) {
       this.FieldsCheck();
@@ -295,6 +365,7 @@ export default {
       "getMaturity_actions",
       "getStrikes_actions",
       "getQaStructs_actions",
+      "sendOrder",
     ]),
 
     async getMaturity(underlying) {
@@ -311,7 +382,7 @@ export default {
       this.selectedDate = null;
       this.coinAmount = 0;
       this.chartData = {};
-      this.tableData = null;
+      (this.max_slippage = null), (this.tableData = null);
       this.selectedDirection = null;
     },
 
@@ -352,13 +423,14 @@ export default {
               this.chartData = result[0].chart;
             }
             this.tableData = result[0].table;
+            this.max_slippage = result[0].max_slippage;
           }
         } catch (error) {
           console.log(error);
         }
       }, 2000);
 
-/*       console.log("tableData", this.tableData); */
+      /*       console.log("tableData", this.tableData); */
     },
 
     setAmount(selectedDirection) {

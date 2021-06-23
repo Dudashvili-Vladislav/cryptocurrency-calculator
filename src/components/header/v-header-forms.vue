@@ -37,7 +37,7 @@
           v-model="coinAmount" 
           @click.prevent="$emit('upGetStatisctics')"  
           @upAmount="setAmount"
-          :label="'Amount'"
+          :label="'Amount ' + $store.state.underlying"
             />
         </div>
         <vCheckbox v-model="Checkbox"  @checked="handleCheckbox">

@@ -1,45 +1,112 @@
 <template>
-  <div class="auth-body">
-    <form class="login" @submit.prevent="login">
-      <h1 class="display-4 mb-5">Sign in</h1>
-      
-      <div class="mb-3">
-        <label>Email</label>
-        <input required v-model="email" type="email" class="form-control" placeholder="Name" />
-      </div>
+  <div class="container mt-4 mx-auto ">
+    <div class="bg-white">
+      <div class="flex min-h-screen bg-white">
+        <div class="md:w-1/2 max-w-lg mx-auto my-24 px-4 py-5 shadow-none">
+          <div class="text-left p-0 font-sans">
+            <h1 class=" text-gray-800 text-3xl font-medium text-center">
+              Sign in
+            </h1>
+          </div>
+          <Form @submit="onSubmit" class="p-0">
 
-      <div class="mb-3">
-        <label>Password</label>
-        <input
-          required
-          v-model="password"
-          type="password"
-          placeholder="Password"
-          class="form-control"
-        />
+            <div class="mt-5">
+              <Field
+                name="email"
+                type="email"
+                id="email"
+                class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
+                :rules="validateEmail"
+                placeholder="Email"
+              />
+              <ErrorMessage name="Email" />
+            </div>
+
+            <div class="mt-5">
+              <Field
+                name="password"
+                type="password"
+                id="password"
+                class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
+                :rules="validatePassword"
+                placeholder="Password"
+              />
+              <ErrorMessage name="password" />
+            </div>
+
+            <div class="wrapper-btn flex">
+            <div class="mt-10 m-auto">
+              <button
+                type="submit "
+                class=" focus:outline-none text-white text-sm py-2.5 px-5 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-lg "
+              >
+                Sign in
+              </button>
+            </div>
+            </div>
+            <div class="hr mt-5">
+              <hr />
+            </div>
+          </Form>
+          <p 
+          class="text-center mt-5">
+            Don't have an account?
+            <router-link
+            class="router text-yellow-400" 
+            to="/register">
+            Register
+            </router-link>
+          </p>
+        </div>
       </div>
-      <hr />
-      <button class="btn btn-success" type="submit">Login</button>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
+import { Field, Form, ErrorMessage, defineRule } from "vee-validate";
+import * as yup from "yup";
+
+defineRule("confirmed", (value, [target]) => {
+  if (value === target) {
+    return true;
+  }
+
+  return "Passwords must match";
+});
+
 export default {
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
+
   data() {
     return {
-      email: "",
-      password: "",
+      validatePassword: yup
+        .string()
+        .required()
+        .min(8),
     };
   },
   methods: {
-    login: function() {
-      let email = this.email;
-      let password = this.password;
-      this.$store
-        .dispatch("login", { email, password })
-        .then(() => this.$router.push("/"))
-        .catch((err) => console.log(err));
+    onSubmit(values) {
+      alert(JSON.stringify(values, null, 2));
+    },
+    validateEmail(value) {
+      // if the field is empty
+      if (!value) {
+        return "This field is required";
+      }
+
+      // if the field is not a valid email
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+        return "This field must be a valid email";
+      }
+
+      // All is good
+      return true;
     },
   },
 };

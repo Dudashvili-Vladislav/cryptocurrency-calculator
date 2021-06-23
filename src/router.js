@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import store from './vuex/store'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
-import Secure from './components/Secure.vue'
 import Register from './views/Register.vue'
 
 const router = createRouter({
@@ -26,18 +25,10 @@ const router = createRouter({
       name: 'register',
       component: Register
     },
-    {
-      path: '/secure',
-      name: 'secure',
-      component: Secure,
-      meta: { 
-        requiresAuth: true
-      }
-    }
   ]
 }) 
 
-router.beforeEach((to, from, next) => {
+/* router.beforeEach((to, from, next) => {
   console.log('user', store.user)
   // если залогинен => redirect next()
   // если не залогинен => redirect на стринацу логина
@@ -52,6 +43,6 @@ router.beforeEach((to, from, next) => {
     next()
   }
   
-})
+}) */
 
 export default router

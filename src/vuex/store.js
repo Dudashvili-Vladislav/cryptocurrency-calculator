@@ -1,7 +1,6 @@
 import { createStore } from "vuex";
 import axios from "axios";
 import { setInterval } from "core-js";
-import Vue from "vue";
 
 axios.defaults.baseURL = "http://localhost:5000";
 
@@ -21,29 +20,10 @@ let store = createStore({
       loading: false,
       flagQaStruct: false,
       selectedDirection: null,
-      status: "",
-      token: localStorage.getItem("token") || "",
-      user: {},
     };
   },
 
   mutations: {
-    auth_request(state) {
-      state.status = "loading";
-    },
-    auth_success(state, token, user) {
-      state.status = "success";
-      state.token = token;
-      state.user = user;
-    },
-    auth_error(state) {
-      state.status = "error";
-    },
-    logout(state) {
-      state.status = "";
-      state.token = "";
-    },
-
     setMaturityList_mutations(state, maturityList) {
       state.maturityList = maturityList;
     },
@@ -56,7 +36,7 @@ let store = createStore({
 
     setUnderlying_mutations(state, underlying) {
       state.underlying = underlying;
-      /*       console.log('underlying', underlying) */
+             console.log('underlying', underlying) 
     },
 
     setAmount_mutations(state, count) {
@@ -94,63 +74,6 @@ let store = createStore({
   },
 
   actions: {
-    login({ commit }, user) {
-      return new Promise((resolve, reject) => {
-        commit("auth_request");
-        axios({
-          url: "http://localhost:3000/login",
-          data: user,
-          method: "POST",
-        })
-          .then((resp) => {
-            const token = resp.data.token;
-            const user = resp.data.user;
-            localStorage.setItem("token", token);
-            axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token, user);
-            resolve(resp);
-          })
-          .catch((err) => {
-            commit("auth_error");
-            localStorage.removeItem("token");
-            reject(err);
-          });
-      });
-    },
-
-    register({ commit }, user) {
-      return new Promise((resolve, reject) => {
-        commit("auth_request");
-        axios({
-          url: "http://localhost:3000/register",
-          data: user,
-          method: "POST",
-        })
-          .then((resp) => {
-            const token = resp.data.token;
-            const user = resp.data.user;
-            localStorage.setItem("token", token);
-            axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token, user);
-            resolve(resp);
-          })
-          .catch((err) => {
-            commit("auth_error", err);
-            localStorage.removeItem("token");
-            reject(err);
-          });
-      });
-    },
-
-    logout({ commit }) {
-      return new Promise((resolve, reject) => {
-        commit("logout");
-        localStorage.removeItem("token");
-        delete axios.defaults.headers.common["Authorization"];
-        resolve();
-      });
-    },
-
     async getMaturity_actions({ commit }, underlying) {
       // Получаем все даты
       try {
@@ -258,8 +181,6 @@ let store = createStore({
     underlyingChoice: (state) => state.underlying,
     tableList: (state) => state.key,
     maturity: (state) => state.maturity,
-    isLoggedIn: state => !!state.token,
-    authStatus: state => state.status,
   },
 });
 

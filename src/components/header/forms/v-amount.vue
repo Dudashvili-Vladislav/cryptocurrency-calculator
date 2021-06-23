@@ -1,6 +1,6 @@
 <template>
   <div class="v-amount">
-    <label for="money">{{ label }} {{ $store.state.underlying }}</label>
+    <label for="money">{{ label }} </label>
     <input
       type="number"
       min="0"

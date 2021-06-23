@@ -8,12 +8,11 @@ import Axios from "axios";
 
 
 
-const token = localStorage.getItem("token");
-if (token) {
-Axios.defaults.headers.common["Authorization"] = token;
-}
+
+
 
 const app = createApp(App);
+
 app.use(router);
 app.use(store);
 app.mount("#app");
