@@ -197,7 +197,7 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";
-import throttle from "../../../calculator-master_v1.1/src/throttle";
+// import throttle from "../../../calculator-master_v1.1/src/throttle";
 
 import vHeaderForms from "./header/v-header-forms";
 import vSelect from "./header/forms/v-select";
@@ -311,7 +311,6 @@ export default {
         this.timerId = setTimeout(() => {
           this.FieldsCheck();
         }, DELAY);
-        console.log("newValue-expectedMaxPrice", newValue);
       }
     },
 
@@ -323,7 +322,6 @@ export default {
         this.timerId = setTimeout(() => {
           this.FieldsCheck();
         }, DELAY);
-        console.log("newValue-expectedMinPrice", newValue);
       }
     },
 
@@ -360,18 +358,21 @@ export default {
     async getMaturity(underlying) {
       this.maturityList = await this.getMaturity_actions(underlying);
       const result = await this.getStrikes_actions(this.selectedCoin); //BTC-ETH
+      console.log('.main_value', result[this.selectedCoin].main_value)
+      console.log('sub_value', result[this.selectedCoin].sub_value)
       this.minSlider = result[this.selectedCoin].min;
       this.maxSlider = result[this.selectedCoin].max;
       this.stepSlider = result[this.selectedCoin].step;
-      this.expectedMinPrice = result[this.selectedCoin].main_value;
-      this.defolt_expectedMinPrice = result[this.selectedCoin].main_value;
-      this.expectedMaxPrice = result[this.selectedCoin].sub_value;
-      this.defolt_expectedMaxPrice = result[this.selectedCoin].sub_value;
+      this.expectedMinPrice = [...result[this.selectedCoin].main_value];
+      this.defolt_expectedMinPrice = [...result[this.selectedCoin].main_value];
+      this.expectedMaxPrice = [...result[this.selectedCoin].sub_value];
+      this.defolt_expectedMaxPrice = [...result[this.selectedCoin].sub_value];
       this.setupSliderLabels();
       this.selectedDate = null;
       this.coinAmount = 0;
       this.chartData = {};
-      (this.max_slippage = null), (this.tableData = null);
+      this.max_slippage = null 
+      this.tableData = null
       this.selectedDirection = null;
     },
 

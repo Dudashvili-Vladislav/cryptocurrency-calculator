@@ -26,7 +26,7 @@ export default {
     };
   },
   methods: {
-    login: function() {
+    login() {
       let email = this.email;
       let password = this.password;
       this.$store

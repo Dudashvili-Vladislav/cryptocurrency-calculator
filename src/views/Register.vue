@@ -164,6 +164,7 @@ export default {
         email:this.email,
         password:this.password
       })
+      // переход на главную страницу
     },
   },
 };

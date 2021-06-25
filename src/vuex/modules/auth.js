@@ -17,6 +17,7 @@ export default {
   state() {
     return {
       token: null,
+      user: null
     };
   },
 

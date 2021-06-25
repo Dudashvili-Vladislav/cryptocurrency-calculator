@@ -21,7 +21,19 @@ var firebaseConfig = {
     appId: "1:430140431415:web:19e379138530863ebc33b2"
   };
 firebase.initializeApp(firebaseConfig);
-console.log("firebaseConfig",firebaseConfig);
+
+function getCurrentUser() {
+  const localUserString = window.localStorage.getItem('user') || null;
+  return JSON.parse(localUserString);
+}
+
+if (window.localStorage) {
+  const currenttUser = getCurrentUser();
+
+  if (currenttUser && store.state.auth.user !== currenttUser) {
+    store.commit('auth/setUser', currenttUser);
+  }
+}
 
 const app = createApp(App);
 
