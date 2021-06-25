@@ -8,30 +8,32 @@
               Sign in
             </h1>
           </div>
-          <Form @submit="onSubmit" class="p-0">
+          <form @submit.prevent="onSubmit" class="p-0">
 
-            <div class="mt-5">
-              <Field
+            <div :class="['mt-5' , {invalid: eError}]">
+              <input
                 name="email"
                 type="email"
                 id="email"
+                v-model="email"
                 class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
-                :rules="validateEmail"
                 placeholder="Email"
+                @blur="eBlur"
               />
-              <ErrorMessage name="Email" />
+              <small class="text-red-500" v-if="eError">{{ eError }}</small>
             </div>
 
-            <div class="mt-5">
-              <Field
+            <div :class="['mt-5' , {invalid: pError}]">
+              <input
                 name="password"
                 type="password"
                 id="password"
+                v-model="password"
                 class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
-                :rules="validatePassword"
                 placeholder="Password"
+                @blur="pBlur"
               />
-              <ErrorMessage name="password" />
+              <small class="text-red-500" v-if="pError">{{ pError }}</small>
             </div>
 
             <div class="wrapper-btn flex">
@@ -42,12 +44,13 @@
               >
                 Sign in
               </button>
+
             </div>
             </div>
             <div class="hr mt-5">
               <hr />
             </div>
-          </Form>
+          </form>
           <p 
           class="text-center mt-5">
             Don't have an account?
@@ -64,50 +67,16 @@
 </template>
 
 <script>
-import { Field, Form, ErrorMessage, defineRule } from "vee-validate";
-import * as yup from "yup";
-
-defineRule("confirmed", (value, [target]) => {
-  if (value === target) {
-    return true;
-  }
-
-  return "Passwords must match";
-});
+import { values } from 'lodash';
+import {useLoginForm} from '../use/loginForm'
 
 export default {
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
+  setup() {
+    return {...useLoginForm()}
+
   },
 
-  data() {
-    return {
-      validatePassword: yup
-        .string()
-        .required()
-        .min(8),
-    };
-  },
-  methods: {
-    onSubmit(values) {
-      alert(JSON.stringify(values, null, 2));
-    },
-    validateEmail(value) {
-      // if the field is empty
-      if (!value) {
-        return "This field is required";
-      }
 
-      // if the field is not a valid email
-      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-        return "This field must be a valid email";
-      }
 
-      // All is good
-      return true;
-    },
-  },
 };
 </script>

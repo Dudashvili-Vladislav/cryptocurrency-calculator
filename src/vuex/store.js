@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import axios from "axios";
 import { setInterval } from "core-js";
+import auth from './modules/auth'
 
 axios.defaults.baseURL = "http://localhost:5000";
 
@@ -20,6 +21,7 @@ let store = createStore({
       loading: false,
       flagQaStruct: false,
       selectedDirection: null,
+      
     };
   },
 
@@ -181,6 +183,9 @@ let store = createStore({
     underlyingChoice: (state) => state.underlying,
     tableList: (state) => state.key,
     maturity: (state) => state.maturity,
+  },
+  modules: {
+    auth,
   },
 });
 

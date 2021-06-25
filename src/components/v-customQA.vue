@@ -281,17 +281,6 @@ export default {
   },
 
   watch: {
-    defolt_expectedMaxPrice(newValue, oldValue) {
-      if (newValue) {
-        let DELAY = 1000; // Задержка
-
-        clearTimeout(this.timerId);
-        this.timerId = setTimeout(() => {
-          this.expectedMaxPrice = this.defolt_expectedMaxPrice;
-        }, DELAY);
-        console.log("newValue-defolt_expectedMaxPrice", newValue);
-      }
-    },
 
     subDirectionFlag(newValue, oldValue) {
       if (newValue) {

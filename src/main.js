@@ -5,11 +5,23 @@ import "./index.css";
 import router from "./router";
 import Vue from "vue";
 import Axios from "axios";
+import firebase from 'firebase/app';
 
 
 
+//config
 
-
+var firebaseConfig = {
+    apiKey: "AIzaSyBDWqkueISEyxBMWHQCoYc8HfqN7SHzt7I",
+    authDomain: "cryptocalculator-26418.firebaseapp.com",
+    databaseURL: "https://cryptocalculator-26418-default-rtdb.firebaseio.com",
+    projectId: "cryptocalculator-26418",
+    storageBucket: "cryptocalculator-26418.appspot.com",
+    messagingSenderId: "430140431415",
+    appId: "1:430140431415:web:19e379138530863ebc33b2"
+  };
+firebase.initializeApp(firebaseConfig);
+console.log("firebaseConfig",firebaseConfig);
 
 const app = createApp(App);
 

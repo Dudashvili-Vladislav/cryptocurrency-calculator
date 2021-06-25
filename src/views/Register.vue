@@ -12,6 +12,7 @@
             <div class="mt-5">
               <Field
                 name="username"
+                v-model="name"
                 type="user"
                 class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
                 id="name"
@@ -24,6 +25,7 @@
             <div class="mt-5">
               <Field
                 name="email"
+                v-model="email"
                 type="email"
                 id="email"
                 class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
@@ -36,6 +38,7 @@
             <div class="mt-5">
               <Field
                 name="password"
+                v-model="password"
                 type="password"
                 id="password"
                 class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
@@ -48,6 +51,7 @@
             <div class="mt-5">
               <Field
                 name="confirmation"
+                v-model="passwordConfirm"
                 type="password"
                 id="passwordConfirm"
                 class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "
@@ -64,6 +68,7 @@
               <button
                 type="submit "
                 class=" focus:outline-none text-white text-sm py-2.5 px-5 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-lg "
+                @click="createNewUser"
               >
                 Registration
               </button>
@@ -91,6 +96,7 @@
 <script>
 import { Field, Form, ErrorMessage, defineRule } from "vee-validate";
 import * as yup from "yup";
+import { values } from 'lodash';
 
 defineRule("confirmed", (value, [target]) => {
   if (value === target) {
@@ -108,17 +114,18 @@ export default {
   },
   data() {
     return {
-      validateUsername: yup.string().required(),
-      validatePassword: yup
-        .string()
-        .required()
-        .min(8),
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+      validateUsername: yup.string().required().trim(),
+      validatePassword: yup.string().required().min(8).trim(),
     };
   },
   methods: {
-    onSubmit(values) {
+    /* onSubmit(values) {
       alert(JSON.stringify(values, null, 2));
-    },
+    }, */
     validateEmail(value) {
       // if the field is empty
       if (!value) {
@@ -132,6 +139,31 @@ export default {
 
       // All is good
       return true;
+    },
+       async onSubmit() {
+        const responce =  await fetch('https://cryptocalculator-26418-default-rtdb.firebaseio.com/users.json', {
+           method: 'POST',
+           headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: this.name,
+          email: this.email,
+          password: this.password
+        })
+      })
+      const firebaseData = await responce.json()
+      console.log(firebaseData)
+      this.name = '',
+      this.email = '',
+      this.password = ''
+      this.passwordConfirm = ''
+    },
+    createNewUser() {
+      this.$store.dispatch('auth/createUser', {
+        email:this.email,
+        password:this.password
+      })
     },
   },
 };

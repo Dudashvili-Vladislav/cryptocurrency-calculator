@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import store from './vuex/store'
+import store from './vuex/store' 
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -12,7 +13,7 @@ const router = createRouter({
       name: 'home',
       component: Home,
       meta: { 
-        requiresAuth: true
+        auth: true,
       }
     },
     {
@@ -28,7 +29,24 @@ const router = createRouter({
   ]
 }) 
 
-/* router.beforeEach((to, from, next) => {
+function getCurrentUser() {
+  const localUserString = window.localStorage.getItem('user') || null;
+  return JSON.parse(localUserString);
+}
+
+router.beforeEach((to,from,next) => {
+  const requiresAuth = to.meta.auth
+
+  if (requiresAuth && getCurrentUser()) {
+    next()
+  } else if (requiresAuth && !getCurrentUser()) {
+    next('/login?message=login')
+  } else {
+    next()
+  }
+})
+
+/*  router.beforeEach((to, from, next) => {
   console.log('user', store.user)
   // если залогинен => redirect next()
   // если не залогинен => redirect на стринацу логина
@@ -43,6 +61,8 @@ const router = createRouter({
     next()
   }
   
-}) */
+})  */
+
+
 
 export default router
