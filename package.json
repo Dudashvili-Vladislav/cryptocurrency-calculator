@@ -28,6 +28,7 @@
     "vue": "^3.0.0",
     "vue-3-socket.io": "^1.0.2",
     "vue-router": "^4.0.8",
+    "vue-slider-component": "^4.0.0-beta.4",
     "vue3-chart-v2": "^0.8.2",
     "vuelidate": "^0.7.6",
     "vuex": "^4.0.0",

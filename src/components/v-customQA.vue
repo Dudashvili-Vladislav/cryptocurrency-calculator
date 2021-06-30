@@ -57,14 +57,15 @@
         </vSelect>
       </div>
       <div class="slederCustomQa">
-        <Slider
-          class="mt-20"
-          v-model="expectedMinPrice"
-          :min="minSlider"
-          :max="maxSlider"
-          :step="stepSlider"
-          @change="changeMinPrice"
-        />
+        <div class="mt-20">
+          <vue-slider
+            v-model="expectedMinPrice"
+            :min="minSlider"
+            :max="maxSlider"
+            :step="stepSlider"
+            @change="changeMinPrice"
+          ></vue-slider>
+        </div>
         <div class="number flex justify-between">
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
         </div>
@@ -82,14 +83,16 @@
       </vCheckbox>
 
       <div class="slederCustomQa">
-        <Slider
-          class="mt-20"
-          v-model="expectedMaxPrice"
-          :min="minSlider"
-          :max="maxSlider"
-          :step="stepSlider"
-          @change="changeMaxPrice"
-        />
+        <div class="mt-20">
+          <vue-slider
+            v-model="expectedMaxPrice"
+            :min="minSlider"
+            :max="maxSlider"
+            :step="stepSlider"
+            @change="changeMaxPrice"
+          >
+          </vue-slider>
+        </div>
         <div class="number flex justify-between">
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
         </div>
@@ -177,7 +180,7 @@
             </tr>
           </tbody>
         </table>
-        <div class="v-call-spread-right flex pb-2 " >
+        <div class="v-call-spread-right flex pb-2 ">
           <div class="slippage mt-14 text-lg border-b-2 border-gray-500">
             {{ max_slippage }}
           </div>
@@ -196,13 +199,17 @@
 </template>
 
 <script>
+import VueSlider from "vue-slider-component/dist-css/vue-slider-component.umd.min.js";
+import "vue-slider-component/dist-css/vue-slider-component.css";
+import "vue-slider-component/theme/default.css";
+
 import { mapGetters, mapActions, mapState } from "vuex";
 // import throttle from "../../../calculator-master_v1.1/src/throttle";
 
 import vHeaderForms from "./header/v-header-forms";
 import vSelect from "./header/forms/v-select";
 import vAmount from "./header/forms/v-amount";
-import Slider from "@vueform/slider";
+/* import Slider from "@vueform/slider"; */
 import vCheckbox from "./header/forms/v-checkbox";
 import vLineChart from "@/components/charts/v-line-chart";
 import vButton from "@/components/v-button";
@@ -215,7 +222,8 @@ export default {
     vHeaderForms,
     vSelect,
     vAmount,
-    Slider,
+    VueSlider,
+    /*     Slider, */
     vCheckbox,
     vLineChart,
     vButton,
@@ -276,12 +284,21 @@ export default {
         max_slippage: this.slippage,
       };
     },
-    
+
     ...mapGetters(["fullDataList", "tableList"]),
   },
 
   watch: {
+    saveDirection(newValue, oldValue) {
+      if (newValue) {
+        let DELAY = 1000; // Задержка
 
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(() => {
+          this.FieldsCheck();
+        }, DELAY);
+      }
+    },
     subDirectionFlag(newValue, oldValue) {
       if (newValue) {
         let DELAY = 1000; // Задержка
@@ -358,8 +375,8 @@ export default {
     async getMaturity(underlying) {
       this.maturityList = await this.getMaturity_actions(underlying);
       const result = await this.getStrikes_actions(this.selectedCoin); //BTC-ETH
-      console.log('.main_value', result[this.selectedCoin].main_value)
-      console.log('sub_value', result[this.selectedCoin].sub_value)
+      console.log(".main_value", result[this.selectedCoin].main_value);
+      console.log("sub_value", result[this.selectedCoin].sub_value);
       this.minSlider = result[this.selectedCoin].min;
       this.maxSlider = result[this.selectedCoin].max;
       this.stepSlider = result[this.selectedCoin].step;
@@ -371,9 +388,14 @@ export default {
       this.selectedDate = null;
       this.coinAmount = 0;
       this.chartData = {};
-      this.max_slippage = null 
-      this.tableData = null
+      this.max_slippage = null;
+      this.tableData = null;
       this.selectedDirection = null;
+      this.futHedgeFlag_top = false;
+      this.futHedgeFlag_down = false;
+      this.saveDirection = false;
+      this.subDirectionFlag = false;
+
     },
 
     setupSliderLabels() {

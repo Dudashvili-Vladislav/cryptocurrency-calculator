@@ -6,6 +6,10 @@ import router from "./router";
 import Vue from "vue";
 import Axios from "axios";
 import firebase from 'firebase/app';
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/default.css'
+
+
 
 
 

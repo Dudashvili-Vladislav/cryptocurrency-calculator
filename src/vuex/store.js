@@ -21,11 +21,20 @@ let store = createStore({
       loading: false,
       flagQaStruct: false,
       selectedDirection: null,
+      message: null,
       
     };
   },
 
   mutations: {
+    setMessage(state, message) {
+      state.message = message
+    },
+
+    clearMessage(state) {
+      state.message = null
+    },
+
     setMaturityList_mutations(state, maturityList) {
       state.maturityList = maturityList;
     },
@@ -76,6 +85,13 @@ let store = createStore({
   },
 
   actions: {
+    setMessage({commit}, message) {
+      commit('setMessage', message)
+      setTimeout( () => {
+        commit('clearMessage')
+      }, 3000)
+    },
+
     async getMaturity_actions({ commit }, underlying) {
       // Получаем все даты
       try {

@@ -61,30 +61,25 @@
               <ErrorMessage name="confirmation" />
             </div>
 
-
-
             <div class="wrapper-btn flex">
-            <div class="mt-10 m-auto">
-              <button
-                type="submit "
-                class=" focus:outline-none text-white text-sm py-2.5 px-5 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-lg "
-                @click="createNewUser"
-              >
-                Registration
-              </button>
-            </div>
+              <div class="mt-10 m-auto">
+                <button
+                  type="submit "
+                  class=" focus:outline-none text-white text-sm py-2.5 px-5 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-lg "
+                  @click="register"
+                >
+                  Registration
+                </button>
+              </div>
             </div>
             <div class="hr mt-5">
               <hr />
             </div>
           </Form>
-          <p 
-          class="text-center mt-5">
+          <p class="text-center mt-5">
             Do you have an account?
-            <router-link 
-            class="router text-yellow-400" 
-            to="/login">
-            Login
+            <router-link class="router text-yellow-400" to="/login">
+              Login
             </router-link>
           </p>
         </div>
@@ -96,7 +91,12 @@
 <script>
 import { Field, Form, ErrorMessage, defineRule } from "vee-validate";
 import * as yup from "yup";
-import { values } from 'lodash';
+import { values } from "lodash";
+import { useRouter } from "vue-router";
+import { mapActions } from "vuex";
+
+
+const router = useRouter();
 
 defineRule("confirmed", (value, [target]) => {
   if (value === target) {
@@ -114,15 +114,25 @@ export default {
   },
   data() {
     return {
-      name: '',
-      email: '',
-      password: '',
-      passwordConfirm: '',
-      validateUsername: yup.string().required().trim(),
-      validatePassword: yup.string().required().min(8).trim(),
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirm: "",
+      validateUsername: yup
+        .string()
+        .required()
+        .trim(),
+      validatePassword: yup
+        .string()
+        .required()
+        .min(8)
+        .trim(),
     };
   },
   methods: {
+        ...mapActions({
+      createUser: 'auth/createUser'
+    }),
     /* onSubmit(values) {
       alert(JSON.stringify(values, null, 2));
     }, */
@@ -140,32 +150,43 @@ export default {
       // All is good
       return true;
     },
-       async onSubmit() {
-        const responce =  await fetch('https://cryptocalculator-26418-default-rtdb.firebaseio.com/users.json', {
-           method: 'POST',
-           headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: this.name,
-          email: this.email,
-          password: this.password
-        })
-      })
-      const firebaseData = await responce.json()
-      console.log(firebaseData)
-      this.name = '',
-      this.email = '',
-      this.password = ''
-      this.passwordConfirm = ''
+    async onSubmit() {
+      const responce = await fetch(
+        "https://cryptocalculator-26418-default-rtdb.firebaseio.com/users.json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: this.name,
+            email: this.email,
+            password: this.password,
+          }),
+        }
+      );
+      const firebaseData = await responce.json();
+      console.log(firebaseData);
+      (this.name = ""), (this.email = ""), (this.password = "");
+      this.passwordConfirm = "";
     },
-    createNewUser() {
-      this.$store.dispatch('auth/createUser', {
-        email:this.email,
-        password:this.password
-      })
-      // переход на главную страницу
-    },
+/*     createNewUser() {
+      this.$store.dispatch("auth/createUser", {
+        email: this.email,
+        password: this.password,
+      });
+      this.$router.push({ name: "home" });
+    }, */
+
+    async register() {
+      try {
+        await this.createUser({ email: this.email, password: this.password })
+        this.$router.push({name: 'home'})
+      } catch (error) {
+        this.errorMessage = error
+      } 
+    }
+  
   },
 };
 </script>

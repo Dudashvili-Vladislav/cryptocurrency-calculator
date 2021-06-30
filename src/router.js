@@ -33,7 +33,6 @@ function getCurrentUser() {
   const localUserString = window.localStorage.getItem('user') || null;
   return JSON.parse(localUserString);
 }
-
 router.beforeEach((to,from,next) => {
   const requiresAuth = to.meta.auth
 
