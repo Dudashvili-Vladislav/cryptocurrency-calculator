@@ -277,8 +277,8 @@ export default {
         maturity: this.selectedDate,
         amount: this.coinAmount,
         main_direction: this.selectedDirection,
-        fut_hedge_flag: this.convertBooleanToString(this.saveDirection),
-        sub_direction_flag: this.convertBooleanToString(this.subDirectionFlag),
+        fut_hedge_flag: this.convertBooleanToString(this.subDirectionFlag),
+        sub_direction_flag: this.convertBooleanToString(this.saveDirection),
         main_range: [...this.expectedMinPrice],
         sub_range: [...this.expectedMaxPrice],
         max_slippage: this.slippage,
@@ -297,6 +297,16 @@ export default {
         this.timerId = setTimeout(() => {
           this.FieldsCheck();
         }, DELAY);
+        console.log("newValue-ssaveDirection", newValue);
+      }
+      if (oldValue) {
+        let DELAY = 1000; // Задержка
+
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(() => {
+          this.FieldsCheck();
+        }, DELAY);
+        console.log("oldValue-ssaveDirection", oldValue);
       }
     },
     subDirectionFlag(newValue, oldValue) {
@@ -395,7 +405,6 @@ export default {
       this.futHedgeFlag_down = false;
       this.saveDirection = false;
       this.subDirectionFlag = false;
-
     },
 
     setupSliderLabels() {

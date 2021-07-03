@@ -2,43 +2,45 @@
 import { Line } from "vue3-chart-v2";
 
 export default {
-  extends: Line ,
+  extends: Line,
 
   props: {
     dataset: {
       type: Object,
       default: () => {},
     },
-    title:{
+    title: {
       type: String,
       default: "",
     },
-    
   },
 
   watch: {
     dataset: {
       handler(newValue, oldValue) {
-/*         console.log("newValue",newValue) */
-        if (newValue ) {
+        /*         console.log("newValue",newValue) */
+        if (newValue) {
           let chartData = {
             labels: this.dataset["x"],
+
             datasets: [
               {
+                intersect: false,
                 label: "First Y Data 1",
                 hidden: true,
-                showLine:true,
-                backgroundColor :"rgb(185, 223, 250, 1)",
+                showLine: true,
+                pointHoverBackgroundColor: "rgb(57, 208, 103)",
+                backgroundColor: "rgb(185, 223, 250, 1)",
                 borderColor: "rgb(57, 86, 204, 1)",
-                data: this.dataset["y_portf"]
-   
+                data: this.dataset["y_portf"],
               },
-                 {
+              {
                 label: "Second Y Data 2",
-                showLine:true,
-                backgroundColor :"rgb(247, 173, 186, 1)",
+                showLine: true,
+                pointHoverBackgroundColor: "rgb(57, 208, 103)",
+                backgroundColor: "rgb(247, 173, 186, 1)",
                 borderColor: "rgba(201, 26, 41, 1)",
-                data: this.dataset["y_struct"]
+                data: this.dataset["y_struct"],
               },
             ],
           };
@@ -59,10 +61,8 @@ export default {
     },
   },
 
-
   mounted() {
-/*     console.log("Данные data: ", this.dataset) */
-    
+    /*     console.log("Данные data: ", this.dataset) */
   },
 };
 </script>

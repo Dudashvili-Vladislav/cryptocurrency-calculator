@@ -184,7 +184,7 @@ let store = createStore({
     async getQaStructs_actions(context, params) {
       console.log("params", params);
       try {
-        const url = `/qaStructs?currency=${params.currency}&maturity=${params.maturity}&amount=${params.amount}&fut_hedge_flag=${params.fut_hedge_flag}&main_direction=${params.main_direction}&main_range=[${params.main_range}]&sub_direction_flag=${params.sub_direction_flag}&sub_range=[${params.sub_range}]`;
+        const url = `/qaStructs?currency=${params.currency}&maturity=${params.maturity}&amount=${params.amount}&fut_hedge_flag=${params.fut_hedge_flag}&main_direction=${params.main_direction}&main_range=[${params.main_range}]&sub_direction_flag=${params.sub_direction_flag}&sub_range=[${params.sub_range}]&max_slippage=[${params.max_slippage}]`;
         const response = await axios.get(url);
         return response.data.data;
       } catch (error) {

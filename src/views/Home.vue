@@ -22,13 +22,13 @@
           >
         </li>
 
-        <li class="mr-1 pr-2 ">
+<!--         <li class="mr-1 pr-2 ">
           <a
             @click="activeTab = 2"
             class="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-dark font-semibold"
             >Custom Pro</a
           >
-        </li>
+        </li> -->
 
         <li class="mr-1 pr-2">
           <a
