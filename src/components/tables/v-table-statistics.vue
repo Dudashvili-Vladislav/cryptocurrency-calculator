@@ -1,6 +1,11 @@
 <template>
   <div class="v-table-statistics flex justify-between w-full items-center">
-    <vLineChart
+<!--     <vLineChart
+      class="text-left chart-v min-w-2/3 w-2/3"
+      :dataset="chartData"
+      :title="title"
+    /> -->
+    <vLineChart2
       class="text-left chart-v min-w-2/3 w-2/3"
       :dataset="chartData"
       :title="title"
@@ -86,12 +91,14 @@
 import vButton from "@/components/v-button";
 import { mapGetters, mapActions } from "vuex";
 import vLineChart from "@/components/charts/v-line-chart";
+import vLineChart2 from "@/components/charts/v-line-chart-2"
 
 export default {
   name: "v-table-statistics",
 
   components: {
     vLineChart,
+    vLineChart2,
     vButton,
   },
 

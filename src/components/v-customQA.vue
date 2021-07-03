@@ -116,7 +116,12 @@
     </h3>
 
     <div class="v-table-statistics flex justify-between w-full items-center">
-      <vLineChart
+<!--       <vLineChart
+        class="text-left chart-v min-w-2/3 w-2/3"
+        :dataset="chartData"
+        :title="title"
+      /> -->
+      <vLineChart2
         class="text-left chart-v min-w-2/3 w-2/3"
         :dataset="chartData"
         :title="title"
@@ -212,6 +217,7 @@ import vAmount from "./header/forms/v-amount";
 /* import Slider from "@vueform/slider"; */
 import vCheckbox from "./header/forms/v-checkbox";
 import vLineChart from "@/components/charts/v-line-chart";
+import vLineChart2 from "@/components/charts/v-line-chart-2"
 import vButton from "@/components/v-button";
 import axios from "axios";
 
@@ -226,6 +232,7 @@ export default {
     /*     Slider, */
     vCheckbox,
     vLineChart,
+    vLineChart2,
     vButton,
   },
   emits: ["upGetStatisctics"],

@@ -8,6 +8,8 @@ import Axios from "axios";
 import firebase from 'firebase/app';
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
+import VueApexCharts from "vue3-apexcharts";
+
 
 
 
@@ -41,6 +43,8 @@ if (window.localStorage) {
 
 const app = createApp(App);
 
+
+app.use(VueApexCharts);
 app.use(router);
 app.use(store);
 app.mount("#app");
