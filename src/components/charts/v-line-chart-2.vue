@@ -1,6 +1,7 @@
 <template>
   <div>
     <div id="chart">
+      Title: {{ title }}
       <apexchart
         type="line"
         height="350"
@@ -28,75 +29,48 @@ export default {
     },
   },
 
+  data() {
+    return {
+      series: [],
+      chartOptions: {}
+    }
+  },
+
   watch: {
+    title (val) {
+      console.log('val', val)
+    },
+
     dataset: {
-      handler(newValue, oldValue) {
-        if (newValue) {
-          let chartData = {
-            datasets: {
-              chartOptions: {
-                series: [
-                  {
-                    name: "First Y Data 1",
-                    data: [
-                      {
-                        x: this.dataset["x"],
-                        y: this.dataset["y_portf"],
-                      },
-                    ],
-                  },
-                  {
-                    name: "Second Y Data 2",
-                    data: [
-                      {
-                        x: this.dataset["x"],
-                        y: this.dataset["y_struct"],
-                      },
-                    ],
-                  },
-                ],
-                chart: {
-                  height: 350,
-                  type: "line",
-                  zoom: {
-                    enabled: false,
-                  },
-                },
-                dataLabels: {
-                  enabled: false,
-                },
-                stroke: {
-                  curve: "straight",
-                },
-                title: {
-                  text: "TEST №1",
-                  align: "left",
-                },
-                grid: {
-                  row: {
-                    colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-                    opacity: 0.5,
-                  },
-                },
-                xaxis: {
-                  type: "numeric",
-                },
-              },
+      handler: function (newValue, oldVal) {
+        console.log('nununununun', newValue);
+        if (newValue && newValue["x"]) {
+          let series = [
+            {
+              name: "First Y Data 1",
+              data: this.dataset["y_portf"].map((item,index)=>{
+                  return{
+                      x:this.dataset["x"][index],
+                      y:item.toFixed(2)
+                  }
+              })
             },
-          };
-          this.$nextTick().then(() => {
-            this.renderChart(chartData, {
-              responsive: true,
-              maintainAspectRatio: false,
-              title: {
-                display: true,
-                text: this.title,
-              },
-            });
-          });
+            {
+              name: "Second Y Data 2",
+              data: this.dataset["y_struct"].map((item,index)=>{
+                  return{
+                      x:this.dataset["x"][index],
+                      y:item.toFixed(2)
+                  }
+              }),
+            },
+          ]
+          this.series = series
         }
       },
-    },
+      deep: true,
+      immediate: true,
+    }
   },
 };
 </script>
