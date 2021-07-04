@@ -33,19 +33,28 @@ export default {
       handler(newValue, oldValue) {
         if (newValue) {
           let chartData = {
-            labels: this.dataset["x"],
             datasets: {
-              series: [
-                {
-                  name: "First Y Data 1",
-                  data: this.dataset["y_portf"],
-                },
-                {
-                  name: "Second Y Data 2",
-                  data: this.dataset["y_struct"],
-                },
-              ],
               chartOptions: {
+                series: [
+                  {
+                    name: "First Y Data 1",
+                    data: [
+                      {
+                        x: this.dataset["x"],
+                        y: this.dataset["y_portf"],
+                      },
+                    ],
+                  },
+                  {
+                    name: "Second Y Data 2",
+                    data: [
+                      {
+                        x: this.dataset["x"],
+                        y: this.dataset["y_struct"],
+                      },
+                    ],
+                  },
+                ],
                 chart: {
                   height: 350,
                   type: "line",
@@ -70,7 +79,7 @@ export default {
                   },
                 },
                 xaxis: {
-                  categories: ['Jan', 'Feb', 'Mar'],
+                  type: "numeric",
                 },
               },
             },
