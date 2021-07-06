@@ -192,8 +192,7 @@
               v-model="max_slippage"
               name="inputSlipage"
               id="slipage"
-              type="text"
-              v-if="max_slippage"
+              type="number"
             />
             <!--             {{ max_slippage }} -->
           </div>
@@ -283,6 +282,7 @@ export default {
       sliderLabels: [],
 
       timerId: null,
+      intervalTimerId: null
     };
   },
 
@@ -450,7 +450,8 @@ export default {
 
     async setDirection() {
       let shit = 0;
-      setInterval(async () => {
+      clearTimeout(this.intervalTimerId)
+      this.intervalTimerId = setInterval(async () => {
         try {
           const result = await this.$store.dispatch(
             "getQaStructs_actions",
