@@ -102,33 +102,33 @@
         </vCheckbox>
       </div>
 
-      <h3 class="w-full mt-10 ml-8 ">
+      <h3 class="w-full mt-5 ml-8 ">
         Хотите ли получать дополнительную прибыль за счет продажи фьючерса?
       </h3>
-      <vCheckbox v-model="subDirectionFlag">
+      <vCheckbox class="mt-5" v-model="subDirectionFlag">
         Да / Нет
       </vCheckbox>
     </div>
 
-    <h3 class="w-full mt-10 ml-8 ">
+    <h3 class="w-full mt-5 ml-16 ">
       Продажа фьючерса требует внесения на счет базового актива в количестве
       равном номиналу проданных фьючерсов.
     </h3>
 
     <div class="v-table-statistics flex justify-between w-full items-center">
-<!--       <vLineChart
+      <!--       <vLineChart
         class="text-left chart-v min-w-2/3 w-2/3"
         :dataset="chartData"
         :title="title"
       /> -->
       <vLineChart2
-        class="text-left chart-v min-w-2/3 w-2/3"
+        v-if="chartData"
+        class="text-left chart-v min-w-2/3 w-2/3 mt-5"
         :dataset="chartData"
-        :title="title"
       />
 
-      <div class="wrapper-text w-1/3 mt-20 ml-5 ">
-        <div class="text pr-3 ">{{ description }}</div>
+      <div class="wrapper-text w-1/3 mt-20 ml-10 ">
+        <div class="text pr-3 "></div>
 
         <table
           v-if="tableData && selectedCoin"
@@ -185,15 +185,23 @@
             </tr>
           </tbody>
         </table>
-        <div class="v-call-spread-right flex pb-2 ">
-          <div class="slippage mt-14 text-lg border-b-2 border-gray-500">
-            {{ max_slippage }}
+        <div class="v-call-spread-right flex pb-2  ">
+          <div class="mt-12">
+            <input
+              class="input border border-gray-400   rounded px-3 py-3  pb-2    "
+              v-model="max_slippage"
+              name="inputSlipage"
+              id="slipage"
+              type="text"
+              v-if="max_slippage"
+            />
+            <!--             {{ max_slippage }} -->
           </div>
           <v-button
             @upGetStatisctics="
               sendOrder({
                 tableData: tableData,
-                max_slippage: max_slippage,
+                max_slippage: Number(max_slippage),
               })
             "
           />
@@ -217,7 +225,7 @@ import vAmount from "./header/forms/v-amount";
 /* import Slider from "@vueform/slider"; */
 import vCheckbox from "./header/forms/v-checkbox";
 import vLineChart from "@/components/charts/v-line-chart";
-import vLineChart2 from "@/components/charts/v-line-chart-2"
+import vLineChart2 from "@/components/charts/v-line-chart-2";
 import vButton from "@/components/v-button";
 import axios from "axios";
 
@@ -270,6 +278,7 @@ export default {
       description: "Description from DATA",
       chartData: {},
       max_slippage: null,
+      name: "null",
       title: "Chart title from DATA",
       sliderLabels: [],
 
@@ -288,7 +297,7 @@ export default {
         sub_direction_flag: this.convertBooleanToString(this.saveDirection),
         main_range: [...this.expectedMinPrice],
         sub_range: [...this.expectedMaxPrice],
-        max_slippage: this.slippage,
+        max_slippage: this.max_slippage,
       };
     },
 
@@ -339,6 +348,7 @@ export default {
 
     expectedMaxPrice(newValue, oldValue) {
       if (newValue) {
+        console.log("expectedMaxPrice", newValue);
         let DELAY = 1000; // Задержка
 
         clearTimeout(this.timerId);
@@ -350,6 +360,7 @@ export default {
 
     expectedMinPrice(newValue, oldValue) {
       if (newValue) {
+        console.log("expectedMinPrice", newValue);
         let DELAY = 1000; // Задержка
 
         clearTimeout(this.timerId);
@@ -404,7 +415,7 @@ export default {
       this.setupSliderLabels();
       this.selectedDate = null;
       this.coinAmount = 0;
-      this.chartData = {};
+      this.chartData = null;
       this.max_slippage = null;
       this.tableData = null;
       this.selectedDirection = null;
@@ -451,7 +462,11 @@ export default {
               this.chartData = result[0].chart;
             }
             this.tableData = result[0].table;
-            this.max_slippage = result[0].max_slippage;
+            if (!this.max_slippage) {
+              this.max_slippage = result[0].max_slippage;
+            }
+            console.log("max_slippage", this.max_slippage);
+            console.log("chartData", this.chartData);
           }
         } catch (error) {
           console.log(error);

@@ -1,7 +1,10 @@
 <template>
   <div>
     <div id="chart">
-      Title: {{ title }}
+      <h2 class="text-lg text-center font-semibold" v-if="title">
+        {{ title }}
+      </h2>
+
       <apexchart
         type="line"
         height="350"
@@ -32,45 +35,56 @@ export default {
   data() {
     return {
       series: [],
-      chartOptions: {}
-    }
+      chartOptions: {
+        xaxis: {
+          labels: {
+            rotate: 0,
+          },
+        },
+        theme: {
+          palette: "palette7", // upto palette10
+        },
+        tickAmount: 'dataPoints',
+        
+      },
+    };
   },
 
   watch: {
-    title (val) {
-      console.log('val', val)
+    title(val) {
+      console.log("val", val);
     },
 
     dataset: {
-      handler: function (newValue, oldVal) {
-        console.log('nununununun', newValue);
+      handler: function(newValue, oldVal) {
+        console.log("nununununun", newValue);
         if (newValue && newValue["x"]) {
           let series = [
             {
               name: "First Y Data 1",
-              data: this.dataset["y_portf"].map((item,index)=>{
-                  return{
-                      x:this.dataset["x"][index],
-                      y:item.toFixed(2)
-                  }
-              })
+              data: this.dataset["y_portf"].map((item, index) => {
+                return {
+                  x: this.dataset["x"][index],
+                  y: item.toFixed(2),
+                };
+              }),
             },
             {
               name: "Second Y Data 2",
-              data: this.dataset["y_struct"].map((item,index)=>{
-                  return{
-                      x:this.dataset["x"][index],
-                      y:item.toFixed(2)
-                  }
+              data: this.dataset["y_struct"].map((item, index) => {
+                return {
+                  x: this.dataset["x"][index],
+                  y: item.toFixed(2),
+                };
               }),
             },
-          ]
-          this.series = series
+          ];
+          this.series = series;
         }
       },
       deep: true,
       immediate: true,
-    }
+    },
   },
 };
 </script>

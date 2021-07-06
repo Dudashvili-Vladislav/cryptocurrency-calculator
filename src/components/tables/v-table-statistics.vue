@@ -1,6 +1,6 @@
 <template>
   <div class="v-table-statistics flex justify-between w-full items-center">
-<!--     <vLineChart
+    <!--     <vLineChart
       class="text-left chart-v min-w-2/3 w-2/3"
       :dataset="chartData"
       :title="title"
@@ -12,7 +12,7 @@
     />
 
     <div class="wrapper-text w-1/3 mt-20 ml-5 ">
-      <div class="text pr-3 ">{{ description }}</div>
+      <div class="text pr-3" v-if="description">{{ description }}</div>
 
       <table
         class="table-auto text-center mt-5 justify-end m-left w-full table-statistic"
@@ -42,9 +42,7 @@
             <td>Structure product price</td>
             <td>
               {{
-                tableData[underlyingChoice]["Structure product price"].toFixed(
-                  2
-                )
+                tableData[underlyingChoice]["Structure product price"].toFixed(2)
               }}
             </td>
             <td>{{ tableData["%"]["Structure product price"].toFixed(2) }}</td>
@@ -91,7 +89,7 @@
 import vButton from "@/components/v-button";
 import { mapGetters, mapActions } from "vuex";
 import vLineChart from "@/components/charts/v-line-chart";
-import vLineChart2 from "@/components/charts/v-line-chart-2"
+import vLineChart2 from "@/components/charts/v-line-chart-2";
 
 export default {
   name: "v-table-statistics",
