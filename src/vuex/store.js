@@ -96,6 +96,7 @@ let store = createStore({
       // Получаем все даты
       try {
         const url = "/maturities";
+        console.log("options",options);
         const options = {
           params: { currency: underlying },
         };

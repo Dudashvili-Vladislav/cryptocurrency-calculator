@@ -60,10 +60,13 @@
         <div class="mt-20">
           <vue-slider
             v-model="expectedMinPrice"
+            :marks="markSliderCoin"
+            :interval="100"
             :min="minSlider"
             :max="maxSlider"
             :step="stepSlider"
             @change="changeMinPrice"
+            :enable-cross="false"
           ></vue-slider>
         </div>
         <div class="number flex justify-between">
@@ -86,10 +89,12 @@
         <div class="mt-20">
           <vue-slider
             v-model="expectedMaxPrice"
+            :marks="markSliderCoin"
+            :interval="100"
             :min="minSlider"
             :max="maxSlider"
-            :step="stepSlider"
             @change="changeMaxPrice"
+            :enable-cross="false"
           >
           </vue-slider>
         </div>
@@ -246,6 +251,8 @@ export default {
 
   data() {
     return {
+      value: 0,
+
       futHedgeFlag_down: false,
       futHedgeFlag_top: false,
       subDirectionFlag: false,
@@ -257,7 +264,7 @@ export default {
       underlyingList: ["BTC", "ETH"],
       directionOptions: ["Up", "Down"],
       maturityList: [],
-      expectedMinPrice: [0, 150000],
+      expectedMinPrice: 0,
       expectedMaxPrice: [0, 150000],
 
       defolt_expectedMinPrice: [0, 150000],
@@ -282,7 +289,10 @@ export default {
       sliderLabels: [],
 
       timerId: null,
-      intervalTimerId: null
+      intervalTimerId: null,
+
+      markSlider: null,
+      markSliderEth: null,
     };
   },
 
@@ -300,12 +310,24 @@ export default {
         max_slippage: this.max_slippage,
       };
     },
+    markSliderCoin() {
+      switch (this.selectedCoin) {
+        case "BTC":
+          return this.markSlider;
+        case "ETH":
+          return this.markSliderEth;
+
+        default:
+          return null;
+      }
+    },
 
     ...mapGetters(["fullDataList", "tableList"]),
   },
 
   watch: {
     saveDirection(newValue, oldValue) {
+      //Checkbox
       if (newValue) {
         let DELAY = 1000; // Задержка
 
@@ -326,6 +348,7 @@ export default {
       }
     },
     subDirectionFlag(newValue, oldValue) {
+      //Checkbox
       if (newValue) {
         let DELAY = 1000; // Задержка
 
@@ -349,33 +372,25 @@ export default {
     expectedMaxPrice(newValue, oldValue) {
       if (newValue) {
         console.log("expectedMaxPrice", newValue);
-        let DELAY = 1000; // Задержка
-
-        clearTimeout(this.timerId);
-        this.timerId = setTimeout(() => {
-          this.FieldsCheck();
-        }, DELAY);
+        this.FieldsCheck();
       }
     },
 
     expectedMinPrice(newValue, oldValue) {
       if (newValue) {
         console.log("expectedMinPrice", newValue);
-        let DELAY = 1000; // Задержка
-
-        clearTimeout(this.timerId);
-        this.timerId = setTimeout(() => {
-          this.FieldsCheck();
-        }, DELAY);
+        this.FieldsCheck();
       }
     },
 
     futHedgeFlag_top(newValue, oldValue) {
+      //Checkbox
       if (newValue) {
         this.expectedMinPrice = this.defolt_expectedMinPrice;
       }
     },
     futHedgeFlag_down(newValue, oldValue) {
+      //Checkbox
       if (newValue) {
         this.expectedMaxPrice = this.defolt_expectedMaxPrice;
       }
@@ -412,7 +427,7 @@ export default {
       this.defolt_expectedMinPrice = [...result[this.selectedCoin].main_value];
       this.expectedMaxPrice = [...result[this.selectedCoin].sub_value];
       this.defolt_expectedMaxPrice = [...result[this.selectedCoin].sub_value];
-      this.setupSliderLabels();
+      /* this.setupSliderLabels();   */
       this.selectedDate = null;
       this.coinAmount = 0;
       this.chartData = null;
@@ -423,11 +438,13 @@ export default {
       this.futHedgeFlag_down = false;
       this.saveDirection = false;
       this.subDirectionFlag = false;
+      this.markSlider = (v) => !(v % 25000);
+      this.markSliderEth = (v) => !(v % 1000); 
     },
 
     setupSliderLabels() {
       this.sliderLabels = [];
-      const labelsAmount = 16;
+      const labelsAmount = 15;
       const labelStep = Math.ceil(this.maxSlider / labelsAmount / 100) * 100;
       let currentLabel = 0;
       for (let index = 0; index < labelsAmount; index++) {
@@ -450,7 +467,7 @@ export default {
 
     async setDirection() {
       let shit = 0;
-      clearTimeout(this.intervalTimerId)
+      clearTimeout(this.intervalTimerId);
       this.intervalTimerId = setInterval(async () => {
         try {
           const result = await this.$store.dispatch(

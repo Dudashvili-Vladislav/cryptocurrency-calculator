@@ -10,6 +10,7 @@
         height="350"
         :options="chartOptions"
         :series="series"
+        ref="chart"
       ></apexchart>
     </div>
   </div>
@@ -37,6 +38,7 @@ export default {
       series: [],
       chartOptions: {
         xaxis: {
+          type: "numeric",
           labels: {
             rotate: 0,
           },
@@ -44,8 +46,38 @@ export default {
         theme: {
           palette: "palette7", // upto palette10
         },
-        tickAmount: 'dataPoints',
-        
+        tickAmount: "dataPoints",
+        grid: {
+
+          show: true,
+          borderColor: "#90A4AE",
+          strokeDashArray: 0,
+          position: "back",
+          xaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          yaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          row: {
+            colors: undefined,
+            opacity: 0.5,
+          },
+          column: {
+            colors: undefined,
+            opacity: 0.5,
+          },
+          padding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+          },
+        },
       },
     };
   },
@@ -61,7 +93,8 @@ export default {
         if (newValue && newValue["x"]) {
           let series = [
             {
-              name: "First Y Data 1",
+              name: "First Y Data 1 - portfolio pnl",
+                        
               data: this.dataset["y_portf"].map((item, index) => {
                 return {
                   x: this.dataset["x"][index],
@@ -70,7 +103,7 @@ export default {
               }),
             },
             {
-              name: "Second Y Data 2",
+              name: "First Y Data 2 - structure pnl",
               data: this.dataset["y_struct"].map((item, index) => {
                 return {
                   x: this.dataset["x"][index],
@@ -79,6 +112,7 @@ export default {
               }),
             },
           ];
+
           this.series = series;
         }
       },
@@ -86,6 +120,11 @@ export default {
       immediate: true,
     },
   },
+  mounted() {
+  this.$nextTick(() => {
+    this.$refs.chart.hideSeries('First Y Data 1 - portfolio pnl');
+  });
+},
 };
 </script>
 

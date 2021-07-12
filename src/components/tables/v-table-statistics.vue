@@ -6,6 +6,7 @@
       :title="title"
     /> -->
     <vLineChart2
+      v-if="chartData"
       class="text-left chart-v min-w-2/3 w-2/3"
       :dataset="chartData"
       :title="title"
@@ -42,7 +43,9 @@
             <td>Structure product price</td>
             <td>
               {{
-                tableData[underlyingChoice]["Structure product price"].toFixed(2)
+                tableData[underlyingChoice]["Structure product price"].toFixed(
+                  2
+                )
               }}
             </td>
             <td>{{ tableData["%"]["Structure product price"].toFixed(2) }}</td>
@@ -69,14 +72,21 @@
         </tbody>
       </table>
       <div class="v-call-spread-right flex pb-2">
-        <div class="slippage mt-14 text-lg border-b-2 border-gray-500">
+        <input
+              class="input border border-gray-400 mt-11  rounded px-3 py-3  pb-2    "
+              v-model="mission"
+              name="inputSlipage"
+              id="slipage"
+              type="number"
+            />
+        <!-- <div class="slippage mt-14 text-lg border-b-2 border-gray-500">
           {{ slippage }}
-        </div>
+        </div> -->
         <v-button
           @upGetStatisctics="
             sendOrder({
               tableData: tableData,
-              slippage: slippage,
+              slippage: Number(mission),
             })
           "
         />
@@ -165,7 +175,9 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+       mission: this.slippage,
+    };
   },
 };
 </script>
