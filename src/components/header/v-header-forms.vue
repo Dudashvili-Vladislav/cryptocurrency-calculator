@@ -1,47 +1,42 @@
 <template>
   <div class="v-header-forms">
-    <div class="containet mx-auto px-10 text-sm">
-      <div class="header flex justify-start">
-
-        <div
-          class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
-        >
-          <vSelect 
-            v-model="selectedunderlying"
-            :label="'Underlying'"
-            :options="underlyingList"
-            @change="getMaturity"
-          >
-          </vSelect>
-        </div>
-
-        <div
-          class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start ml-8"
-        >
-
-          <vSelect 
-            v-model="selectedMaturity"
-            :label="'Maturity'"
-            :options="maturityList"
-            @change="setMaturity"
-          >
-          </vSelect>
-
-
-        </div>
-        <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
-          <vAmount 
-          v-model="coinAmount" 
-          @click.prevent="$emit('upGetStatisctics')"  
-          @upAmount="setAmount"
-          :label="'Amount ' + $store.state.underlying"
-            />
-        </div>
-        <vCheckbox v-model="Checkbox"  @checked="handleCheckbox">
-          Futures hedge funding
-        </vCheckbox>
-      </div>
+    <div
+      class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
+    >
+      <vSelect 
+        v-model="selectedunderlying"
+        :label="'Underlying'"
+        :options="underlyingList"
+        @change="getMaturity"
+      >
+      </vSelect>
     </div>
+
+    <div
+      class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start ml-8"
+    >
+
+      <vSelect 
+        v-model="selectedMaturity"
+        :label="'Maturity'"
+        :options="maturityList"
+        @change="setMaturity"
+      >
+      </vSelect>
+
+
+    </div>
+    <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
+      <vAmount 
+      v-model="coinAmount" 
+      @click.prevent="$emit('upGetStatisctics')"  
+      @upAmount="setAmount"
+      :label="'Amount ' + $store.state.underlying"
+        />
+    </div>
+    <vCheckbox v-model="Checkbox"  @checked="handleCheckbox">
+      Futures hedge funding
+    </vCheckbox>
   </div>
 </template>
 <script>
@@ -145,3 +140,21 @@ export default {
 
 };
 </script>
+<style>
+.v-header-forms {
+  display: flex;
+  justify-content: space-between;
+  flex: 1 1;
+}
+
+.v-select-underlying {
+  min-width: 275px;
+}
+
+.v-checkbox .select-none{
+  font-size: 18px;
+  line-height: 21px;
+  color: #FFFFFF;
+}
+
+</style>

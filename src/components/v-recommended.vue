@@ -1,7 +1,5 @@
 <template>
   <div class="v-recommended pt-6 container mx-auto">
-    <v-header-forms />
-
     <div class="text-center pt-6">
       <Spiner v-if="loading"></Spiner>
     </div>
@@ -25,7 +23,6 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import vHeaderForms from "./header/v-header-forms";
 import vTable from "./tables/v-table-statistics";
 import Spiner from '@/components/Spiner.vue';
 
@@ -34,7 +31,6 @@ export default {
 
   components: {
     Spiner,
-    vHeaderForms,
     vTable,
   },
 
