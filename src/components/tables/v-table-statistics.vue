@@ -157,13 +157,14 @@ export default {
 
   watch: {
     dataset: {
-      handler(newVal, oldVal) {},
+      handler(oldValue, oldVal) {},
       immediate: true,
     },
 
     logData() {
       console.log("tableData", this.tableData);
     },
+
   },
 
   methods: {

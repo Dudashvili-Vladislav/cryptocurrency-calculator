@@ -48,7 +48,6 @@ export default {
         },
         tickAmount: "dataPoints",
         grid: {
-
           show: true,
           borderColor: "#90A4AE",
           strokeDashArray: 0,
@@ -88,13 +87,14 @@ export default {
     },
 
     dataset: {
-      handler: function(newValue, oldVal) {
-        console.log("nununununun", newValue);
+      handler: function(newValue, oldValue) {
+        console.log("newValue-dataset", newValue);
+        console.log("oldValue", oldValue);
         if (newValue && newValue["x"]) {
           let series = [
             {
               name: "First Y Data 1 - portfolio pnl",
-                        
+
               data: this.dataset["y_portf"].map((item, index) => {
                 return {
                   x: this.dataset["x"][index],
@@ -114,6 +114,7 @@ export default {
           ];
 
           this.series = series;
+
         }
       },
       deep: true,
@@ -121,10 +122,11 @@ export default {
     },
   },
   mounted() {
-  this.$nextTick(() => {
-    this.$refs.chart.hideSeries('First Y Data 1 - portfolio pnl');
-  });
-},
+    this.$nextTick(() => {
+      this.$refs.chart.hideSeries("First Y Data 1 - portfolio pnl");
+      console.log("this.$refs.chart", this.$refs.chart);
+    });
+  },
 };
 </script>
 

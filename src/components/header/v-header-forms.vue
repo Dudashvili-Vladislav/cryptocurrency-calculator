@@ -11,7 +11,6 @@
             :label="'Underlying'"
             :options="underlyingList"
             @change="getMaturity"
-
           >
           </vSelect>
         </div>
@@ -25,8 +24,6 @@
             :label="'Maturity'"
             :options="maturityList"
             @change="setMaturity"
-
-
           >
           </vSelect>
 
