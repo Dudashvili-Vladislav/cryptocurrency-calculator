@@ -3,7 +3,7 @@
     <div
       class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
     >
-      <vSelect 
+      <vSelect class="underlying"
         v-model="selectedunderlying"
         :label="'Underlying'"
         :options="underlyingList"
@@ -149,12 +149,16 @@ export default {
 
 .v-select-underlying {
   min-width: 275px;
+  color: white;
+  
 }
+
 
 .v-checkbox .select-none{
   font-size: 18px;
   line-height: 21px;
   color: #FFFFFF;
 }
+
 
 </style>
