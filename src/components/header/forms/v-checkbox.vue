@@ -1,24 +1,22 @@
 <template>
-  <div class="v-checkbox mt-3">
-    <label class="checkbox__label ml-8 flex justify-start items-start pt-7 ">
-      <div class="wrapper-input-check ">
-        <input
-          class="input-check"
-          type="checkbox"
-          v-model="checkFutures"
-          @input="throttledSave"
-          id="checkbox__label"
-        />
-        <svg
-          class="fill-current hidden w-4 h-4 text-green-500 pointer-events-none"
-          viewBox="0 0 20 20"
-        >
-          <path d="M0 11l2-2 5 5L18 3l2 2L7 18z" />
-        </svg>
-      </div>
-      <div class="select-none"><slot></slot></div>
-    </label>
-  </div>
+  <label class="checkbox__label ml-8 flex justify-start items-start">
+    <div class="wrapper-checkbox">
+      <input
+        class="input-check"
+        type="checkbox"
+        v-model="checkFutures"
+        @input="throttledSave"
+        id="checkbox__label"
+      />
+      <span class="checkbox__label"><slot></slot></span>
+      <svg
+        class="fill-current hidden w-4 h-4 text-green-500 pointer-events-none"
+        viewBox="0 0 20 20"
+      >
+        <path d="M0 11l2-2 5 5L18 3l2 2L7 18z" />
+      </svg>
+    </div>
+  </label>
 </template>
 
 <script>
@@ -66,43 +64,71 @@ export default {
 };
 </script>
 <style scoped>
-.input-check {
-  display: none;
-  position: absolute;
-}
-.v-checkbox {
-  position: relative;
-}
-.checkbox__label {
-  font-size: 1rem;
-  color: #444;
-      font-family: Gilroy;
-}
-.checkbox__label::before {
-  content: "";
-  display: block;
-  width: 44px;
+
+.wrapper-checkbox {
   height: 44px;
-  background: rgba(0, 186, 6, 0.1);
-  border-radius: 12px;
-  margin-right: 10px;
-  z-index: 1;
 }
-.checkbox__label:after {
-  content: '';
-  display: block;
-    width: 44px;
-  height: 44px;
-  background: url('checkbox.svg') no-repeat;
-  background-size: 20px 17px;
+
+.wrapper-checkbox>input {
   position: absolute;
-  right: 176px;
-  bottom: -11px;
-  z-index: 2;
+  z-index: -1;
   opacity: 0;
 }
-.input-check:checked + .checkbox__label:after {
-  opacity: 1;
-  transition: opacity 1s linear; ;
+
+/* для элемента label, связанного с .wrapper-checkbox */
+.wrapper-checkbox>span {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  font-family: Gilroy;
+  font-size: 18px;
+  color: #fff;
 }
+
+/* создание в label псевдоэлемента before со следующими стилями */
+.wrapper-checkbox>span::before {
+  content: '';
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border-radius: 0.25em;
+  margin-right: 0.5em;
+  background: rgba(0, 186, 6, 0.1);
+  border-radius: 12px;
+}
+
+/* стили при наведении курсора на checkbox */
+.wrapper-checkbox>input:not(:disabled):not(:checked)+span:hover::before {
+
+}
+
+/* стили для активного чекбокса (при нажатии на него) */
+.wrapper-checkbox>input:not(:disabled):active+span::before {
+  /* background-color: #b3d7ff;
+  border-color: #b3d7ff; */
+}
+
+/* стили для чекбокса, находящегося в фокусе */
+.wrapper-checkbox>input:focus+span::before {
+  /* box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); */
+}
+
+/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+.wrapper-checkbox>input:focus:not(:checked)+span::before {
+  border-color: #80bdff;
+}
+
+/* стили для чекбокса, находящегося в состоянии checked */
+.wrapper-checkbox>input:checked+span::before {
+  background: rgba(0, 186, 6, 0.1) url("checkbox.png") 50% no-repeat;
+}
+
+/* стили для чекбокса, находящегося в состоянии disabled */
+.wrapper-checkbox>input:disabled+span::before {
+  background-color: #e9ecef;
+}
+
+
 </style>

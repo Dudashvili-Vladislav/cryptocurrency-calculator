@@ -3,11 +3,12 @@
     <div
       class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
     >
-      <vSelect class="underlying"
+      <vSelect 
         v-model="selectedunderlying"
         :label="'Underlying'"
         :options="underlyingList"
         @change="getMaturity"
+        class="underlying select-gradient"
       >
       </vSelect>
     </div>
@@ -21,6 +22,7 @@
         :label="'Maturity'"
         :options="maturityList"
         @change="setMaturity"
+        class="select-gradient"
       >
       </vSelect>
 
@@ -144,6 +146,7 @@ export default {
 .v-header-forms {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   flex: 1 1;
 }
 

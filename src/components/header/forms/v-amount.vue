@@ -76,19 +76,19 @@ export default {
     pointer-events: none;
 }
 .amount {
-    background: none;
-      border: 1px solid rgba(65, 54, 241, 1);
-        color: #ffffff;
-        font-family: Gilroy;
-font-style: normal;
-font-weight: normal;
-font-size: 18px;
-line-height: 21px;
-opacity: 0.5;
+  background: none;
+  border: 1px solid rgba(65, 54, 241, 1);
+  color: #ffffff;
+  font-family: Gilroy;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  opacity: 0.5;
   margin-top: 10px;
   border-radius: 4px;
-
-}
+  height: 44px;
+} 
 .amount-label {
   color: white;
   margin-left: 2px;

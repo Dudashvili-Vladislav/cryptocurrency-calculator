@@ -36,22 +36,24 @@
       <v-header-forms />
     </div>
     <!-- Tabs -->
-    <div class="container with-nav ml-4 ">
-      <ul class="recomended-ul list-reset flex border-b">
-        <li class="-mb-px mr-1 pr-2">
+    <div class="container with-nav">
+      <ul class="tab-nav">
+        <li class="tab-nav-item">
           <a
             @mouseover="active = true"
             @mouseleave="active = false"
             @click="activeTab = 1"
-            class="recomended bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-dark font-semibold "
+            class="tab-link"
+            :class="{active: activeTab === 1}"
             >Recommended</a
           >
         </li>
 
-        <li class="mr-1 pr-2">
+        <li class="tab-nav-item">
           <a
             @click="activeTab = 3"
-            class="qustom-qa bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-dark font-semibold"
+            class="tab-link"
+            :class="{active: activeTab === 3}"
             >Custom QA</a
           >
         </li>
@@ -115,6 +117,40 @@ export default {
 </script>
 
 <style>
+
+.tab-nav {
+  display: flex;
+}
+
+.tab-nav-item {
+  display: block;
+  overflow: hidden;
+}
+
+.tab-nav-item + .tab-nav-item {
+  border-left: 1px solid#322a9b;
+}
+
+.tab-nav-item:first-child  {
+  border-radius: 18px 0px 0px 0px;
+}
+.tab-nav-item:last-child  {
+  border-radius: 0px 18px 0px 0px;
+}
+
+.tab-link {
+  display: block;
+  min-width: 258px;
+  padding: 17px 25px;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.tab-link.active {
+  background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
+}
+
 .lang-select {
       font-family: Gilroy;
 }
@@ -143,6 +179,7 @@ a {
   filter: drop-shadow(0px 48px 69px rgba(23, 18, 43, 0.845335));
   backdrop-filter: blur(20px);
   border-radius: 0px 0px 18px 18px;
+  margin-bottom: 40px;
 }
 
 .user-panel {
@@ -272,6 +309,7 @@ a {
 }
  .switch:checked + .switch-for::before {
    right: -15px;
+   background: #fff;
  }
  .switch:checked ~ .header-wrapper {
    background-color: #fff;

@@ -5,7 +5,12 @@
       :dataset="chartData"
       :title="title"
     /> -->
-    <div class="line-chart-wrapper ">
+    <div class="line-chart-wrapper">
+      <div class="chart-titles">
+        <div class="chart-title">Struct Pnl</div>
+        <div class="chart-title">Base Price</div>
+        <div class="chart-title">Portfolio Pnl</div>
+      </div>
       <vLineChart2
         v-if="chartData"
         class="text-left chart-v min-w-2/3 w-2/3"
@@ -14,8 +19,8 @@
       />
     </div>
     <div class="wrapper-text  mt-20 ml-5 flex justify-between ">
-      <div class="discription__button w-1/2">
-        <div class="description text pr-3" v-if="description">
+      <div class="discription__button pr-20">
+        <div class="description text pr-20" v-if="description">
           {{ description }}
         </div>
         <div class="button__sendorder flex">
@@ -39,54 +44,57 @@
         </div> -->
         </div>
       </div>
-      <table
-        class="table-auto  text-center  justify-end m-left w-1/2 table-statistic"
-      >
-        <thead class="border__thead  ">
-          <tr class="table__header">
-            <th class="th"></th>
-            <th class="table__title">{{ underlyingChoice }}</th>
-            <th class="table__title">%</th>
-            <th class="table__title__USD">USD</th>
-          </tr>
-        </thead>
-        <tbody class="wrapper__table  ">
-          <tr class="table__border ">
-            <td class="field__description">Amount of underlying</td>
-            <td class="field__values">{{ tableData[underlyingChoice]["Amount of underlying"] }}</td>
-            <td class="field__values">{{ tableData["%"]["Amount of underlying"] }}</td>
-            <td class="field__values">{{ tableData["USD"]["Amount of underlying"] }}</td>
-          </tr>
-          <tr class="bg-emerald-200">
-            <td class="field__description">Max profit</td>
-            <td class="field__values">{{ tableData[underlyingChoice]["Max profit"].toFixed(2) }}</td>
-            <td class="field__values">{{ tableData["%"]["Max profit"].toFixed(2) }}</td>
-            <td class="field__values">{{ tableData["USD"]["Max profit"].toFixed(2) }}</td>
-          </tr>
-          <tr class="">
-            <td class="field__description">Structure product price</td>
-            <td class="field__values">{{tableData[underlyingChoice]["Structure product price"].toFixed(2)}}
-            </td>
-            <td class="field__values">{{ tableData["%"]["Structure product price"].toFixed(2) }}</td>
-            <td class="field__values">{{ tableData["USD"]["Structure product price"].toFixed(2) }}
-            </td>
-          </tr>
-          <tr class="">
-            <td class="field__description">Maintenance margin</td>
-            <td class="field__values">{{ tableData[underlyingChoice]["Maintenace margin"].toFixed(2) }}
-            </td>
-            <td class="field__values">{{ tableData["%"]["Maintenace margin"].toFixed(2) }}</td>
-            <td class="field__values">{{ tableData["USD"]["Maintenace margin"].toFixed(2) }}</td>
-          </tr>
-          <tr class="">
-            <td class="field__description">Total margin</td>
-            <td class="field__values">{{ tableData[underlyingChoice]["Total margin"].toFixed(2) }}
-            </td>
-            <td class="field__values">{{ tableData["%"]["Total margin"].toFixed(2) }}</td>
-            <td class="field__values">{{ tableData["USD"]["Total margin"].toFixed(2) }}</td>
-          </tr>
-        </tbody>
-      </table>
+
+      <div class="gradient-table">
+        <table
+          class="table-auto  text-center  justify-end m-left table-statistic"
+        >
+          <thead class="border__thead  ">
+            <tr class="table__header">
+              <th class="th"></th>
+              <th class="table__title">{{ underlyingChoice }}</th>
+              <th class="table__title">%</th>
+              <th class="table__title__USD">USD</th>
+            </tr>
+          </thead>
+          <tbody class="wrapper__table  ">
+            <tr class="table__border ">
+              <td class="field__description">Amount of underlying</td>
+              <td class="field__values">{{ tableData[underlyingChoice]["Amount of underlying"] }}</td>
+              <td class="field__values">{{ tableData["%"]["Amount of underlying"] }}</td>
+              <td class="field__values">{{ tableData["USD"]["Amount of underlying"] }}</td>
+            </tr>
+            <tr class="bg-emerald-200">
+              <td class="field__description">Max profit</td>
+              <td class="field__values">{{ tableData[underlyingChoice]["Max profit"].toFixed(2) }}</td>
+              <td class="field__values">{{ tableData["%"]["Max profit"].toFixed(2) }}</td>
+              <td class="field__values">{{ tableData["USD"]["Max profit"].toFixed(2) }}</td>
+            </tr>
+            <tr class="">
+              <td class="field__description">Structure product price</td>
+              <td class="field__values">{{tableData[underlyingChoice]["Structure product price"].toFixed(2)}}
+              </td>
+              <td class="field__values">{{ tableData["%"]["Structure product price"].toFixed(2) }}</td>
+              <td class="field__values">{{ tableData["USD"]["Structure product price"].toFixed(2) }}
+              </td>
+            </tr>
+            <tr class="">
+              <td class="field__description">Maintenance margin</td>
+              <td class="field__values">{{ tableData[underlyingChoice]["Maintenace margin"].toFixed(2) }}
+              </td>
+              <td class="field__values">{{ tableData["%"]["Maintenace margin"].toFixed(2) }}</td>
+              <td class="field__values">{{ tableData["USD"]["Maintenace margin"].toFixed(2) }}</td>
+            </tr>
+            <tr class="">
+              <td class="field__description">Total margin</td>
+              <td class="field__values">{{ tableData[underlyingChoice]["Total margin"].toFixed(2) }}
+              </td>
+              <td class="field__values">{{ tableData["%"]["Total margin"].toFixed(2) }}</td>
+              <td class="field__values">{{ tableData["USD"]["Total margin"].toFixed(2) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="v-call-spread-right flex pb-2"></div>
     </div>
@@ -180,13 +188,58 @@ export default {
 };
 </script>
 <style scoped>
-.table-auto {
-  
+
+.discription__button,
+.gradient-table {
+  flex: 1 1 100%
 }
+
+.wrapper-text {
+  align-items: flex-start;
+}
+
+.gradient-table {
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 1px;
+  background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
+}
+
+.chart-titles {
+  margin: 50px;
+}
+
+.chart-title {
+  min-width: 150px;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(18.5547px);
+  border-radius: 14.5px;
+  font-size: 18px;
+  padding: 8px 25px;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+
+.line-chart-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table-statistic {
+  border-radius: 10px;
+  width: 100%;
+}
+
+.table-statistic td+td {
+  border-left: 1px solid #fff3;
+}
+
 .table-statistic td {
-  padding: 5px 10px;
-  border: 1px solid;
+  padding: 13px 10px;
+  background: #261b43;
 }
+
 .input {
   background: none;
   border: 1px solid rgba(65, 54, 241, 1);
@@ -199,9 +252,10 @@ export default {
   font-family: Gilroy;
   color: #ffffff;
   font-size: 14px;
-  line-height: 180%;
+  line-height: 1.8;
   font-style: normal;
   font-weight: normal;
+
 }
 .field__description {
   font-family: Gilroy;

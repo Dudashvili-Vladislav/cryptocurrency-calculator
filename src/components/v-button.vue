@@ -1,6 +1,6 @@
 <template>
   <div class="v-button">
-    <div class="tables pt-10 mx-auto px-10 w-full">
+    <div class="tables pt-10 mr-10 w-full">
       <div class="flex">
         <button
           type="submit"

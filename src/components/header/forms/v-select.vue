@@ -89,9 +89,9 @@ export default {
 <style scoped>
 .label-select-header {
     font-family: Gilroy;
+    margin-bottom: 10px;
 }
 .select__wrapper {
-  
   position: relative;
 }
 .select__wrapper:after {
@@ -106,10 +106,34 @@ export default {
   right: 1rem;
   z-index: 1;
   pointer-events: none;
-
-
   
 }
+
+.select-gradient .select__wrapper:after {
+  display: flex;
+  top: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  width: 44px;
+  height: 44px;
+  background-image: url('../../../assets/images/select-arrow.svg');
+  background-repeat: no-repeat;
+  background-position: 50%;
+  margin: 0;
+}
+
+.select-gradient .select__wrapper:before {
+  position: absolute;
+  content: '';
+    top: 0;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
+}
+
 .select {
   background: none;
   border: 1px solid rgba(65, 54, 241, 1);
@@ -121,12 +145,15 @@ export default {
   font-size: 18px;
   line-height: 21px;
   border-radius: 4px;
-  margin-top: 10px;
-    font-family: Gilroy;
+  height: 44px;
 }
+
 .select .option {
+  display: block;
+  font-family: Gilroy;
   background: rgba(2, 3, 14, 0.226);
   color: #ffffff;
-  
+  background: rgb(33 25 63);
+  padding: 5px 10px;
 }
 </style>
