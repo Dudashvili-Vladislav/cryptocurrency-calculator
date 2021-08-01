@@ -138,7 +138,7 @@ export default {
         handleMaturitySelect(value) {
         this.$store.commit('calculator/setMaturity', value)
         this.fieldsCheck()
-        console.log("maurity",value);
+        console.log("maurityValue",value);
         },
 
         handleUnderlyingSelect(value) {
