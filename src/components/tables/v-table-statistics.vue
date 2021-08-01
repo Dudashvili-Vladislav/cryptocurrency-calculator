@@ -6,24 +6,24 @@
       :title="title"
     /> -->
     <div class="line-chart-wrapper">
-      <div class="chart-titles">
-        <div class="chart-title">Struct Pnl</div>
-        <div class="chart-title">Base Price</div>
-        <div class="chart-title">Portfolio Pnl</div>
-      </div>
+      <div class="chart-titles p-2">
+        <div class="chart-title-top mt-3"></div>
+        <div class="chart-title-bottom"></div>
+
+      </div> 
       <vLineChart2
         v-if="chartData"
-        class="text-left chart-v min-w-2/3 w-2/3"
+        class="chart text-left chart-v w-full "
         :dataset="chartData"
         :title="title"
       />
     </div>
     <div class="wrapper-text  mt-20 ml-5 flex justify-between ">
       <div class="discription__button pr-20">
-        <div class="description text pr-20" v-if="description">
+        <div class="description text pr-5 " v-if="description">
           {{ description }}
         </div>
-        <div class="button__sendorder flex">
+        <div class="button__sendorder flex  ">
           <v-button
             @upGetStatisctics="
               sendOrder({
@@ -204,20 +204,40 @@ export default {
   padding: 1px;
   background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
 }
-
-.chart-titles {
-  margin: 50px;
+.chart {
+  color: white;
 }
 
-.chart-title {
-  min-width: 150px;
+.chart-titles {
+  position: absolute ;
+  margin: 10px;
+}
+
+.chart-title-top {
+
+  min-width: 145px;
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(18.5547px);
-  border-radius: 14.5px;
+  border-radius: 20px;
   font-size: 18px;
-  padding: 8px 25px;
+  padding: 15px;
   color: #ffffff;
-  margin-bottom: 24px;
+  
+
+}
+
+.chart-title-bottom {
+  height: 37px;
+  margin-top: 12px;
+  min-width: 145px;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(18.5547px);
+border-radius: 14.5px;
+  font-size: 18px;
+padding: 8px 12px;
+  color: #ffffff;
+  
+
 }
 
 .line-chart-wrapper {
@@ -249,12 +269,13 @@ export default {
   opacity: 0.8;
 }
 .description {
-  font-family: Gilroy;
+font-family: Gilroy;
   color: #ffffff;
   font-size: 14px;
-  line-height: 1.8;
+line-height: 180%;
   font-style: normal;
   font-weight: normal;
+  font-weight: 400;
 
 }
 .field__description {

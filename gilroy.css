@@ -1,5 +1,8 @@
+@import url("fonts/Gilroy/stylesheet.css");
+
 @font-face {
 	font-family: 'Gilroy-Black';
+	font-weight: 400;
 	src: url('../fonts/gilroy-black.eot'); /* IE 9 Compatibility Mode */
 	src: url('../fonts/gilroy-black.eot?#iefix') format('embedded-opentype'), /* IE < 9 */
 		url('../fonts/gilroy-black.woff2') format('woff2'), /* Super Modern Browsers */
@@ -177,4 +180,5 @@
 		url('../fonts/gilroy-ultralightitalic.ttf') format('truetype'), /* Safari, Android, iOS */
 		url('../fonts/gilroy-ultralightitalic.svg#gilroy-ultralightitalic') format('svg'); /* Chrome < 4, Legacy iOS */
 }
+
 

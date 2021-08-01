@@ -166,7 +166,7 @@ export default {
         }
       );
       const firebaseData = await responce.json();
-      console.log(firebaseData);
+      console.log('firebaseData',firebaseData);
       (this.name = ""), (this.email = ""), (this.password = "");
       this.passwordConfirm = "";
     },

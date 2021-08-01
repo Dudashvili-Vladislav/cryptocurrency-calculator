@@ -139,6 +139,8 @@ export default {
 }
 
 .tab-link {
+  font-family: Gilroy;
+    font-weight: 400;
   display: block;
   min-width: 258px;
   padding: 17px 25px;

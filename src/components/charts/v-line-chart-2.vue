@@ -37,21 +37,119 @@ export default {
     return {
       series: [],
       chartOptions: {
-        xaxis: {
-          type: "numeric",
-          labels: {
-            rotate: 0,
+        
+
+
+
+        tooltip: {
+          enabled: true,
+          enabledOnSeries: undefined,
+          shared: true,
+          followCursor: false,
+          intersect: false,
+          inverseOrder: false,
+          custom: undefined,
+          fillSeriesColor: false,
+          theme: false,
+          style: {
+            fontSize: "12px",
+            fontFamily: undefined,
+          },
+          onDatasetHover: {
+            highlightDataSeries: false,
+          },
+          x: {
+            show: true,
+            format: "dd MMM",
+            formatter: undefined,
+          },
+          y: {
+            formatter: undefined,
+            title: {
+              formatter: (seriesName) => seriesName,
+            },
+          },
+          z: {
+            formatter: undefined,
+            title: "Size: ",
+          },
+          marker: {
+            show: true,
+          },
+
+          fixed: {
+            enabled: false,
+            position: "topRight",
+            offsetX: 0,
+            offsetY: 0,
           },
         },
-        theme: {
-          palette: "palette7", // upto palette10
+        legend: {
+          show: true,
+          position: "left",
+          horizontalAlign: "center",
+          width: 300,
+          offsetY: 110,
+          fontSize: "20px",
+          labels: {
+            colors: "#ffffff",
+          },
+          itemMargin: {
+            vertical: 10,
+          },
         },
+        xaxis: {
+          type: "numeric",
+
+          labels: {
+            rotate: 0,
+            style: {
+              colors: [
+                "#72858a",
+                "#72858a",
+                "#72858a",
+                "#72858a",
+                "#72858a",
+                "#72858a",
+                "#72858a",
+              ],
+              fontSize: "12px",
+              fontFamily: "Helvetica, Arial, sans-serif",
+              fontWeight: 400,
+              cssClass: "apexcharts-xaxis-label",
+            },
+            
+          },
+        },
+        yaxis: {
+           labels:{
+             style: {
+               colors: [
+                "#72858a",
+                "#72858a",
+                "#72858a",
+                "#72858a",
+                "#72858a",
+                "#72858a",
+                "#72858a",
+              ],
+             }
+           }
+        },
+
+        colors: ["#a4a82c", "#c416b9"],
         tickAmount: "dataPoints",
         grid: {
           show: true,
-          borderColor: "#90A4AE",
+          borderColor: "#2a2c3d",
           strokeDashArray: 0,
+
+
+          fill: {
+            type: "gradient",
+          },
           position: "back",
+
           xaxis: {
             lines: {
               show: true,
@@ -74,7 +172,7 @@ export default {
             top: 0,
             right: 0,
             bottom: 0,
-            left: 0,
+            left: 10,
           },
         },
       },
@@ -93,7 +191,7 @@ export default {
         if (newValue && newValue["x"]) {
           let series = [
             {
-              name: "First Y Data 1 - portfolio pnl",
+              name: "Portfolio Pnl",
 
               data: this.dataset["y_portf"].map((item, index) => {
                 return {
@@ -103,7 +201,7 @@ export default {
               }),
             },
             {
-              name: "First Y Data 2 - structure pnl",
+              name: "  Structure Pnl",
               data: this.dataset["y_struct"].map((item, index) => {
                 return {
                   x: this.dataset["x"][index],
@@ -114,7 +212,6 @@ export default {
           ];
 
           this.series = series;
-
         }
       },
       deep: true,
@@ -123,11 +220,26 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.$refs.chart.hideSeries("First Y Data 1 - portfolio pnl");
+      this.$refs.chart.hideSeries("Portfolio Pnl");
       console.log("this.$refs.chart", this.$refs.chart);
     });
+    
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+
+.apexcharts-menu.apexcharts-menu-open {
+background-color: #27293d !important;
+border: 0px;
+}
+
+.apexcharts-menu {
+  background-color: #27293d !important;
+border: 0px;
+}
+
+
+
+</style>
