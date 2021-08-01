@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import axios from "axios";
 import { setInterval } from "core-js";
 import auth from './modules/auth'
+import calculator from "./modules/calculator";
 
 axios.defaults.baseURL = "http://localhost:5000";
 
@@ -22,7 +23,7 @@ let store = createStore({
       flagQaStruct: false,
       selectedDirection: null,
       message: null,
-      
+
     };
   },
 
@@ -47,7 +48,7 @@ let store = createStore({
 
     setUnderlying_mutations(state, underlying) {
       state.underlying = underlying;
-             console.log('underlying', underlying) 
+             console.log('underlying', underlying)
     },
 
     setAmount_mutations(state, count) {
@@ -201,8 +202,9 @@ let store = createStore({
     tableList: (state) => state.key,
     maturity: (state) => state.maturity,
   },
+
   modules: {
-    auth,
+    auth, calculator
   },
 });
 

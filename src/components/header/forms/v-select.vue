@@ -1,89 +1,104 @@
 <template>
-  <div class="v-select-underlying">
-    <label class="label-select-header block" for="Underlying">{{
-      label
-    }}</label>
+    <label class="v-select-underlying">
+        <div class="label-select-header block">
+            {{
+                label
+            }}
+        </div>
 
-    <div class="select__wrapper">
-      <select
-        class="select w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
-        id="select"
-        v-model="selected"
-        @change="onChangeSelect"
-        @input="throttledSave"
-      >
-        <option
-          class="option"
-          v-for="item in options"
-          :value="item"
-          :key="item"
-        >
-          {{ item }}
-        </option>
-      </select>
-    </div>
-  </div>
+        <div class="select__wrapper">
+            <select
+                class="select w-full border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
+                id="select"
+                v-model="valueSetter"
+            >
+                <option disabled>-</option>
+                <option
+                    class="option"
+                    v-for="item in options"
+                    :value="item"
+                    :key="item">
+                    {{ item }}
+                </option>
+            </select>
+
+            <!--                @change="onChangeSelect"-->
+            <!--                @input="throttledSave"-->
+        </div>
+    </label>
 </template>
 
 <script>
 import throttle from "../../../throttle.js";
 
-import { mapState } from "vuex";
+import {mapState} from "vuex";
 
 export default {
-  name: "v-select",
+    name: "v-select",
 
-  props: {
-    modelValue: {
-      type: String,
-      default: "",
+    props: {
+        value: {
+            type: String,
+            default: "",
+        },
+
+        options: {
+            type: Array,
+            default: () => [],
+        },
+
+        label: {
+            type: String,
+            default: "",
+        },
     },
 
-    options: {
-      type: Array,
-      default: () => [],
+    emits: ["change", "input", "upAmount", "update:modelValue"],
+
+    data() {
+        return {
+            selected: this.modelValue,
+            timerId: null,
+        };
     },
 
-    label: {
-      type: String,
-      default: "",
-    },
-  },
-
-  emits: ["change", "input", "upAmount", "update:modelValue"],
-
-  data() {
-    return {
-      selected: this.modelValue,
-      timerId: null,
-    };
-  },
-
-  watch: {
-    modelValue(newValue) {
-      this.selected = newValue;
-    },
-  },
-
-  ...mapState({
-    underlying: (state) => state.underlying,
-    maturity: (state) => state.maturity,
-  }),
-
-  methods: {
-    onChangeSelect() {
-      this.$emit("update:modelValue", String(this.selected));
-      this.$emit("change", String(this.selected));
+    computed: {
+        valueSetter: {
+            get() {
+                return this.value
+            },
+            set(v) {
+                //console.log('emit input', v)
+                this.$emit('input', v)
+            }
+        }
     },
 
-    throttledSave() {
-      let DELAY = 1000; // Задержка
-      clearTimeout(this.timerId);
-      this.timerId = setTimeout(() => {
-        this.$emit("upAmount", this.selected);
-      }, DELAY);
+    watch: {
+        modelValue(newValue) {
+            this.selected = newValue;
+        },
     },
-  },
+
+    ...mapState({
+        underlying: (state) => state.underlying,
+        maturity: (state) => state.maturity,
+    }),
+
+    methods: {
+        onChangeSelect() {
+            this.$emit("update:modelValue", String(this.selected));
+            this.$emit("change", String(this.selected));
+        },
+
+        throttledSave() {
+            let DELAY = 1000; // Задержка
+            clearTimeout(this.timerId);
+            this.timerId = setTimeout(() => {
+                this.$emit("upAmount", this.selected);
+            }, DELAY);
+        },
+    },
 };
 </script>
 <style scoped>
@@ -91,69 +106,71 @@ export default {
     font-family: Gilroy;
     margin-bottom: 10px;
 }
+
 .select__wrapper {
-  position: relative;
+    position: relative;
 }
+
 .select__wrapper:after {
-  content: "";
-  display: block;
-  position: absolute;
-  margin-top: 3px;
-  border-style: solid;
-  border-width: 6px 5px 0 5px;
-  border-color: white transparent transparent transparent;
-  top: 50%;
-  right: 1rem;
-  z-index: 1;
-  pointer-events: none;
-  
+    content: "";
+    display: block;
+    position: absolute;
+    margin-top: 3px;
+    border-style: solid;
+    border-width: 6px 5px 0 5px;
+    border-color: white transparent transparent transparent;
+    top: 50%;
+    right: 1rem;
+    z-index: 1;
+    pointer-events: none;
+
 }
 
 .select-gradient .select__wrapper:after {
-  display: flex;
-  top: 0;
-  right: 0;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  width: 44px;
-  height: 44px;
-  background-image: url('../../../assets/images/select-arrow.svg');
-  background-repeat: no-repeat;
-  background-position: 50%;
-  margin: 0;
+    display: flex;
+    top: 0;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    width: 44px;
+    height: 44px;
+    background-image: url('../../../assets/images/select-arrow.svg');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    margin: 0;
 }
 
 .select-gradient .select__wrapper:before {
-  position: absolute;
-  content: '';
+    position: absolute;
+    content: '';
     top: 0;
-  right: 0;
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
+    right: 0;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
 }
 
 .select {
-  background: none;
-  border: 1px solid rgba(65, 54, 241, 1);
-  color: #ffffff;
-  opacity: 0.5;
-  font-family: Gilroy;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 21px;
-  border-radius: 4px;
-  height: 44px;
+    background: none;
+    border: 1px solid rgba(65, 54, 241, 1);
+    color: #ffffff;
+    opacity: 0.5;
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    border-radius: 4px;
+    height: 44px;
 }
 
 .select .option {
-  display: block;
-  font-family: Gilroy;
-  background: rgba(2, 3, 14, 0.226);
-  color: #ffffff;
-  background: rgb(33 25 63);
-  padding: 5px 10px;
+    display: block;
+    font-family: Gilroy;
+    background: rgba(2, 3, 14, 0.226);
+    color: #ffffff;
+    background: rgb(33 25 63);
+    padding: 5px 10px;
 }
 </style>
