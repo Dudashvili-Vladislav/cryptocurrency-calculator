@@ -93,19 +93,20 @@ let store = createStore({
       }, 3000)
     },
 
-    async getMaturity_actions({ commit }, underlying) {
+    async getMaturity_actions({ commit,rootState}, ) {
       // Получаем все даты
       try {
+        console.log("rootState",rootState);
         const url = "/maturities";
         console.log("options",options);
         const options = {
-          params: { currency: underlying },
+          params: { currency: rootState.calculator.selectedUnderlying },
         };
         commit("setLoading", true);
         const response = await axios.get(url, options);
-        const data = response.data.data[underlying];
+        const data = response.data.data;
         commit("setLoading", false);
-        commit("setMaturityList_mutations", data);
+        commit("setMaturityList_mutations", data[rootState.calculator.selectedUnderlying]);
 
         return data;
       } catch (error) {
@@ -120,9 +121,9 @@ let store = createStore({
         const url = "/recStructs";
         const options = {
           params: {
-            currency: rootState.underlying,
-            maturity: rootState.maturity,
-            amount: rootState.amount,
+            currency: rootState.calculator.selectedUnderlying,
+            maturity: rootState.calculator.selectedMaturity,
+            amount: rootState.calculator.coinAmount,
             fut_hedge_flag: flag.charAt(0).toUpperCase() + flag.slice(1),
           },
         };
@@ -142,12 +143,13 @@ let store = createStore({
         const url = "/recStructs";
         const options = {
           params: {
-            currency: rootState.underlying,
-            maturity: rootState.maturity,
-            amount: rootState.amount,
+            currency: rootState.calculator.selectedUnderlying,
+            maturity: rootState.calculator.selectedMaturity,
+            amount: rootState.calculator.coinAmount,
             fut_hedge_flag: flag.charAt(0).toUpperCase() + flag.slice(1),
           },
         };
+        console.log("params",options.params);
 
         clearInterval(rootState.timerId);
         const timerId = setInterval(async () => {

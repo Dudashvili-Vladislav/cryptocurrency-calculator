@@ -19,7 +19,7 @@
 
             <vSelect
                 :value="$store.state.calculator.selectedMaturity"
-                @input="$store.commit('calculator/setMaturity', $event)"
+                @input="handleMaturitySelect"
                 :label="'Maturity'"
                 :options="maturityList"
                 @change="setMaturity"
@@ -128,20 +128,28 @@ export default {
         },
 
         fieldsCheck() {
-            if (this.amount !== 0 && this.selectedHedg !== null && this.selectedCoin !== null) {
+            if (this.$store.state.calculator.coinAmount !== 0 && this.$store.state.calculator.selectedMaturity !== null && this.$store.state.calculator.selectedUnderlying !== null) {
                 this.$store.dispatch('getStatisctics_actions');
                 this.$store.dispatch('getTableStaticsics_actions');
                 console.log('amount', this.amount);
             }
         },
+        
+        handleMaturitySelect(value) {
+        this.$store.commit('calculator/setMaturity', value)
+        this.fieldsCheck()
+        console.log("maurity",value);
+        },
 
         handleUnderlyingSelect(value) {
             this.$store.commit('calculator/setUnderlying', value)
             this.getMaturity()
+            this.fieldsCheck()
         },
         handleAmountChange(value) { // FIXME
             value = Number( typeof value === 'object' ? value.target.value : value )
             this.$store.commit('calculator/setCoinAmount', value)
+            this.fieldsCheck()
         }
 
 
