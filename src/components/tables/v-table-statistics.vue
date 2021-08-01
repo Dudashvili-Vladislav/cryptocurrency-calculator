@@ -1,10 +1,6 @@
 <template>
   <div class="v-table-statistics  w-full items-center">
-    <!--     <vLineChart
-      class="text-left chart-v min-w-2/3 w-2/3"
-      :dataset="chartData"
-      :title="title"
-    /> -->
+
     <div class="line-chart-wrapper">
       <div class="chart-titles p-2">
         <div class="chart-title-top mt-3"></div>
