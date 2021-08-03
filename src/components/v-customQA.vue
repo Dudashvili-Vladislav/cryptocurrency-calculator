@@ -117,7 +117,7 @@
       равном номиналу проданных фьючерсов.
     </h3>
 
-    <div class="v-table-statistics flex justify-between w-full items-center">
+    <div class="v-table-statistics   items-center">
       <!--       <vLineChart
               class="text-left chart-v min-w-2/3 w-2/3"
               :dataset="chartData"
@@ -130,7 +130,7 @@
       />
 
       <div class="wrapper-text w-1/3 mt-20 ml-10 ">
-        <div class="text pr-3 "></div>
+
 
         <table
           v-if="tableData && selectedCoin"
@@ -260,7 +260,7 @@ export default {
       underlyingList: ["BTC", "ETH"],
       directionOptions: ["Up", "Down"],
       maturityList: [],
-      expectedMinPrice: 0,
+      expectedMinPrice: [0,100],
       expectedMaxPrice: [0, 150000],
 
       defolt_expectedMinPrice: [0, 150000],
@@ -298,7 +298,7 @@ export default {
         main_direction: this.selectedDirection,
         fut_hedge_flag: this.convertBooleanToString(this.subDirectionFlag),
         sub_direction_flag: this.convertBooleanToString(this.saveDirection),
-        main_range: [0, 100], //
+        main_range: [...this.expectedMinPrice], //
         sub_range: [...this.expectedMaxPrice],
         max_slippage: this.max_slippage,
       };
@@ -525,4 +525,9 @@ export default {
 };
 </script>
 
-<style src="@vueform/slider/themes/default.css"></style>
+<style>
+
+.v-table-statistics {
+  width: 140%;
+}
+</style>
