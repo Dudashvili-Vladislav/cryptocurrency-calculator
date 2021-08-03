@@ -279,7 +279,7 @@ export default {
       /*       coinAmount: 0, */
       description: "Description from DATA",
       chartData: {},
-      max_slippage: null,
+      max_slippage: [0,100],
       name: "null",
       title: "Chart title from DATA",
       sliderLabels: [],
@@ -298,7 +298,7 @@ export default {
         main_direction: this.selectedDirection,
         fut_hedge_flag: this.convertBooleanToString(this.subDirectionFlag),
         sub_direction_flag: this.convertBooleanToString(this.saveDirection),
-        main_range: 0,
+        main_range: [0, 100], //
         sub_range: [...this.expectedMaxPrice],
         max_slippage: this.max_slippage,
       };

@@ -181,6 +181,7 @@ let store = createStore({
         const response = await axios.get(url, options);
         return response.data.data;
       } catch (error) {
+        console.log(error)
         return false;
       }
     },
@@ -188,14 +189,26 @@ let store = createStore({
     async getQaStructs_actions(context, params) {
       console.log("params", params);
       try {
-        const url = `/qaStructs?currency=${context.rootState.calculator.selectedUnderlying}&maturity=${context.rootState.calculator.selectedMaturity}&amount=${context.rootState.calculator.coinAmount}&fut_hedge_flag=${params.fut_hedge_flag}&main_direction=${params.main_direction}&main_range=${params.main_range}&sub_direction_flag=${params.sub_direction_flag}&sub_range=${params.sub_range}&max_slippage=${params.max_slippage}`;
+        let query = {
+          currency: context.rootState.calculator.selectedUnderlying,
+          maturity: context.rootState.calculator.selectedMaturity,
+          amount: context.rootState.calculator.coinAmount,
+          fut_hedge_flag: params.fut_hedge_flag,
+          main_direction: params.main_direction,
+          main_range: `[${ Array.isArray(params.main_range) ? params.main_range.join(',') : params.main_range }]`,
+          sub_direction_flag: params.sub_direction_flag,
+          sub_range: `[${ Array.isArray(params.sub_range) ? params.sub_range.join(',') : params.sub_range }]`,
+          max_slippage: params.max_slippage
+        }
+
+        const url = `/qaStructs?${ Object.entries(query).map(r => `${ r[0] }=${ r[1] }`).join('&') }`;
         console.log("url",url);
         let response = await axios.get(url);
 
         console.log("response",response);
         return response.data.data;
       }
-      
+
        catch (error) {
         console.log("error",error);
         return false;
