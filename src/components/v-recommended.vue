@@ -7,8 +7,8 @@
     <div class="tabe-wrapper flex justify-between w-full">
       <div class="table w-full " v-if="fullDataList">
         <vTable
-          v-for="information in fullDataList"
-          :key="information"
+          v-for="(information, index) in fullDataList"
+          :key="index"
           :tableData="information['table']"
           :description="information.description"
           :title="information.title"

@@ -4,7 +4,7 @@ export default {
     state: {
         selectedUnderlying: null,
         selectedMaturity: null,
-        coinAmount: 123,
+        coinAmount: 0,
         hedgeFunding: false,
 
         maturityList: {

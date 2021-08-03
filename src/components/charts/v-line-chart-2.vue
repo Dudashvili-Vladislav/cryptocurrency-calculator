@@ -201,7 +201,7 @@ export default {
               }),
             },
             {
-              name: "  Structure Pnl",
+              name:" Structure Pnl",
               data: this.dataset["y_struct"].map((item, index) => {
                 return {
                   x: this.dataset["x"][index],

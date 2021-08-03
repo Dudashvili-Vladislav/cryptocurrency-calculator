@@ -49,6 +49,7 @@
                 </li>
 
                 <li class="tab-nav-item">
+   
                     <a
                         @click="changeTab(3)"
                         class="tab-link"
@@ -57,8 +58,9 @@
                 </li>
             </ul>
 
-            <div class="tab-content">
-                <div class="tab-item" v-if="activeTab === 1">
+            <div
+             class="tab-content">
+                <div class="tab-item" v-if="activeTab === 1 && $store.state.calculator.selectedUnderlying && $store.state.calculator.selectedMaturity && $store.state.calculator.coinAmount">
                     <v-recommended></v-recommended>
                 </div>
                 <div class="tab-item" v-if="activeTab === 2">

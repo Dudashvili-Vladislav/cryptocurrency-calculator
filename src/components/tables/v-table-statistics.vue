@@ -42,7 +42,8 @@
       </div>
 
       <div class="gradient-table">
-        <table
+         <table
+         v-if="tableData[underlyingChoice]"
           class="table-auto  text-center  justify-end m-left table-statistic"
         >
           <thead class="border__thead  ">
@@ -99,9 +100,10 @@
 
 <script>
 import vButton from "@/components/v-button";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 import vLineChart from "@/components/charts/v-line-chart";
 import vLineChart2 from "@/components/charts/v-line-chart-2";
+import { map } from 'lodash';
 
 export default {
   name: "v-table-statistics",
@@ -154,7 +156,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["underlyingChoice", "fullDataList", "maturity"]),
+    ...mapGetters([ "fullDataList" ]),
+    ...mapState({
+      underlyingChoice: state => state.calculator.selectedUnderlying,
+      maturity: state => state.calculator.selectedMaturity,
+
+    })
   },
 
   watch: {
