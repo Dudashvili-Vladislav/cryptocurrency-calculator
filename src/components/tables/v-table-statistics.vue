@@ -54,7 +54,7 @@
               <th class="table__title__USD">USD</th>
             </tr>
           </thead>
-          <tbody class="wrapper__table  ">
+          <tbody class="wrapper__table">
             <tr class="table__border ">
               <td class="field__description">Amount of underlying</td>
               <td class="field__values">{{ tableData[underlyingChoice]["Amount of underlying"] }}</td>
