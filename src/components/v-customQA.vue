@@ -129,66 +129,66 @@
         :dataset="chartData"
       />
 
-      <div class="wrapper-text w-1/3 mt-20 ml-10 ">
-        <table
-          v-if="tableData && selectedCoin"
-          class="table-auto text-center mt-5 justify-end m-left w-full table-statistic"
-        >
-          <thead class="border border-gray-400 bg-gray-100">
-            <tr>
-              <th></th>
-              <th>{{ selectedCoin }}</th>
-              <th>%</th>
-              <th>USD</th>
-            </tr>
-          </thead>
-          <tbody class="border border-gray-400">
-            <tr class="border-gray-400">
-              <td>Amount of underlying</td>
-              <td>{{ tableData[selectedCoin]["Amount of underlying"] }}</td>
-              <td>{{ tableData["%"]["Amount of underlying"] }}</td>
-              <td>{{ tableData["USD"]["Amount of underlying"] }}</td>
-            </tr>
-            <tr class="border-gray-400 bg-emerald-200">
-              <td>Max profit</td>
-              <td>{{ tableData[selectedCoin]["Max profit"].toFixed(2) }}</td>
-              <td>{{ tableData["%"]["Max profit"].toFixed(2) }}</td>
-              <td>{{ tableData["USD"]["Max profit"].toFixed(2) }}</td>
-            </tr>
-            <tr class="border-gray-400">
-              <td>Structure product price</td>
-              <td>
-                {{
-                  tableData[selectedCoin]["Structure product price"].toFixed(2)
-                }}
-              </td>
-              <td>
-                {{ tableData["%"]["Structure product price"].toFixed(2) }}
-              </td>
-              <td>
-                {{ tableData["USD"]["Structure product price"].toFixed(2) }}
-              </td>
-            </tr>
-            <tr class="border-gray-400">
-              <td>Maintenance margin</td>
-              <td>
-                {{ tableData[selectedCoin]["Maintenace margin"].toFixed(2) }}
-              </td>
-              <td>{{ tableData["%"]["Maintenace margin"].toFixed(2) }}</td>
-              <td>{{ tableData["USD"]["Maintenace margin"].toFixed(2) }}</td>
-            </tr>
-            <tr class="border-gray-400">
-              <td>Total margin</td>
-              <td>{{ tableData[selectedCoin]["Total margin"].toFixed(2) }}</td>
-              <td>{{ tableData["%"]["Total margin"].toFixed(2) }}</td>
-              <td>{{ tableData["USD"]["Total margin"].toFixed(2) }}</td>
-            </tr>
-          </tbody>
-        </table>
+
+        <div class="gradient-table mt-10">
+          <table
+            v-if="tableData && selectedCoin"
+            class="table-auto text-center mt-5 justify-end m-left w-full table-statistic"
+          >
+            <thead class="border__thead border-gray-400 bg-gray-100">
+              <tr class="table__header">
+                <th class="th"></th>
+                <th class="table__title">{{ selectedCoin }}</th>
+                <th class="table__title">%</th>
+                <th class="table__title__USD">USD</th>
+              </tr>
+            </thead>
+            <tbody class="wrapper__table">
+              <tr class="table__border ">
+                <td class="field__description">Amount of underlying</td>
+                <td class="field__values">{{ tableData[selectedCoin]["Amount of underlying"] }}</td>
+                <td class="field__values">{{ tableData["%"]["Amount of underlying"] }}</td>
+                <td class="field__values">{{ tableData["USD"]["Amount of underlying"] }}</td>
+              </tr>
+              <tr class="border-gray-400 bg-emerald-200">
+                <td class="field__description">Max profit</td>
+                <td class="field__values">{{ tableData[selectedCoin]["Max profit"].toFixed(2) }}</td>
+                <td class="field__values">{{ tableData["%"]["Max profit"].toFixed(2) }}</td>
+                <td class="field__values">{{ tableData["USD"]["Max profit"].toFixed(2) }}</td>
+              </tr>
+              <tr class="border-gray-400">
+                <td class="field__description">Structure product price</td>
+                <td class="field__values">{{tableData[selectedCoin]["Structure product price"].toFixed(2)}}</td>
+                <td class="field__values">{{ tableData["%"]["Structure product price"].toFixed(2) }}</td>
+                <td class="field__values">{{ tableData["USD"]["Structure product price"].toFixed(2) }}</td>
+              </tr>
+              <tr class="border-gray-400">
+                <td class="field__description">Maintenance margin</td>
+                <td class="field__values">{{ tableData[selectedCoin]["Maintenace margin"].toFixed(2) }}</td>
+                <td class="field__values">{{ tableData["%"]["Maintenace margin"].toFixed(2) }}</td>
+                <td class="field__values">{{ tableData["USD"]["Maintenace margin"].toFixed(2) }}</td>
+              </tr>
+              <tr class="border-gray-400">
+                <td class="field__description">Total margin</td>
+                <td class="field__values">{{ tableData[selectedCoin]["Total margin"].toFixed(2) }}</td>
+                <td class="field__values">{{ tableData["%"]["Total margin"].toFixed(2) }}</td>
+                <td class="field__values">{{ tableData["USD"]["Total margin"].toFixed(2) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="v-call-spread-right flex pb-2  ">
-          <div class="mt-12">
+          <div class="button__sendorder  flex ">
+            <v-button
+              @upGetStatisctics="
+                sendOrder({
+                  tableData: tableData,
+                  max_slippage: Number(max_slippage),
+                })
+              "
+            />
             <input
-              class="input border border-gray-400   rounded px-3 py-3  pb-2    "
+              class="input"
               v-model="max_slippage"
               name="inputSlipage"
               id="slipage"
@@ -196,16 +196,8 @@
             />
             <!--             {{ max_slippage }} -->
           </div>
-          <v-button
-            @upGetStatisctics="
-              sendOrder({
-                tableData: tableData,
-                max_slippage: Number(max_slippage),
-              })
-            "
-          />
         </div>
-      </div>
+
     </div>
   </div>
 </template>
@@ -292,7 +284,9 @@ export default {
 
   created() {
     this.$store.subscribe((mutation) => {
-      if (mutation.type === "setUnderlying") this.getMaturity();
+      if (mutation.type === "setUnderlying") {
+        this.getMaturity();
+      }
     });
   },
 
@@ -536,7 +530,144 @@ export default {
 </script>
 
 <style>
+.button__sendorder {
+  padding-bottom: 15px;
+}
 .v-table-statistics {
   width: 140%;
+}
+
+.discription__button,
+.gradient-table {
+  flex: 1 1 100%;
+  max-width: 35%;
+}
+
+.wrapper-text {
+  align-items: flex-start;
+}
+
+.gradient-table {
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 1px;
+  background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
+}
+.chart {
+  color: white;
+}
+
+.chart-titles {
+  position: absolute;
+  margin: 10px;
+}
+
+.chart-title-top {
+  min-width: 145px;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(18.5547px);
+  border-radius: 20px;
+  font-size: 18px;
+  padding: 15px;
+  color: #ffffff;
+}
+
+.chart-title-bottom {
+  height: 37px;
+  margin-top: 12px;
+  min-width: 145px;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(18.5547px);
+  border-radius: 14.5px;
+  font-size: 18px;
+  padding: 8px 12px;
+  color: #ffffff;
+}
+
+.line-chart-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table-statistic {
+  border-radius: 10px;
+  width: 100%;
+}
+
+.table-statistic td + td {
+  border-left: 1px solid #fff3;
+}
+
+.table-statistic td {
+  padding: 13px 10px;
+  background: #261b43;
+}
+
+.input {
+  background: none;
+  border: 1px solid rgba(65, 54, 241, 1);
+  color: #ffffff;
+  font-family: Gilroy;
+  border-radius: 4px;
+  opacity: 0.8;
+  max-height: 50%;
+  margin-top: 46px;
+
+}
+.description {
+  font-family: Gilroy;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 180%;
+  font-style: normal;
+  font-weight: normal;
+  font-weight: 400;
+}
+.field__description {
+  font-family: Gilroy;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 100%;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 10px;
+}
+.field__values {
+  font-family: Gilroy;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 100%;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 10px;
+}
+.table__header {
+  background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
+}
+
+.table__title {
+  font-family: Gilroy;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 100%;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 10px;
+  padding: 13px 0 13px 0;
+}
+.table__title__USD {
+  font-family: Gilroy;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 100%;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 10px;
+  padding: 13px 0 13px 0;
+  border-top-right-radius: 18px;
+}
+.th {
+  border-top-left-radius: 18px;
 }
 </style>
