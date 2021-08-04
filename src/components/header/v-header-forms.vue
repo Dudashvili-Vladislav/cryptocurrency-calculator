@@ -4,7 +4,7 @@
       class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
     >
       <vSelect
-        :value="$store.state.calculator.selectedUnderlying"
+        :modelValue="$store.state.calculator.selectedUnderlying"
         @input="handleUnderlyingSelect"
         :label="'Underlying'"
         :options="underlyingList"
@@ -17,7 +17,7 @@
       class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start ml-8"
     >
       <vSelect
-        :value="$store.state.calculator.selectedMaturity"
+        :modelValue="$store.state.calculator.selectedMaturity"
         @input="handleMaturitySelect"
         :label="'Maturity'"
         :options="maturityList"

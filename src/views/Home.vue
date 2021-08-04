@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="user-info">
-                        <div class="user-name">Иванов П.И.</div>
+                        <div class="user-name" v-if="$store.state.auth.user.displayName">{{ $store.state.auth.user.displayName }}</div>
                         <div class="user-type">пользователь</div>
                     </div>
                 </div>

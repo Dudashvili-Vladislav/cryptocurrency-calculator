@@ -282,14 +282,6 @@ export default {
     };
   },
 
-  created() {
-    this.$store.subscribe((mutation) => {
-      if (mutation.type === "setUnderlying") {
-        this.getMaturity();
-      }
-    });
-  },
-
   computed: {
     requestParams() {
       return {
@@ -301,6 +293,7 @@ export default {
         max_slippage: this.max_slippage,
       };
     },
+
     markSliderCoin() {
       switch (this.selectedCoin) {
         case "BTC":
@@ -319,10 +312,19 @@ export default {
       selectedCoin: (state) => state.calculator.selectedUnderlying,
       selectedDate: (state) => state.calculator.selectedMaturity,
       coinAmount: (state) => state.calculator.coinAmount,
+      selectedUnderlying: (state) => state.calculator.selectedUnderlying,
     }),
   },
 
   watch: {
+    selectedUnderlying(newValue) {
+      this.getMaturity(newValue);
+      // TODO
+      // if (when all fields filled and first changed) {
+        // this.$store.commit('calculator/clearForm')
+      // }
+    },
+
     saveDirection(newValue, oldValue) {
       //Checkbox
       if (newValue) {
@@ -419,6 +421,7 @@ export default {
     ]),
 
     async getMaturity(underlying) {
+      console.log('GET MATUROTY');
       this.maturityList = await this.getMaturity_actions(underlying);
       const result = await this.getStrikes_actions(this.selectedCoin); //BTC-ETH
       console.log(".main_value", result[this.selectedCoin].main_value);

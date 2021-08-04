@@ -37,7 +37,7 @@ export default {
     name: "v-select",
 
     props: {
-        value: {
+        modelValue: {
             type: String,
             default: "",
         },
@@ -65,7 +65,7 @@ export default {
     computed: {
         valueSetter: {
             get() {
-                return this.value
+                return this.modelValue
             },
             set(v) {
                 //console.log('emit input', v)

@@ -2,13 +2,8 @@ import firebase from "firebase";
 import {error} from '@/components/utils/error.js';
 import { root } from "postcss";
 
-function setUserToState(context, responce) {
-  const user = {
-    email: responce.user.email,
-    verified: responce.user.emailVerified,
-    id: responce.user.uid,
-  };
-
+function setUserToState(context) {
+  const user = firebase.auth().currentUser;
   context.commit("setUser", user);
   window.localStorage.setItem("user", JSON.stringify(user));
 }
@@ -41,11 +36,11 @@ export default {
   actions: {
     async login(context, payload) {
       try {
-        
+        console.log('payload', payload)
         const responce = await firebase
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password);
-      setUserToState(context, responce);
+      setUserToState(context);
       console.log("responce", responce);
       
       } catch (e) {
@@ -63,7 +58,16 @@ export default {
         const responce = await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password);
-        setUserToState(context, responce);
+        
+        console.log('responce', responce)
+        const user = firebase.auth().currentUser;
+        console.log('user', user)
+        user.updateProfile({
+          // TODO set name from input
+          displayName: 'Illya'
+        })
+
+        setUserToState(context);
 
         /* 				setUserToState(context, responce); */
       } catch (error) {
