@@ -130,8 +130,6 @@
       />
 
       <div class="wrapper-text w-1/3 mt-20 ml-10 ">
-
-
         <table
           v-if="tableData && selectedCoin"
           class="table-auto text-center mt-5 justify-end m-left w-full table-statistic"
@@ -217,7 +215,7 @@ import VueSlider from "vue-slider-component/dist-css/vue-slider-component.umd.mi
 import "vue-slider-component/dist-css/vue-slider-component.css";
 import "vue-slider-component/theme/default.css";
 
-import { mapGetters, mapActions, mapState } from "vuex";
+import { mapGetters, mapActions, mapState, mapMutations } from "vuex";
 // import throttle from "../../../calculator-master_v1.1/src/throttle";
 
 import vHeaderForms from "./header/v-header-forms";
@@ -260,7 +258,7 @@ export default {
       underlyingList: ["BTC", "ETH"],
       directionOptions: ["Up", "Down"],
       maturityList: [],
-      expectedMinPrice: [0,100],
+      expectedMinPrice: [0, 150000],
       expectedMaxPrice: [0, 150000],
 
       defolt_expectedMinPrice: [0, 150000],
@@ -279,7 +277,7 @@ export default {
       /*       coinAmount: 0, */
       description: "Description from DATA",
       chartData: {},
-      max_slippage: [0,100],
+      max_slippage: [0, 100],
       name: "null",
       title: "Chart title from DATA",
       sliderLabels: [],
@@ -290,6 +288,12 @@ export default {
       markSlider: null,
       markSliderEth: null,
     };
+  },
+
+  created() {
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === "setUnderlying") this.getMaturity();
+    });
   },
 
   computed: {
@@ -407,6 +411,12 @@ export default {
   },
 
   methods: {
+    ...mapMutations([
+      "setUnderlying",
+      "setMaturity",
+      "setCoinAmount",
+      "setHedgeFunding",
+    ]),
     ...mapActions([
       "getMaturity_actions",
       "getStrikes_actions",
@@ -526,7 +536,6 @@ export default {
 </script>
 
 <style>
-
 .v-table-statistics {
   width: 140%;
 }
