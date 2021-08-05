@@ -154,7 +154,6 @@ let store = createStore({
             fut_hedge_flag: flag.charAt(0).toUpperCase() + flag.slice(1),
           },
         };
-        console.log("params",options.params);
 
         clearInterval(rootState.timerId);
         const timerId = setInterval(async () => {

@@ -68,20 +68,20 @@ export default {
       try {
         const responce = await firebase
           .auth()
-          .createUserWithEmailAndPassword(email, password, user);
+          .createUserWithEmailAndPassword(email, password);
         
         console.log('responce', responce)
-        const user = firebase.auth().currentUser;
+        const userFirebase = firebase.auth().currentUser;
         console.log('user', user)
-        user.updateProfile({
-          // TODO set name from input
-          displayName: context.commit("setUser")
+        userFirebase.updateProfile({
+          displayName: user
         })
 
         setUserToState(context);
 
         /* 				setUserToState(context, responce); */
       } catch (error) {
+        console.log('error', error)
         throw error.message;
       }
     },

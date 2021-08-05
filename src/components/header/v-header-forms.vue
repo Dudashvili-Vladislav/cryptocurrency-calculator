@@ -27,10 +27,11 @@
       </vSelect>
     </div>
     <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
+
       <vAmount
         :value="$store.state.calculator.coinAmount"
         @input="handleAmountChange($event)"
-        :label="'Amount ' + $store.state.underlying"
+        :label="'Amount ' + $store.state.calculator.selectedUnderlying"
       />
       <!--            @click.prevent="$emit('upGetStatisctics')"-->
       <!--            @upAmount="setAmount"-->
@@ -46,6 +47,7 @@ import { mapGetters, mapActions, mapState } from "vuex";
 import vSelect from "./forms/v-select";
 import vAmount from "./forms/v-amount";
 import vCheckbox from "./forms/v-checkbox";
+import _ from "lodash";
 
 export default {
   name: "v-header-forms",
@@ -54,6 +56,13 @@ export default {
     vAmount,
     vSelect,
     vCheckbox,
+  },
+
+  props: {
+    activeTab: {
+      type: Number,
+      default: 1
+    },
   },
 
   emits: ["upGetStatisctics"],
@@ -80,7 +89,13 @@ export default {
   },
   watch: {
     amount(newValue, oldValue) {
-      this.fieldsCheck();
+      console.log('this.activeTab', this.activeTab)
+      if (this.activeTab === 1) {
+        clearInterval(this.timerId)
+        this.timerId = setTimeout(() => {
+          this.fieldsCheck()
+        }, 300);
+      }
     },
     selectedunderlying() {
       this.selectedMaturity = null;
@@ -147,7 +162,6 @@ export default {
       value = Number(typeof value === "object" ? value.target.value : value);
       this.$store.commit("calculator/setCoinAmount", value);
       this.$store.commit("setAmount_mutations", value);
-      this.fieldsCheck();
     },
   },
 };

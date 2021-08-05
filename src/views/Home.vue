@@ -34,7 +34,7 @@
 
             <div class="divider"></div>
 
-            <v-header-forms />
+            <v-header-forms :active-tab="activeTab" />
         </div>
         <!-- Tabs -->
         <div class="container with-nav" >

@@ -132,9 +132,9 @@
       <div class="gradient-table mt-10">
         <table
           v-if="tableData && selectedCoin"
-          class="table-auto text-center mt-5 justify-end m-left w-full table-statistic"
+          class="table-auto text-center justify-end m-left w-full table-statistic"
         >
-          <thead class="border__thead border-gray-400 bg-gray-100">
+          <thead class="border__thead">
             <tr class="table__header">
               <th class="th"></th>
               <th class="table__title">{{ selectedCoin }}</th>

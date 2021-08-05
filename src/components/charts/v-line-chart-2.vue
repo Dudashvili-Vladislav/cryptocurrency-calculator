@@ -186,8 +186,6 @@ export default {
 
     dataset: {
       handler: function(newValue, oldValue) {
-        console.log("newValue-dataset", newValue);
-        console.log("oldValue", oldValue);
         if (newValue && newValue["x"]) {
           let series = [
             {

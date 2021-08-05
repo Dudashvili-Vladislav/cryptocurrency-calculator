@@ -8,7 +8,7 @@
               Sign up
             </h1>
           </div>
-          <Form @submit="onSubmit" class="p-0">
+          <Form class="p-0">
             <div class="mt-5">
               <Field
                 name="username"
@@ -66,7 +66,7 @@
                 <button
                   type="submit "
                   class=" focus:outline-none text-white text-sm py-2.5 px-5 rounded-md bg-green-500 hover:bg-green-600 hover:shadow-lg "
-                  @click="register"
+                  @click.prevent="register"
                 >
                   Registration
                 </button>
@@ -180,7 +180,8 @@ export default {
 
     async register() {
       try {
-        await this.createUser({ email: this.email, password: this.password })
+        console.log('REGISTER');
+        await this.createUser({ email: this.email, password: this.password, user: this.name })
         this.$router.push({name: 'home'})
       } catch (error) {
         this.errorMessage = error
