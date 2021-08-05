@@ -9,6 +9,7 @@ axios.defaults.baseURL = "http://localhost:5000";
 let store = createStore({
   state() {
     return {
+      user: null,
       maturityList: [],
       maturity: null,
       underlying: null,
@@ -28,6 +29,10 @@ let store = createStore({
   },
 
   mutations: {
+    setUser(state, user) {
+      state.user = user
+    },
+
     setMessage(state, message) {
       state.message = message
     },
@@ -222,6 +227,7 @@ let store = createStore({
     underlyingChoice: (state) => state.underlying,
     tableList: (state) => state.key,
     maturity: (state) => state.maturity,
+    userFirebase: (state) => state.user,
   },
 
   modules: {
