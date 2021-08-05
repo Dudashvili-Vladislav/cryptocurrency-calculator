@@ -129,75 +129,105 @@
         :dataset="chartData"
       />
 
-
-        <div class="gradient-table mt-10">
-          <table
-            v-if="tableData && selectedCoin"
-            class="table-auto text-center mt-5 justify-end m-left w-full table-statistic"
-          >
-            <thead class="border__thead border-gray-400 bg-gray-100">
-              <tr class="table__header">
-                <th class="th"></th>
-                <th class="table__title">{{ selectedCoin }}</th>
-                <th class="table__title">%</th>
-                <th class="table__title__USD">USD</th>
-              </tr>
-            </thead>
-            <tbody class="wrapper__table">
-              <tr class="table__border ">
-                <td class="field__description">Amount of underlying</td>
-                <td class="field__values">{{ tableData[selectedCoin]["Amount of underlying"] }}</td>
-                <td class="field__values">{{ tableData["%"]["Amount of underlying"] }}</td>
-                <td class="field__values">{{ tableData["USD"]["Amount of underlying"] }}</td>
-              </tr>
-              <tr class="border-gray-400 bg-emerald-200">
-                <td class="field__description">Max profit</td>
-                <td class="field__values">{{ tableData[selectedCoin]["Max profit"].toFixed(2) }}</td>
-                <td class="field__values">{{ tableData["%"]["Max profit"].toFixed(2) }}</td>
-                <td class="field__values">{{ tableData["USD"]["Max profit"].toFixed(2) }}</td>
-              </tr>
-              <tr class="border-gray-400">
-                <td class="field__description">Structure product price</td>
-                <td class="field__values">{{tableData[selectedCoin]["Structure product price"].toFixed(2)}}</td>
-                <td class="field__values">{{ tableData["%"]["Structure product price"].toFixed(2) }}</td>
-                <td class="field__values">{{ tableData["USD"]["Structure product price"].toFixed(2) }}</td>
-              </tr>
-              <tr class="border-gray-400">
-                <td class="field__description">Maintenance margin</td>
-                <td class="field__values">{{ tableData[selectedCoin]["Maintenace margin"].toFixed(2) }}</td>
-                <td class="field__values">{{ tableData["%"]["Maintenace margin"].toFixed(2) }}</td>
-                <td class="field__values">{{ tableData["USD"]["Maintenace margin"].toFixed(2) }}</td>
-              </tr>
-              <tr class="border-gray-400">
-                <td class="field__description">Total margin</td>
-                <td class="field__values">{{ tableData[selectedCoin]["Total margin"].toFixed(2) }}</td>
-                <td class="field__values">{{ tableData["%"]["Total margin"].toFixed(2) }}</td>
-                <td class="field__values">{{ tableData["USD"]["Total margin"].toFixed(2) }}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="gradient-table mt-10">
+        <table
+          v-if="tableData && selectedCoin"
+          class="table-auto text-center mt-5 justify-end m-left w-full table-statistic"
+        >
+          <thead class="border__thead border-gray-400 bg-gray-100">
+            <tr class="table__header">
+              <th class="th"></th>
+              <th class="table__title">{{ selectedCoin }}</th>
+              <th class="table__title">%</th>
+              <th class="table__title__USD">USD</th>
+            </tr>
+          </thead>
+          <tbody class="wrapper__table">
+            <tr class="table__border ">
+              <td class="field__description">Amount of underlying</td>
+              <td class="field__values">
+                {{ tableData[selectedCoin]["Amount of underlying"] }}
+              </td>
+              <td class="field__values">
+                {{ tableData["%"]["Amount of underlying"] }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Amount of underlying"] }}
+              </td>
+            </tr>
+            <tr class="border-gray-400 bg-emerald-200">
+              <td class="field__description">Max profit</td>
+              <td class="field__values">
+                {{ tableData[selectedCoin]["Max profit"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["%"]["Max profit"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Max profit"].toFixed(2) }}
+              </td>
+            </tr>
+            <tr class="border-gray-400">
+              <td class="field__description">Structure product price</td>
+              <td class="field__values">
+                {{
+                  tableData[selectedCoin]["Structure product price"].toFixed(2)
+                }}
+              </td>
+              <td class="field__values">
+                {{ tableData["%"]["Structure product price"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Structure product price"].toFixed(2) }}
+              </td>
+            </tr>
+            <tr class="border-gray-400">
+              <td class="field__description">Maintenance margin</td>
+              <td class="field__values">
+                {{ tableData[selectedCoin]["Maintenace margin"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["%"]["Maintenace margin"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Maintenace margin"].toFixed(2) }}
+              </td>
+            </tr>
+            <tr class="border-gray-400">
+              <td class="field__description">Total margin</td>
+              <td class="field__values">
+                {{ tableData[selectedCoin]["Total margin"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["%"]["Total margin"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Total margin"].toFixed(2) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="v-call-spread-right flex pb-2  ">
+        <div class="button__sendorder  flex ">
+          <v-button
+            @upGetStatisctics="
+              sendOrder({
+                tableData: tableData,
+                max_slippage: Number(max_slippage),
+              })
+            "
+          />
+          <input
+            class="input"
+            v-model="max_slippage"
+            name="inputSlipage"
+            id="slipage"
+            type="number"
+          />
+          <!--             {{ max_slippage }} -->
         </div>
-        <div class="v-call-spread-right flex pb-2  ">
-          <div class="button__sendorder  flex ">
-            <v-button
-              @upGetStatisctics="
-                sendOrder({
-                  tableData: tableData,
-                  max_slippage: Number(max_slippage),
-                })
-              "
-            />
-            <input
-              class="input"
-              v-model="max_slippage"
-              name="inputSlipage"
-              id="slipage"
-              type="number"
-            />
-            <!--             {{ max_slippage }} -->
-          </div>
-        </div>
-
+      </div>
     </div>
   </div>
 </template>
@@ -318,11 +348,8 @@ export default {
 
   watch: {
     selectedUnderlying(newValue) {
-      this.getMaturity(newValue);
-      // TODO
-      // if (when all fields filled and first changed) {
-        // this.$store.commit('calculator/clearForm')
-      // }
+      this.getMaturity(newValue)
+      this.$store.commit("calculator/clearFormCustomQa");
     },
 
     saveDirection(newValue, oldValue) {
@@ -421,7 +448,7 @@ export default {
     ]),
 
     async getMaturity(underlying) {
-      console.log('GET MATUROTY');
+      console.log("GET MATUROTY");
       this.maturityList = await this.getMaturity_actions(underlying);
       const result = await this.getStrikes_actions(this.selectedCoin); //BTC-ETH
       console.log(".main_value", result[this.selectedCoin].main_value);
@@ -616,7 +643,6 @@ export default {
   opacity: 0.8;
   max-height: 50%;
   margin-top: 46px;
-
 }
 .description {
   font-family: Gilroy;

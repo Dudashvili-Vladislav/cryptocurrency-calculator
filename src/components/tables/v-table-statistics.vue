@@ -9,7 +9,7 @@
       </div> 
       <vLineChart2
         v-if="chartData"
-        class="chart text-left chart-v w-full "
+        class="chart text-left chart-v  "
         :dataset="chartData"
         :title="title"
       />
@@ -19,6 +19,7 @@
         <div class="description text pr-5 " v-if="description">
           {{ description }}
         </div>
+        
         <div class="button__sendorder flex  ">
           <v-button
             @upGetStatisctics="
@@ -199,16 +200,22 @@ export default {
 
 .wrapper-text {
   align-items: flex-start;
+
 }
 
 .gradient-table {
+    max-width: 550px;
+  max-height: 248px;
   border-radius: 10px;
   overflow: hidden;
   padding: 1px;
   background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
+  margin-right: 450px;
+
 }
 .chart {
   color: white;
+  width: 70%;
 }
 
 .chart-titles {

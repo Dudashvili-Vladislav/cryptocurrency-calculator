@@ -6,6 +6,7 @@
             </h1>
 
             <div class="user-panel ml-auto">
+                
                 <div class="swicher">
                     <input class="switch" id="switch1" type="checkbox"/>
                     <label class="switch-for" for="switch1"></label>

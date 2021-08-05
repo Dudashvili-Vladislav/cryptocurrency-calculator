@@ -1,6 +1,7 @@
 import firebase from "firebase";
 import {error} from '@/components/utils/error.js';
 import { root } from "postcss";
+import { mapMutations, mapGetters, } from "vuex";
 
 function setUserToState(context) {
   const user = firebase.auth().currentUser;
@@ -19,6 +20,16 @@ export default {
       user: null,
     };
   },
+
+  computed: {
+    ...mapGetters(["userFirebase"]),
+  },
+  methods: {
+    ...mapMutations([
+      "setUser"
+    ]),
+  },
+
 
   mutations: {
     setUser(state, user) {
@@ -53,18 +64,18 @@ export default {
       }
     },
 
-    async createUser(context, { email, password }) {
+    async createUser(context, { email, password, user}) {
       try {
         const responce = await firebase
           .auth()
-          .createUserWithEmailAndPassword(email, password);
+          .createUserWithEmailAndPassword(email, password, user);
         
         console.log('responce', responce)
         const user = firebase.auth().currentUser;
         console.log('user', user)
         user.updateProfile({
           // TODO set name from input
-          displayName: 'Illya'
+          displayName: context.commit("setUser")
         })
 
         setUserToState(context);
