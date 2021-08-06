@@ -126,6 +126,10 @@ export default {
 
 <style>
 
+.tab-content {
+  color: #ffffff;
+}
+
 .tab-nav {
     display: flex;
 }
@@ -334,4 +338,30 @@ a {
 .switch:checked ~ .header-wrapper {
     background-color: #fff;
 }
+
+
+/* Slider */
+
+.vue-slider .vue-slider-rail {
+  border-radius: 0;
+  background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
+  height: 2px;
+}
+
+.vue-slider .vue-slider-process {
+  height: 6px!important;
+  background: #FB49C0;
+  top: -2px!important;
+}
+
+.vue-slider .vue-slider-dot-handle {
+  background: linear-gradient(135deg, #FFF2FE 0%, #FFBFF6 100%);
+  box-shadow: 0px 0 0 5px #ffbff657;
+}
+
+.vue-slider.blue-slider .vue-slider-process{
+  background: linear-gradient(0deg, #31AFD6, #31AFD6), #FB49C0;
+}
+
+/* Slider END */
 </style>

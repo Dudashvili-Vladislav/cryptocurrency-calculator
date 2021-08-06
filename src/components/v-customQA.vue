@@ -1,6 +1,6 @@
 <template>
   <div class="v-customQA pt-6 container mx-auto ">
-    <div class="header-form ml-10 w-full">
+    <div class="header-form w-full">
       <!--      <div
         class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start  "
       >
@@ -65,6 +65,9 @@
             @change="changeMinPrice"
             :enable-cross="false"
           ></vue-slider>
+          <div class="slider-divides">
+            <span v-for="item in divides" :key="item"></span>
+          </div>
         </div>
         <div class="number flex justify-between">
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
@@ -85,6 +88,7 @@
       <div class="slederCustomQa">
         <div class="mt-20">
           <vue-slider
+            class="blue-slider"
             v-model="expectedMaxPrice"
             :marks="markSliderCoin"
             :interval="100"
@@ -94,6 +98,9 @@
             :enable-cross="false"
           >
           </vue-slider>
+          <div class="slider-divides">
+            <span v-for="item in divides" :key="item"></span>
+          </div>
         </div>
         <div class="number flex justify-between">
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
@@ -107,14 +114,41 @@
       <h3 class="w-full mt-5 ml-8 ">
         Хотите ли получать дополнительную прибыль за счет продажи фьючерса?
       </h3>
-      <vCheckbox class="mt-5" v-model="subDirectionFlag">
-        Да / Нет
-      </vCheckbox>
+
+      <div class="form_radio">
+        <input id="radio-1" type="radio" name="radio" value="true" v-model="subDirectionFlag">
+        <label for="radio-1"><span>Да /</span></label>
+      </div>
+      
+      <div class="form_radio">
+        <input id="radio-2" type="radio" name="radio" value="false" v-model="subDirectionFlag">
+        <label for="radio-2"><span>Нет</span></label>
+      </div>
+    
     </div>
 
-    <h3 class="w-full mt-5 ml-16 ">
-      Продажа фьючерса требует внесения на счет базового актива в количестве
-      равном номиналу проданных фьючерсов.
+    <h3 class="caption">
+      <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 1.25001C10.0836 1.24873 11.1568 1.46154 12.1579 1.87623C13.159 2.29091 14.0683 2.89928 14.8336 3.6664C15.6007 4.43171 16.2091 5.34103 16.6238 6.34215C17.0384 7.34325 17.2513 8.41641 17.25 9.5C17.2513 10.5836 17.0385 11.6568 16.6238 12.6579C16.2091 13.659 15.6007 14.5683 14.8336 15.3336C14.0683 16.1007 13.159 16.7091 12.1579 17.1238C11.1568 17.5385 10.0836 17.7513 8.99999 17.75C7.91641 17.7513 6.84325 17.5384 5.84215 17.1238C4.84105 16.7091 3.93173 16.1007 3.16643 15.3336C2.3993 14.5683 1.79092 13.659 1.37623 12.6579C0.961543 11.6568 0.748728 10.5836 0.750006 9.49999C0.748753 8.41641 0.961577 7.34325 1.37626 6.34215C1.79094 5.34104 2.39931 4.43173 3.16643 3.66643C3.93173 2.89931 4.84104 2.29094 5.84215 1.87626C6.84325 1.46158 7.91641 1.24875 9 1.25001ZM9.00001 17L9.00098 16.25C9.88726 16.2512 10.765 16.0771 11.5838 15.738C12.4026 15.3988 13.1464 14.9011 13.7722 14.2736L13.7736 14.2722C14.4011 13.6464 14.8988 12.9026 15.238 12.0838C15.5771 11.265 15.7512 10.3873 15.75 9.50098V9.49905C15.7511 8.61277 15.5771 7.735 15.2379 6.91619C14.8988 6.09737 14.4011 5.35366 13.7736 4.72777L13.7722 4.72639C13.1464 4.09887 12.4026 3.60122 11.5838 3.26204C10.765 2.92287 9.88726 2.74886 9.00098 2.75001H8.99905C8.11277 2.74888 7.235 2.9229 6.41619 3.26207C5.59737 3.60125 4.85366 4.09889 4.22777 4.7264L4.2264 4.72777C3.59889 5.35366 3.10125 6.09737 2.76207 6.91619C2.4229 7.735 2.24888 8.61277 2.25001 9.49905V9.50098C2.24886 10.3873 2.42287 11.265 2.76204 12.0838C3.10122 12.9026 3.59887 13.6464 4.22639 14.2722L4.22778 14.2736C4.85366 14.9011 5.59737 15.3988 6.41619 15.7379C7.235 16.0771 8.11277 16.2511 8.99905 16.25L9.00001 17Z" fill="url(#paint0_linear)"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 14.375C9.24864 14.375 9.4871 14.2762 9.66291 14.1004C9.83873 13.9246 9.9375 13.6861 9.9375 13.4375C9.9375 13.1889 9.83873 12.9504 9.66291 12.7746C9.4871 12.5988 9.24864 12.5 9 12.5C8.75136 12.5 8.5129 12.5988 8.33709 12.7746C8.16127 12.9504 8.0625 13.1889 8.0625 13.4375C8.0625 13.6861 8.16127 13.9246 8.33709 14.1004C8.5129 14.2762 8.75136 14.375 9 14.375Z" fill="url(#paint1_linear)"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 4.25C9.41421 4.25 9.75 4.58579 9.75 5V11C9.75 11.4142 9.41421 11.75 9 11.75C8.58579 11.75 8.25 11.4142 8.25 11V5C8.25 4.58579 8.58579 4.25 9 4.25Z" fill="url(#paint2_linear)"/>
+        <defs>
+        <linearGradient id="paint0_linear" x1="17.25" y1="1.25" x2="0.75" y2="1.25" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#8743FF"/>
+        <stop offset="1" stop-color="#4136F1"/>
+        </linearGradient>
+        <linearGradient id="paint1_linear" x1="9.9375" y1="12.5" x2="8.0625" y2="12.5" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#8743FF"/>
+        <stop offset="1" stop-color="#4136F1"/>
+        </linearGradient>
+        <linearGradient id="paint2_linear" x1="9.75" y1="4.25" x2="8.25" y2="4.25" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#8743FF"/>
+        <stop offset="1" stop-color="#4136F1"/>
+        </linearGradient>
+        </defs>
+      </svg>
+      <span class="ml-3">Продажа фьючерса требует внесения на счет базового актива в количестве
+      равном номиналу проданных фьючерсов.</span>
     </h3>
 
     <div class="v-table-statistics   items-center">
@@ -324,6 +358,12 @@ export default {
       };
     },
 
+    divides () {
+      if (this.selectedCoin === 'BTC') return 7
+      if (this.selectedCoin === 'ETH') return 8
+      return 7
+    },
+
     markSliderCoin() {
       switch (this.selectedCoin) {
         case "BTC":
@@ -499,8 +539,10 @@ export default {
     },
 
     async setDirection(value) {
-      console.log("setDirection");
-      this.selectedDirection = value;
+      console.log("setDirection", value);
+      if (value) {
+        this.selectedDirection = value;
+      }
       let shit = 0;
       clearInterval(this.intervalTimerId);
       this.intervalTimerId = setInterval(async () => {
@@ -699,4 +741,85 @@ export default {
 .th {
   border-top-left-radius: 18px;
 }
+
+.slider-divides {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  top: -23px;
+}
+
+.slider-divides span {
+  display: block;
+  width: 2px;
+  height: 24px;
+  background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
+}
+
+.caption {
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
+  line-height: 21px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 8px 12px;
+  margin: 35px 0;
+  border-radius: 10px;
+}
+
+/* Radio buttons */
+
+.form_radio {
+  display: inline-flex;
+  align-items: center;
+	margin-bottom: 10px;
+  margin-right: 12px;
+}
+
+.form_radio span{
+  display: block;
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
+.form_radio input[type=radio] {
+	display: none;
+}
+.form_radio label {
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	padding-left: 25px;
+	margin-right: 0;
+	line-height: 18px;
+	user-select: none;
+}
+.form_radio label:before {
+	content: "";
+	display: inline-block;
+	width: 26px;
+	height: 26px;
+	position: absolute;
+	left: 0;
+	bottom: 1px;
+	border: 1px solid #333;
+  border-radius: 50%;
+}
+ 
+/* Checked */
+.form_radio input[type=radio]:checked + label:before {
+	background: url('../assets/images/checked.png') 0 0 no-repeat;
+  border: none;
+}
+ 
+/* Hover */
+.form_radio label:hover:before {
+	filter: brightness(120%);
+}
+ 
+/* Disabled */
+.form_radio input[type=radio]:disabled + label:before {
+	filter: grayscale(100%);
+}
+
+/* Radio buttons END */
 </style>

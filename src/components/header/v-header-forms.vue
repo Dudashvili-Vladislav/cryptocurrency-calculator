@@ -21,7 +21,6 @@
         @input="handleMaturitySelect"
         :label="'Maturity'"
         :options="maturityList"
-        @change="setMaturity"
         class="select-gradient"
       >
       </vSelect>
@@ -83,7 +82,7 @@ export default {
     ...mapGetters(["maturityList"]),
     ...mapState({
       amount: (state) => state.amount,
-      selectedCoin: (state) => state.underlying,
+      selectedCoin: (state) => state.calculator.selectedUnderlying,
       selectedHedg: (state) => state.maturity,
     }),
   },
@@ -151,6 +150,7 @@ export default {
       this.$store.commit("calculator/setMaturity", value);
       this.$store.commit("setMaturity_mutations", value);
       this.fieldsCheck();
+      this.setMaturity()
       console.log("maurityValue", value);
     },
 

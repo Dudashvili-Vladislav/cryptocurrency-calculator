@@ -41,6 +41,7 @@ export default {
         },
 
         clearFormRecomended(state) {
+            console.log('WORK!');
             state.selectedMaturity = null
             state.coinAmount = 0
             state.hedgeFunding = false
