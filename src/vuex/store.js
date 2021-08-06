@@ -29,6 +29,7 @@ let store = createStore({
   },
 
   mutations: {
+
     setUser(state, user) {
       state.user = user
     },
