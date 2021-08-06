@@ -97,9 +97,11 @@ export default {
         }, 300);
       }
     },
-    selectedunderlying() {
-      this.selectedMaturity = null;
-    },
+    selectedCoin(newValue) {
+      console.log("wfewfewew");
+      this.$store.commit("calculator/clearFormRecomended");
+
+    }
   },
 
   methods: {

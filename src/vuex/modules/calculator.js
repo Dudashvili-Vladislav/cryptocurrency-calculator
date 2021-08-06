@@ -6,6 +6,7 @@ export default {
         selectedMaturity: null,
         coinAmount: 0,
         hedgeFunding: false,
+        
 
         maturityList: {
             btc: [],
@@ -37,6 +38,12 @@ export default {
             state.selectedMaturity = null
             state.coinAmount = 0
             state.hedgeFunding = false
-        }
+        },
+
+        clearFormRecomended(state) {
+            state.selectedMaturity = null
+            state.coinAmount = 0
+            state.hedgeFunding = false
+        },
     }
 }

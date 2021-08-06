@@ -1,15 +1,13 @@
 <template>
   <div class="v-table-statistics  w-full items-center">
-
     <div class="line-chart-wrapper">
       <div class="chart-titles p-2">
         <div class="chart-title-top mt-3"></div>
         <div class="chart-title-bottom"></div>
-
-      </div> 
+      </div>
       <vLineChart2
         v-if="chartData"
-        class="chart text-left chart-v  "
+        class="chart text-left chart-v  w-full"
         :dataset="chartData"
         :title="title"
       />
@@ -19,7 +17,7 @@
         <div class="description text pr-5 " v-if="description">
           {{ description }}
         </div>
-        
+
         <div class="button__sendorder flex  ">
           <v-button
             @upGetStatisctics="
@@ -43,8 +41,8 @@
       </div>
 
       <div class="gradient-table">
-         <table
-         v-if="tableData[underlyingChoice]"
+        <table
+          v-if="tableData[underlyingChoice]"
           class="table-auto  text-center  justify-end m-left table-statistic"
         >
           <thead class="border__thead  ">
@@ -58,43 +56,73 @@
           <tbody class="wrapper__table">
             <tr class="table__border ">
               <td class="field__description">Amount of underlying</td>
-              <td class="field__values">{{ tableData[underlyingChoice]["Amount of underlying"] }}</td>
-              <td class="field__values">{{ tableData["%"]["Amount of underlying"] }}</td>
-              <td class="field__values">{{ tableData["USD"]["Amount of underlying"] }}</td>
+              <td class="field__values">
+                {{ tableData[underlyingChoice]["Amount of underlying"] }}
+              </td>
+              <td class="field__values">
+                {{ tableData["%"]["Amount of underlying"] }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Amount of underlying"] }}
+              </td>
             </tr>
             <tr class="bg-emerald-200">
               <td class="field__description">Max profit</td>
-              <td class="field__values">{{ tableData[underlyingChoice]["Max profit"].toFixed(2) }}</td>
-              <td class="field__values">{{ tableData["%"]["Max profit"].toFixed(2) }}</td>
-              <td class="field__values">{{ tableData["USD"]["Max profit"].toFixed(2) }}</td>
+              <td class="field__values">
+                {{ tableData[underlyingChoice]["Max profit"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["%"]["Max profit"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Max profit"].toFixed(2) }}
+              </td>
             </tr>
             <tr class="">
               <td class="field__description">Structure product price</td>
-              <td class="field__values">{{tableData[underlyingChoice]["Structure product price"].toFixed(2)}}
+              <td class="field__values">
+                {{
+                  tableData[underlyingChoice][
+                    "Structure product price"
+                  ].toFixed(2)
+                }}
               </td>
-              <td class="field__values">{{ tableData["%"]["Structure product price"].toFixed(2) }}</td>
-              <td class="field__values">{{ tableData["USD"]["Structure product price"].toFixed(2) }}
+              <td class="field__values">
+                {{ tableData["%"]["Structure product price"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Structure product price"].toFixed(2) }}
               </td>
             </tr>
             <tr class="">
               <td class="field__description">Maintenance margin</td>
-              <td class="field__values">{{ tableData[underlyingChoice]["Maintenace margin"].toFixed(2) }}
+              <td class="field__values">
+                {{
+                  tableData[underlyingChoice]["Maintenace margin"].toFixed(2)
+                }}
               </td>
-              <td class="field__values">{{ tableData["%"]["Maintenace margin"].toFixed(2) }}</td>
-              <td class="field__values">{{ tableData["USD"]["Maintenace margin"].toFixed(2) }}</td>
+              <td class="field__values">
+                {{ tableData["%"]["Maintenace margin"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Maintenace margin"].toFixed(2) }}
+              </td>
             </tr>
             <tr class="">
               <td class="field__description">Total margin</td>
-              <td class="field__values">{{ tableData[underlyingChoice]["Total margin"].toFixed(2) }}
+              <td class="field__values">
+                {{ tableData[underlyingChoice]["Total margin"].toFixed(2) }}
               </td>
-              <td class="field__values">{{ tableData["%"]["Total margin"].toFixed(2) }}</td>
-              <td class="field__values">{{ tableData["USD"]["Total margin"].toFixed(2) }}</td>
+              <td class="field__values">
+                {{ tableData["%"]["Total margin"].toFixed(2) }}
+              </td>
+              <td class="field__values">
+                {{ tableData["USD"]["Total margin"].toFixed(2) }}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-
-      <div class="v-call-spread-right flex pb-2"></div>
     </div>
   </div>
 </template>
@@ -104,7 +132,7 @@ import vButton from "@/components/v-button";
 import { mapGetters, mapActions, mapState } from "vuex";
 import vLineChart from "@/components/charts/v-line-chart";
 import vLineChart2 from "@/components/charts/v-line-chart-2";
-import { map } from 'lodash';
+import { map } from "lodash";
 
 export default {
   name: "v-table-statistics",
@@ -157,12 +185,13 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ "fullDataList" ]),
+    ...mapGetters(["fullDataList"]),
     ...mapState({
-      underlyingChoice: state => state.calculator.selectedUnderlying,
-      maturity: state => state.calculator.selectedMaturity,
-
-    })
+      underlying: (state) => state.underlying,
+      maturity: (state) => state.maturity,
+      amount: (state) => state.amount,
+      futHedgeFlag: (state) => state.futHedgeFlag,
+    }),
   },
 
   watch: {
@@ -174,6 +203,7 @@ export default {
     logData() {
       console.log("tableData", this.tableData);
     },
+
   },
 
   methods: {
@@ -192,39 +222,36 @@ export default {
 };
 </script>
 <style scoped>
-
+.v-table-statistics {
+  max-width: 100%;
+}
 .discription__button,
 .gradient-table {
-  flex: 1 1 100%
+  flex: 1 1 100%;
 }
 
 .wrapper-text {
   align-items: flex-start;
-
 }
 
 .gradient-table {
-    max-width: 550px;
+  max-width: 550px;
   max-height: 248px;
   border-radius: 10px;
   overflow: hidden;
   padding: 1px;
-  background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
-  margin-right: 450px;
-
+  background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
 }
 .chart {
   color: white;
-  width: 70%;
 }
 
 .chart-titles {
-  position: absolute ;
+  position: absolute;
   margin: 10px;
 }
 
 .chart-title-top {
-
   min-width: 145px;
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(18.5547px);
@@ -232,8 +259,6 @@ export default {
   font-size: 18px;
   padding: 15px;
   color: #ffffff;
-  
-
 }
 
 .chart-title-bottom {
@@ -242,12 +267,10 @@ export default {
   min-width: 145px;
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(18.5547px);
-border-radius: 14.5px;
+  border-radius: 14.5px;
   font-size: 18px;
-padding: 8px 12px;
+  padding: 8px 12px;
   color: #ffffff;
-  
-
 }
 
 .line-chart-wrapper {
@@ -261,7 +284,7 @@ padding: 8px 12px;
   width: 100%;
 }
 
-.table-statistic td+td {
+.table-statistic td + td {
   border-left: 1px solid #fff3;
 }
 
@@ -279,14 +302,14 @@ padding: 8px 12px;
   opacity: 0.8;
 }
 .description {
-font-family: Gilroy;
+  font-family: Gilroy;
   color: #ffffff;
   font-size: 14px;
-line-height: 180%;
+  line-height: 180%;
   font-style: normal;
   font-weight: normal;
   font-weight: 400;
-
+  width: 150%;
 }
 .field__description {
   font-family: Gilroy;
@@ -298,23 +321,20 @@ line-height: 180%;
   margin: 0px 10px;
 }
 .field__values {
-    font-family: Gilroy;
+  font-family: Gilroy;
   color: #ffffff;
   font-size: 14px;
   line-height: 100%;
   order: 0;
   flex-grow: 0;
   margin: 0px 10px;
-  
-  
 }
 .table__header {
-  background: linear-gradient(270deg, #8743FF 0%, #4136F1 100%);
-
+  background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
 }
 
 .table__title {
-      font-family: Gilroy;
+  font-family: Gilroy;
   color: #ffffff;
   font-size: 14px;
   line-height: 100%;
@@ -324,7 +344,7 @@ line-height: 180%;
   padding: 13px 0 13px 0;
 }
 .table__title__USD {
-        font-family: Gilroy;
+  font-family: Gilroy;
   color: #ffffff;
   font-size: 14px;
   line-height: 100%;
@@ -335,8 +355,6 @@ line-height: 180%;
   border-top-right-radius: 18px;
 }
 .th {
-  border-top-left-radius: 18px
+  border-top-left-radius: 18px;
 }
-
-
 </style>
