@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <div class="header-wrapper flex">
+        <div class="header-wrapper flex  ">
             <h1 class="logo font-bold text-xl">
                 Calculator
             </h1>
@@ -132,6 +132,7 @@ export default {
 
 .tab-nav {
     display: flex;
+    padding-top: 300px;
 }
 
 .tab-nav-item {
@@ -182,6 +183,10 @@ a {
 }
 
 .header-wrapper {
+    position: fixed; 
+    top: 0;  
+z-index: 100;  
+  
     flex-wrap: wrap;
     align-items: center;
     padding: 48px 48px 24px;

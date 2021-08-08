@@ -42,13 +42,13 @@
 
       <div class="gradient-table">
         <table
-          v-if="tableData[underlyingChoice]"
+          v-if="tableData[selectedCoin]"
           class="table-auto  text-center  justify-end m-left table-statistic"
         >
           <thead class="border__thead  ">
             <tr class="table__header">
               <th class="th"></th>
-              <th class="table__title">{{ underlyingChoice }}</th>
+              <th class="table__title">{{ selectedCoin }}</th>
               <th class="table__title">%</th>
               <th class="table__title__USD">USD</th>
             </tr>
@@ -57,7 +57,7 @@
             <tr class="table__border ">
               <td class="field__description">Amount of underlying</td>
               <td class="field__values">
-                {{ tableData[underlyingChoice]["Amount of underlying"] }}
+                {{ tableData[selectedCoin]["Amount of underlying"] }}
               </td>
               <td class="field__values">
                 {{ tableData["%"]["Amount of underlying"] }}
@@ -69,7 +69,7 @@
             <tr class="bg-emerald-200">
               <td class="field__description">Max profit</td>
               <td class="field__values">
-                {{ tableData[underlyingChoice]["Max profit"].toFixed(2) }}
+                {{ tableData[selectedCoin]["Max profit"].toFixed(2) }}
               </td>
               <td class="field__values">
                 {{ tableData["%"]["Max profit"].toFixed(2) }}
@@ -82,7 +82,7 @@
               <td class="field__description">Structure product price</td>
               <td class="field__values">
                 {{
-                  tableData[underlyingChoice][
+                  tableData[selectedCoin][
                     "Structure product price"
                   ].toFixed(2)
                 }}
@@ -98,7 +98,7 @@
               <td class="field__description">Maintenance margin</td>
               <td class="field__values">
                 {{
-                  tableData[underlyingChoice]["Maintenace margin"].toFixed(2)
+                  tableData[selectedCoin]["Maintenace margin"].toFixed(2)
                 }}
               </td>
               <td class="field__values">
@@ -111,7 +111,7 @@
             <tr class="">
               <td class="field__description">Total margin</td>
               <td class="field__values">
-                {{ tableData[underlyingChoice]["Total margin"].toFixed(2) }}
+                {{ tableData[selectedCoin]["Total margin"].toFixed(2) }}
               </td>
               <td class="field__values">
                 {{ tableData["%"]["Total margin"].toFixed(2) }}
@@ -185,8 +185,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["fullDataList"]),
+    ...mapGetters(["fullDataList", "underlyingChoice"]),
     ...mapState({
+      selectedCoin: (state) => state.calculator.selectedUnderlying,
       underlying: (state) => state.underlying,
       maturity: (state) => state.maturity,
       amount: (state) => state.amount,
@@ -200,9 +201,6 @@ export default {
       immediate: true,
     },
 
-    logData() {
-      console.log("tableData", this.tableData);
-    },
 
   },
 
@@ -217,6 +215,7 @@ export default {
   data() {
     return {
       mission: this.slippage,
+
     };
   },
 };
