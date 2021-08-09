@@ -15,7 +15,7 @@
     <div class="wrapper-text  mt-20 ml-5 flex justify-between ">
       <div class="discription__button pr-20">
         <div class="description text pr-5 " v-if="description">
-          {{ description }}
+         {{ description }}
         </div>
 
         <div class="button__sendorder flex  ">

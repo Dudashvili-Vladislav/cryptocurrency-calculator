@@ -6,6 +6,7 @@ export default {
         selectedMaturity: null,
         coinAmount: 0,
         hedgeFunding: false,
+        lang: "ru",
         
 
         maturityList: {
@@ -15,6 +16,9 @@ export default {
     },
 
     mutations: {
+        setLang(state, value) {
+            state.lang = value
+        },
         setUnderlying(state, value) {
             state.selectedUnderlying = value
         },

@@ -131,11 +131,13 @@ let store = createStore({
             maturity: rootState.calculator.selectedMaturity,
             amount: rootState.calculator.coinAmount,
             fut_hedge_flag: flag.charAt(0).toUpperCase() + flag.slice(1),
+            lang: rootState.calculator.lang,
           },
         };
         /*         console.log('options 1', options) */
         const response = await axios.get(url, options);
         commit("setFullData_mutations", response.data.data);
+        console.log("response.data.data", response.data.data);
         /*         console.log('RESPONCE', rootState.fullDataList) */
         return response.data.data;
       } catch (error) {
@@ -153,12 +155,14 @@ let store = createStore({
             maturity: rootState.calculator.selectedMaturity,
             amount: rootState.calculator.coinAmount,
             fut_hedge_flag: flag.charAt(0).toUpperCase() + flag.slice(1),
+            lang: rootState.calculator.lang,
           },
         };
 
         clearInterval(rootState.timerId);
         const timerId = setInterval(async () => {
           const response = await axios.get(url, options);
+          commit("setFullData_mutations", response.data.data);
           commit("setTable_mutations", response.data.data);
         }, 2000);
 

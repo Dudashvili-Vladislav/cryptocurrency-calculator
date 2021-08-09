@@ -681,9 +681,7 @@ export default {
 </script>
 
 <style>
-.select_change {
 
-}
 .span__on__chart {
   font-style: normal;
 font-weight: normal;

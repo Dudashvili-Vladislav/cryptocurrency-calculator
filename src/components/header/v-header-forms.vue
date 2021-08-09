@@ -1,7 +1,7 @@
 <template>
   <div class="v-header-forms">
     <div
-      class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start"
+      class="form-control text-gray-700 pointer-events-auto w-1/5 justify-start"
     >
       <vSelect
         :modelValue="$store.state.calculator.selectedUnderlying"
@@ -14,7 +14,7 @@
     </div>
 
     <div
-      class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start ml-8"
+      class="form-control text-gray-700 pointer-events-auto w-1/5 justify-start ml-8"
     >
       <vSelect
         :modelValue="$store.state.calculator.selectedMaturity"
@@ -35,9 +35,14 @@
       <!--            @click.prevent="$emit('upGetStatisctics')"-->
       <!--            @upAmount="setAmount"-->
     </div>
-    <vCheckbox v-model="Checkbox" @checked="handleCheckbox">
+    <div class="wrapper ">
+    <vCheckbox 
+
+    v-model="Checkbox" 
+    @checked="handleCheckbox">
       Futures hedge funding
     </vCheckbox>
+    </div>
   </div>
 </template>
 <script>
@@ -177,7 +182,7 @@ export default {
 }
 
 .v-select-underlying {
-  min-width: 275px;
+  min-width: 300px;
   color: white;
 }
 

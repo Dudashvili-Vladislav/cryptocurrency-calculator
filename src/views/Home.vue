@@ -12,7 +12,11 @@
                     <label class="switch-for" for="switch1"></label>
                 </div>
 
-                <vSelect :options="langList" class="lang-select"></vSelect>
+                <vSelect 
+                :modelValue="$store.state.calculator.lang"
+                @input="changeLang"
+                :options="langList"
+                 class="lang-select"></vSelect>
 
                 <div class="user-panel-wrap">
                     <div class="user-avatar">
@@ -20,6 +24,7 @@
                     </div>
 
                     <div class="user-info">
+                        {{$store.state.auth.user.displayName}}
                         <div class="user-name" v-if="$store.state.auth.user.displayName">{{ $store.state.auth.user.displayName }}</div>
                         <div class="user-type">пользователь</div>
                     </div>
@@ -82,7 +87,9 @@ import vCustomQa from "@/components/v-customQA.vue";
 import vSelect from "@/components/header/forms/v-select";
 import vHeaderForms from "@/components/header/v-header-forms";
 import {useRouter} from "vue-router";
-import {useStore} from "vuex";
+import {mapActions, useStore} from "vuex";
+
+
 
 export default {
     setup() {
@@ -111,15 +118,26 @@ export default {
         return {
             active: false,
             activeTab: 1,
-            langList: ["RU", "EN"],
+            langList: ["ru", "en"],
         };
     },
     methods: {
+    ...mapActions({
+        getTableStaticsics_actions: "getTableStaticsics_actions",
+        
+    }),
+
         changeTab(value) {
             console.log('setting', value)
             this.activeTab = value
             this.$store.commit('calculator/clearForm')
+        },
+        changeLang(value) {
+            console.log("valueLANG",value);
+            this.$store.commit("calculator/setLang", value);
+            this.getTableStaticsics_actions()
         }
+
     }
 };
 </script>
