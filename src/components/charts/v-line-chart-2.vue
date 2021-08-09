@@ -1,243 +1,261 @@
 <template>
-  <div>
-    <div id="chart">
-      <h2 class="text-lg text-center font-semibold" v-if="title">
-        {{ title }}
-      </h2>
+    <div>
+        <div id="chart">
+            <h2 class="text-lg text-center font-semibold" v-if="title">
+                {{ title }}
+            </h2>
 
-      <apexchart
-        type="line"
-        height="350"
-        :options="chartOptions"
-        :series="series"
-        ref="chart"
-      ></apexchart>
+            <apexchart type="line" height="350" :options="chartOptions" :series="seriesResult" @legendClick="handleLineChange" ref="chart"/>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
+
 export default {
-  components: {
-    apexchart: VueApexCharts,
-  },
-  props: {
-    dataset: {
-      type: Object,
-      default: () => {},
+    components: {
+        apexchart: VueApexCharts,
     },
-    title: {
-      type: String,
-      default: "",
-    },
-  },
-
-  data() {
-    return {
-      series: [],
-      chartOptions: {
-        
-
-
-
-        tooltip: {
-          enabled: true,
-          enabledOnSeries: undefined,
-          shared: true,
-          followCursor: false,
-          intersect: false,
-          inverseOrder: false,
-          custom: undefined,
-          fillSeriesColor: false,
-          theme: false,
-          style: {
-            fontSize: "12px",
-            fontFamily: undefined,
-          },
-          onDatasetHover: {
-            highlightDataSeries: false,
-          },
-          x: {
-            show: true,
-            format: "dd MMM",
-            formatter: undefined,
-          },
-          y: {
-            formatter: undefined,
-            title: {
-              formatter: (seriesName) => seriesName,
+    props: {
+        dataset: {
+            type: Object,
+            default: () => {
             },
-          },
-          z: {
-            formatter: undefined,
-            title: "Size: ",
-          },
-          marker: {
-            show: true,
-          },
-
-          fixed: {
-            enabled: false,
-            position: "topRight",
-            offsetX: 0,
-            offsetY: 0,
-          },
         },
-        legend: {
-          show: true,
-          position: "left",
-          horizontalAlign: "center",
-          width: 300,
-          offsetY: 110,
-          fontSize: "20px",
-          labels: {
-            colors: "#ffffff",
-          },
-          itemMargin: {
-            vertical: 10,
-          },
+        title: {
+            type: String,
+            default: "",
         },
-        xaxis: {
-          type: "numeric",
-
-          labels: {
-            rotate: 0,
-            style: {
-              colors: [
-                "#72858a",
-                "#72858a",
-                "#72858a",
-                "#72858a",
-                "#72858a",
-                "#72858a",
-                "#72858a",
-              ],
-              fontSize: "12px",
-              fontFamily: "Helvetica, Arial, sans-serif",
-              fontWeight: 400,
-              cssClass: "apexcharts-xaxis-label",
-            },
-            
-          },
-        },
-        yaxis: {
-           labels:{
-             style: {
-               colors: [
-                "#72858a",
-                "#72858a",
-                "#72858a",
-                "#72858a",
-                "#72858a",
-                "#72858a",
-                "#72858a",
-              ],
-             }
-           }
-        },
-
-        colors: ["#a4a82c", "#c416b9"],
-        tickAmount: "dataPoints",
-        grid: {
-          show: true,
-          borderColor: "#2a2c3d",
-          strokeDashArray: 0,
-
-
-          fill: {
-            type: "gradient",
-          },
-          position: "back",
-
-          xaxis: {
-            lines: {
-              show: true,
-            },
-          },
-          yaxis: {
-            lines: {
-              show: true,
-            },
-          },
-          row: {
-            colors: undefined,
-            opacity: 0.5,
-          },
-          column: {
-            colors: undefined,
-            opacity: 0.5,
-          },
-          padding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 10,
-          },
-        },
-      },
-    };
-  },
-
-  watch: {
-    title(val) {
-      console.log("val", val);
     },
 
-    dataset: {
-      handler: function(newValue, oldValue) {
-        if (newValue && newValue["x"]) {
-          let series = [
-            {
-              name: "Portfolio Pnl",
+    data() {
+        return {
+            structurePnlSet: false, // настройки
+            seriesResult: [], // Тут хранятся графики полученные из пропсов, но к каждой линии добавлен параметр show отвечающий за отображение. В компонент чарта отдаются только те, где show = true
 
-              data: this.dataset["y_portf"].map((item, index) => {
-                return {
-                  x: this.dataset["x"][index],
-                  y: item.toFixed(2),
-                };
-              }),
-            },
-            {
-              name:"Structure Pnl",
-              data: this.dataset["y_struct"].map((item, index) => {
-                return {
-                  x: this.dataset["x"][index],
-                  y: item.toFixed(2),
-                };
-              }),
-            },
-          ];
+            chartOptions: {
+                tooltip: {
+                    enabled: true,
+                    enabledOnSeries: undefined,
+                    shared: true,
+                    followCursor: false,
+                    intersect: false,
+                    inverseOrder: false,
+                    custom: undefined,
+                    fillSeriesColor: false,
+                    theme: false,
+                    style: {
+                        fontSize: "12px",
+                        fontFamily: undefined,
+                    },
+                    onDatasetHover: {
+                        highlightDataSeries: false,
+                    },
+                    x: {
+                        show: true,
+                        format: "dd MMM",
+                        formatter: undefined,
+                    },
+                    y: {
+                        formatter: undefined,
+                        title: {
+                            formatter: (seriesName) => seriesName,
+                        },
+                    },
+                    z: {
+                        formatter: undefined,
+                        title: "Size: ",
+                    },
+                    marker: {
+                        show: true,
+                    },
 
-          this.series = series;
+                    fixed: {
+                        enabled: false,
+                        position: "topRight",
+                        offsetX: 0,
+                        offsetY: 0,
+                    },
+                },
+                legend: {
+                    show: true,
+                    position: "left",
+                    horizontalAlign: "center",
+                    width: 300,
+                    offsetY: 110,
+                    fontSize: "20px",
+                    labels: {
+                        colors: "#ffffff",
+                    },
+                    itemMargin: {
+                        vertical: 10,
+                    },
+                },
+                xaxis: {
+                    type: "numeric",
+
+                    labels: {
+                        rotate: 0,
+                        style: {
+                            colors: [
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                            ],
+                            fontSize: "12px",
+                            fontFamily: "Helvetica, Arial, sans-serif",
+                            fontWeight: 400,
+                            cssClass: "apexcharts-xaxis-label",
+                        },
+
+                    },
+                },
+                yaxis: {
+                    labels: {
+                        style: {
+                            colors: [
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                                "#72858a",
+                            ],
+                        }
+                    }
+                },
+
+                colors: ["#a4a82c", "#c416b9"],
+                tickAmount: "dataPoints",
+                grid: {
+                    show: true,
+                    borderColor: "#2a2c3d",
+                    strokeDashArray: 0,
+
+
+                    fill: {
+                        type: "gradient",
+                    },
+                    position: "back",
+
+                    xaxis: {
+                        lines: {
+                            show: true,
+                        },
+                    },
+                    yaxis: {
+                        lines: {
+                            show: true,
+                        },
+                    },
+                    row: {
+                        colors: undefined,
+                        opacity: 0.5,
+                    },
+                    column: {
+                        colors: undefined,
+                        opacity: 0.5,
+                    },
+                    padding: {
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 10,
+                    },
+                },
+                chart: {
+                    events: {
+                        legendClick: function(chartContext, seriesIndex, config) {
+                            console.log(chartContext, seriesIndex, config)
+                            // The last parameter config contains additional information like `seriesIndex` and `dataPointIndex` for cartesian charts
+                        }
+                    }
+                }
+            },
+        };
+    },
+
+    computed: {},
+
+    methods: {
+        handleLineChange(chartContext, seriesIndex, config) {
+            if (seriesIndex === 1) { // Если клик был по structurePnl
+                this.structurePnlSet = !this.structurePnlSet // инверисуем (тк апекс не передает нам включена линия или нет, мы предполагаем что клик по ней переключает ее всегда)
+                localStorage.setItem('structurePnlSet', this.structurePnlSet ? '1' : '0')
+                //console.log('SET TO', this.structurePnlSet ? '1' : '0')
+            }
+        },
+        getLinesSettings() {
+            let savedSetting = localStorage.getItem('structurePnlSet')
+            savedSetting = savedSetting === '1' // по умолчанию откчлючена
+            this.structurePnlSet = savedSetting
+
+            // console.log('LINE STATE', this.structurePnlSet)
+            if (!this.structurePnlSet) { //
+                this.$nextTick(() => {
+                    if (this.$refs.chart) {
+                        this.$refs.chart.hideSeries( 'Structure Pnl' );
+                    }
+                })
+            }
         }
-      },
-      deep: true,
-      immediate: true,
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.$refs.chart.hideSeries("Portfolio Pnl");
-      console.log("this.$refs.chart", this.$refs.chart);
-    });
-    
-  },
+    mounted() {
+        this.getLinesSettings() // достаем из кэша браузера настройки линий
+    },
+    watch: {
+        dataset: {
+            handler: function (newValue, oldValue) {
+                console.log('DATASET UPDATED')
+                if (newValue && newValue["x"]) {
+                    this.seriesResult = [
+                        {
+                            name: "Portfolio Pnl",
+                            data: this.dataset["y_portf"].map((item, index) => {
+                                return {
+                                    x: this.dataset["x"][index],
+                                    y: item.toFixed(2),
+                                };
+                            }),
+                        },
+                        {
+                            name: "Structure Pnl",
+                            data: this.dataset["y_struct"].map((item, index) => {
+                                return {
+                                    x: this.dataset["x"][index],
+                                    y: item.toFixed(2),
+                                };
+                            }),
+                        },
+                    ];
+
+                    this.getLinesSettings()
+                }
+            },
+            deep: true,
+            immediate: true,
+        },
+    },
 };
 </script>
 
 <style>
 
 .apexcharts-menu.apexcharts-menu-open {
-background-color: #27293d !important;
-border: 0px;
+    background-color: #27293d !important;
+    border: 0px;
 }
 
 .apexcharts-menu {
-  background-color: #27293d !important;
-border: 0px;
+    background-color: #27293d !important;
+    border: 0px;
 }
-
 
 
 </style>

@@ -75,7 +75,7 @@
         </div>
       </div>
 
-      <vCheckbox 
+      <vCheckbox
       class="header__checkbox__customQa"
       v-model="futHedgeFlag_top">
         Выбрать рекомендуемый диапазон
@@ -128,7 +128,7 @@
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
         </div>
 
-        <vCheckbox 
+        <vCheckbox
         class="header__checkbox__customQa"
         v-model="futHedgeFlag_down">
           Выбрать рекомендуемый диапазон
@@ -394,7 +394,7 @@ export default {
       directionOptions: ["Up", "Down"],
       maturityList: [],
       expectedMinPrice: [0, 150000],
-      expectedMaxPrice: [0, 150000],
+        expectedMaxPrice: [0, 150000],
 
       defolt_expectedMinPrice: [0, 150000],
       defolt_expectedMaxPrice: [0, 150000],
@@ -706,7 +706,7 @@ margin-bottom: 30px;
  padding-top: 50px;
     width: auto;
     margin-left: 0;
-  
+
 }
 .header__select__change__title {
   font-weight: 600;
