@@ -739,10 +739,15 @@ margin-bottom: 30px;
   padding-bottom: 20px;
 }
 .button__sendorder {
-  padding-bottom: 15px;
+  margin-top: auto;
 }
 .v-table-statistics {
   width: 100%;
+}
+
+.discription__button {
+  display: flex;
+  flex-direction: column;
 }
 
 .discription__button,
@@ -750,10 +755,6 @@ margin-bottom: 30px;
   flex: 1 1 100%;
   max-width: 50%;
 
-}
-
-.wrapper-text {
-  align-items: flex-start;
 }
 
 .gradient-table {

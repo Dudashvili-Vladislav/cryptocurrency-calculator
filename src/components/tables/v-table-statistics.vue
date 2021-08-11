@@ -14,11 +14,11 @@
     </div>
     <div class="wrapper-text  mt-20 ml-5 flex justify-between ">
       <div class="discription__button pr-20">
-        <div class="description text pr-10 " v-if="description">
+        <div class="description text pr-10 mb-3" v-if="description">
          {{ description }}
         </div>
 
-        <div class="button__sendorder flex  ">
+        <div class="button__sendorder flex">
           <v-button
             @upGetStatisctics="
               sendOrder({
@@ -28,7 +28,7 @@
             "
           />
           <input
-            class="input border border-gray-400 mt-11  rounded px-3 py-3  pb-2    "
+            class="input border border-gray-400 rounded slipage-input px-3 py-3 pb-2"
             v-model="mission"
             name="inputSlipage"
             id="slipage"
@@ -232,10 +232,6 @@ export default {
   flex: 1 1 100%;
 }
 
-.wrapper-text {
-  align-items: flex-start;
-}
-
 .gradient-table {
   max-width: 550px;
   max-height: 248px;
@@ -359,5 +355,11 @@ export default {
 }
 .th {
   border-top-left-radius: 18px;
+}
+
+.slipage-input {
+  margin-top: 0;
+  height: 46px;
+  max-height: 100%;
 }
 </style>
