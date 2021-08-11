@@ -14,7 +14,7 @@
     </div>
     <div class="wrapper-text  mt-20 ml-5 flex justify-between ">
       <div class="discription__button pr-20">
-        <div class="description text pr-5 " v-if="description">
+        <div class="description text pr-10 " v-if="description">
          {{ description }}
         </div>
 
@@ -221,6 +221,9 @@ export default {
 };
 </script>
 <style scoped>
+.button__sendorder {
+
+}
 .v-table-statistics {
   max-width: 100%;
 }
@@ -308,7 +311,8 @@ export default {
   font-style: normal;
   font-weight: normal;
   font-weight: 400;
-  width: 150%;
+  width: 120%;
+  
 }
 .field__description {
   font-family: Gilroy;

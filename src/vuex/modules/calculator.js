@@ -6,7 +6,7 @@ export default {
         selectedMaturity: null,
         coinAmount: 0,
         hedgeFunding: false,
-        lang: "ru",
+        lang: "en",
         
 
         maturityList: {
@@ -45,7 +45,6 @@ export default {
         },
 
         clearFormRecomended(state) {
-            console.log('WORK!');
             state.selectedMaturity = null
             state.coinAmount = 0
             state.hedgeFunding = false

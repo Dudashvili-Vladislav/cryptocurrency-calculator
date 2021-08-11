@@ -44,7 +44,7 @@
         Ожидаемые значения цены
       </h3>
       <div
-        class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start mt-2 "
+        class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start mt-2 "
       >
         <vSelect
         class="select_change select-gradient"
@@ -52,6 +52,7 @@
           :options="directionOptions"
           @input="setDirection"
         >
+
         </vSelect>
       </div>
       <div class="slederCustomQa">
@@ -75,7 +76,7 @@
         </div>
       </div>
 
-      <vCheckbox
+      <vCheckbox 
       class="header__checkbox__customQa"
       v-model="futHedgeFlag_top">
         Выбрать рекомендуемый диапазон
@@ -128,7 +129,7 @@
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
         </div>
 
-        <vCheckbox
+        <vCheckbox 
         class="header__checkbox__customQa"
         v-model="futHedgeFlag_down">
           Выбрать рекомендуемый диапазон
@@ -238,7 +239,7 @@
             /> -->
       <vLineChart2
         v-if="chartData"
-        class="text-left chart-v min-w-2/3 w-2/3 mt-5"
+        class="text-left chart-v min-w-2/3  mt-5"
         :dataset="chartData"
       />
 
@@ -394,7 +395,7 @@ export default {
       directionOptions: ["Up", "Down"],
       maturityList: [],
       expectedMinPrice: [0, 150000],
-        expectedMaxPrice: [0, 150000],
+      expectedMaxPrice: [0, 150000],
 
       defolt_expectedMinPrice: [0, 150000],
       defolt_expectedMaxPrice: [0, 150000],
@@ -426,6 +427,11 @@ export default {
   },
 
   computed: {
+
+
+
+
+
     requestParams() {
       return {
         main_direction: this.selectedDirection,
@@ -468,7 +474,9 @@ export default {
   watch: {
     selectedUnderlying(newValue) {
       this.getMaturity(newValue);
-      this.$store.commit("calculator/clearFormCustomQa");
+      console.log("selectedUnderlying-newValue",newValue);
+
+/*       this.$store.commit("calculator/clearFormCustomQa"); */
     },
 
     saveDirection(newValue, oldValue) {
@@ -673,6 +681,10 @@ export default {
     changeMaxPrice() {
       this.futHedgeFlag_down = false;
     },
+    setSlider () {
+      
+         this.$emit('clicked', this.setDirection())
+     },
   },
   mounted() {
     console.log(this.$store);
@@ -681,7 +693,17 @@ export default {
 </script>
 
 <style>
-
+.v-customQA {
+  background: linear-gradient(210.96deg, rgba(55, 36, 88, 0.61) 0.01%, rgba(43, 35, 83, 0.7) 42.05%, rgba(63, 59, 115, 0) 104.81%);
+  filter: drop-shadow(0px 48px 69px rgba(23, 18, 43, 0.845335));
+  backdrop-filter: blur(20px);
+  border-radius: 0px 10px 10px 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.select__placeholder {
+  color: white;
+}
 .span__on__chart {
   font-style: normal;
 font-weight: normal;
@@ -703,10 +725,11 @@ margin-bottom: 30px;
 
 }
 .header__checkbox__customQa {
+  
  padding-top: 50px;
     width: auto;
     margin-left: 0;
-
+  
 }
 .header__select__change__title {
   font-weight: 600;
@@ -719,13 +742,14 @@ margin-bottom: 30px;
   padding-bottom: 15px;
 }
 .v-table-statistics {
-  width: 140%;
+  width: 100%;
 }
 
 .discription__button,
 .gradient-table {
   flex: 1 1 100%;
-  max-width: 35%;
+  max-width: 50%;
+
 }
 
 .wrapper-text {

@@ -16,6 +16,7 @@ let store = createStore({
       amount: 0,
       futHedgeFlag: false,
       fullDataList: null,
+      fullDataListLang: null,
       result: null,
       value: null,
       key: 0,
@@ -67,7 +68,10 @@ let store = createStore({
 
     setFullData_mutations(state, data) {
       state.fullDataList = data;
-      /*       console.log("data",data);  */
+            console.log("data",data);  
+    },
+    setFullData_mutations_lang(state, data) {
+      state.fullDataListLang = data
     },
 
     setTable_mutations(state, table) {
@@ -162,6 +166,8 @@ let store = createStore({
         clearInterval(rootState.timerId);
         const timerId = setInterval(async () => {
           const response = await axios.get(url, options);
+/*            commit("setFullData_mutations_lang", response.data.data[0].description);
+          console.log("setFullData_mutations_lang",response.data.data[0].description ); */ 
           commit("setFullData_mutations", response.data.data);
           commit("setTable_mutations", response.data.data);
         }, 2000);

@@ -1,7 +1,7 @@
 <template>
   <div class="v-header-forms">
     <div
-      class="form-control text-gray-700 pointer-events-auto w-1/5 justify-start"
+      class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start"
     >
       <vSelect
         :modelValue="$store.state.calculator.selectedUnderlying"
@@ -14,7 +14,7 @@
     </div>
 
     <div
-      class="form-control text-gray-700 pointer-events-auto w-1/5 justify-start ml-8"
+      class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start ml-8"
     >
       <vSelect
         :modelValue="$store.state.calculator.selectedMaturity"
@@ -104,7 +104,6 @@ export default {
     selectedCoin(newValue) {
       console.log("wfewfewew");
       this.$store.commit("calculator/clearFormRecomended");
-
     }
   },
 
