@@ -12,6 +12,7 @@
                 id="select"
                 v-model="valueSetter"
             >
+              <slot>
                 <option v-if="placeholder" disabled hidden>
                   {{ placeholder }}
                 </option>
@@ -22,6 +23,8 @@
                     :key="item">
                     {{ item }}
                 </option>
+              </slot>
+                
             </select>
 
             <!--                @change="onChangeSelect"-->
@@ -169,14 +172,5 @@ export default {
     line-height: 21px;
     border-radius: 4px;
     height: 44px;
-}
-
-.select .option {
-    display: block;
-    font-family: Gilroy;
-    background: rgba(2, 3, 14, 0.226);
-    color: #ffffff;
-    background: rgb(33 25 63);
-    padding: 5px 10px;
 }
 </style>

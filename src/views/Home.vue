@@ -14,9 +14,17 @@
         <vSelect
           :modelValue="$store.state.calculator.lang"
           @input="changeLang"
-          :options="langList"
           class="lang-select"
-        ></vSelect>
+        >
+          <option 
+            v-for="locale in $i18n.availableLocales" 
+            :key="`locale-${locale}`" 
+            :value="locale"
+            class="option"
+          >
+            {{ locale.toUpperCase() }}
+          </option>
+        </vSelect>
 
         <div class="user-panel-wrap">
           <div class="user-avatar">
@@ -27,7 +35,7 @@
             <div class="user-name" v-if="$store.state.auth.user.displayName">
               {{ $store.state.auth.user.displayName }}
             </div>
-            <div class="user-type">пользователь</div>
+            <div class="user-type">{{ $t("user") }}</div>
           </div>
         </div>
         <div class="exit">
@@ -37,7 +45,7 @@
               src="@/assets/images/exit-icon.png"
               alt=""
             />
-            Выйти
+            {{ $t("exit") }}
           </a>
         </div>
       </div>
@@ -126,7 +134,6 @@ export default {
     return {
       active: false,
       activeTab: 1,
-      langList: ["RU", "EN"],
     };
   },
   methods: {
@@ -139,6 +146,8 @@ export default {
 /*      this.$store.commit("calculator/clearForm");   */
     },
     changeLang(value) {
+      console.log('value', value)
+      this.$root.$i18n.locale = value
       this.$store.commit("calculator/setLang", value);
       this.getTableStaticsics_actions();
     },

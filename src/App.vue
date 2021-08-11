@@ -35,4 +35,13 @@ export default {
   height: 24px;
   background: url('assets/images/user-icon.svg');
 }
+
+.select .option {
+    display: block;
+    font-family: Gilroy;
+    background: rgba(2, 3, 14, 0.226);
+    color: #ffffff;
+    background: rgb(33 25 63);
+    padding: 5px 10px;
+}
 </style>

@@ -9,11 +9,14 @@ import firebase from 'firebase/app';
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
 import VueApexCharts from "vue3-apexcharts";
+import { createI18n } from 'vue-i18n'
+import messages from "@/locale/index";
 
-
-
-
-
+const i18n = createI18n({
+  locale: 'ru',
+  fallbackLocale: 'en',
+  messages
+})
 
 //config
 
@@ -47,4 +50,5 @@ const app = createApp(App);
 app.use(VueApexCharts);
 app.use(router);
 app.use(store);
+app.use(i18n)
 app.mount("#app");
