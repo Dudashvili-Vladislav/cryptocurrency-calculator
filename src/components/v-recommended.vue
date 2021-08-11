@@ -46,7 +46,7 @@ export default {
 
   watch: {
     test() {
-      console.log("tableListRECOMMMMMMMMMMM", this.tableList);
+
     },
   },
 };

@@ -35,13 +35,14 @@
       <!--            @click.prevent="$emit('upGetStatisctics')"-->
       <!--            @upAmount="setAmount"-->
     </div>
-    <div class="wrapper ">
-    <vCheckbox 
-
-    v-model="Checkbox" 
-    @checked="handleCheckbox">
-      Futures hedge funding
-    </vCheckbox>
+    <div class="wrapper w-1/4">
+      <vCheckbox 
+        v-if="activeTab !== 3"
+        v-model="Checkbox" 
+        @checked="handleCheckbox"
+      >
+        Futures hedge funding
+      </vCheckbox>
     </div>
   </div>
 </template>
@@ -93,7 +94,6 @@ export default {
   },
   watch: {
     amount(newValue, oldValue) {
-      console.log('this.activeTab', this.activeTab)
       if (this.activeTab === 1) {
         clearInterval(this.timerId)
         this.timerId = setTimeout(() => {
@@ -102,7 +102,6 @@ export default {
       }
     },
     selectedCoin(newValue) {
-      console.log("wfewfewew");
       this.$store.commit("calculator/clearFormRecomended");
     }
   },
@@ -111,7 +110,6 @@ export default {
     ...mapActions(["getMaturity_actions"]),
 
     handleCheckbox(value) {
-      console.log("valueeeeeeeeeeeee", value);
       this.$store.commit("setFlagFutures_mutations", value);
       this.fieldsCheck();
     },
@@ -146,7 +144,6 @@ export default {
       ) {
         this.$store.dispatch("getStatisctics_actions");
         this.$store.dispatch("getTableStaticsics_actions");
-        console.log("amount", this.amount);
       }
     },
 
@@ -155,13 +152,13 @@ export default {
       this.$store.commit("setMaturity_mutations", value);
       this.fieldsCheck();
       this.setMaturity()
-      console.log("maurityValue", value);
     },
 
     handleUnderlyingSelect(value) {
       this.$store.commit("calculator/setUnderlying", value);
       this.getMaturity();
       this.fieldsCheck();
+
     },
     handleAmountChange(value) {
       // FIXME

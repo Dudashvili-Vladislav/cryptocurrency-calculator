@@ -3,8 +3,10 @@ import {error} from '@/components/utils/error.js';
 import { root } from "postcss";
 import { mapMutations, mapGetters, } from "vuex";
 
-function setUserToState(context) {
-  const user = firebase.auth().currentUser;
+function setUserToState(context, userName) {
+  const userFirebase = firebase.auth().currentUser;
+  const user = {email: userFirebase.email, uid: userFirebase.uid, displayName: userFirebase.displayName || userName}
+  console.log('user', user)
   context.commit("setUser", user);
   window.localStorage.setItem("user", JSON.stringify(user));
 }
@@ -47,37 +49,33 @@ export default {
   actions: {
     async login(context, payload) {
       try {
-        console.log('payload', payload)
         const responce = await firebase
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password);
       setUserToState(context);
-      console.log("responce", responce);
       
       } catch (e) {
         context.dispatch('setMessage',{
           value: e.message,
           type: 'danger'
         }, {root: true})
-        console.log('ERROR',e);
         return e.message
       }
     },
 
     async createUser(context, { email, password, user}) {
       try {
+        console.log('user', user)
         const responce = await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password);
         
-        console.log('responce', responce)
         const userFirebase = firebase.auth().currentUser;
-        console.log('user', user)
         userFirebase.updateProfile({
           displayName: user
         })
 
-        setUserToState(context);
+        setUserToState(context, user);
 
         /* 				setUserToState(context, responce); */
       } catch (error) {

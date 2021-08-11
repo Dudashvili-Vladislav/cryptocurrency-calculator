@@ -12,7 +12,9 @@
                 id="select"
                 v-model="valueSetter"
             >
-                <option disabled>-</option>
+                <option v-if="placeholder" disabled hidden>
+                  {{ placeholder }}
+                </option>
                 <option
                     class="option"
                     v-for="item in options"
@@ -51,13 +53,18 @@ export default {
             type: String,
             default: "",
         },
+
+        placeholder: {
+            type: String,
+            default: "",
+        },
     },
 
     emits: ["change", "input", "upAmount", "update:modelValue"],
 
     data() {
         return {
-            selected: this.modelValue,
+            selected: this.placeholder ? this.placeholder : this.modelValue,
             timerId: null,
         };
     },
@@ -65,10 +72,9 @@ export default {
     computed: {
         valueSetter: {
             get() {
-                return this.modelValue
+                return this.modelValue ? this.modelValue : this.placeholder
             },
             set(v) {
-                //console.log('emit input', v)
                 this.$emit('input', v)
             }
         }

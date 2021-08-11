@@ -150,37 +150,9 @@ export default {
       // All is good
       return true;
     },
-    async onSubmit() {
-      const responce = await fetch(
-        "https://cryptocalculator-26418-default-rtdb.firebaseio.com/users.json",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: this.name,
-            email: this.email,
-            password: this.password,
-          }),
-        }
-      );
-      const firebaseData = await responce.json();
-      console.log('firebaseData',firebaseData);
-      (this.name = ""), (this.email = ""), (this.password = "");
-      this.passwordConfirm = "";
-    },
-/*     createNewUser() {
-      this.$store.dispatch("auth/createUser", {
-        email: this.email,
-        password: this.password,
-      });
-      this.$router.push({ name: "home" });
-    }, */
 
     async register() {
       try {
-        console.log('REGISTER');
         await this.createUser({ email: this.email, password: this.password, user: this.name })
         this.$router.push({name: 'home'})
       } catch (error) {

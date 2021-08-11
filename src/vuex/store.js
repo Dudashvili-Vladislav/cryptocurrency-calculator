@@ -50,12 +50,10 @@ let store = createStore({
     setMaturity_mutations(state, maturity) {
       // Получаем дату которую выбрали
       state.maturity = maturity;
-      console.log("maturity", maturity);
     },
 
     setUnderlying_mutations(state, underlying) {
       state.underlying = underlying;
-             console.log('underlying', underlying)
     },
 
     setAmount_mutations(state, count) {
@@ -68,17 +66,16 @@ let store = createStore({
 
     setFullData_mutations(state, data) {
       state.fullDataList = data;
-            console.log("data",data);  
     },
     setFullData_mutations_lang(state, data) {
       state.fullDataListLang = data
     },
 
     setTable_mutations(state, table) {
-      /*       console.log('setTable_mutations', table) */
       for (const key in state.fullDataList) {
         const element = state.fullDataList[key];
         element.table = table[key].table;
+        element.description = table[key].description;
       }
     },
 
@@ -106,9 +103,7 @@ let store = createStore({
     async getMaturity_actions({ commit,rootState}, ) {
       // Получаем все даты
       try {
-        console.log("rootState",rootState);
         const url = "/maturities";
-        console.log("options",options);
         const options = {
           params: { currency: rootState.calculator.selectedUnderlying },
         };
@@ -135,14 +130,11 @@ let store = createStore({
             maturity: rootState.calculator.selectedMaturity,
             amount: rootState.calculator.coinAmount,
             fut_hedge_flag: flag.charAt(0).toUpperCase() + flag.slice(1),
-            lang: rootState.calculator.lang,
+            lang: rootState.calculator.lang.toLowerCase(),
           },
         };
-        /*         console.log('options 1', options) */
         const response = await axios.get(url, options);
         commit("setFullData_mutations", response.data.data);
-        console.log("response.data.data", response.data.data);
-        /*         console.log('RESPONCE', rootState.fullDataList) */
         return response.data.data;
       } catch (error) {
         return error;
@@ -159,16 +151,13 @@ let store = createStore({
             maturity: rootState.calculator.selectedMaturity,
             amount: rootState.calculator.coinAmount,
             fut_hedge_flag: flag.charAt(0).toUpperCase() + flag.slice(1),
-            lang: rootState.calculator.lang,
+            lang: rootState.calculator.lang.toLowerCase(),
           },
         };
 
         clearInterval(rootState.timerId);
         const timerId = setInterval(async () => {
           const response = await axios.get(url, options);
-/*            commit("setFullData_mutations_lang", response.data.data[0].description);
-          console.log("setFullData_mutations_lang",response.data.data[0].description ); */ 
-          commit("setFullData_mutations", response.data.data);
           commit("setTable_mutations", response.data.data);
         }, 2000);
 
@@ -179,7 +168,6 @@ let store = createStore({
     },
 
     async sendOrder({ commit }, data) {
-      console.log("data_sendOrder", data);
       const url = "/sendOrder";
       axios.post(url, data);
     },
@@ -202,7 +190,6 @@ let store = createStore({
     },
 
     async getQaStructs_actions(context, params) {
-      console.log("params", params);
       try {
         let query = {
           currency: context.rootState.calculator.selectedUnderlying,
@@ -217,15 +204,11 @@ let store = createStore({
         }
 
         const url = `/qaStructs?${ Object.entries(query).map(r => `${ r[0] }=${ r[1] }`).join('&') }`;
-        console.log("url",url);
         let response = await axios.get(url);
-
-        console.log("response",response);
         return response.data.data;
       }
 
        catch (error) {
-        console.log("error",error);
         return false;
       }
     },

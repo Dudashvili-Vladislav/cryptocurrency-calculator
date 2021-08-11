@@ -27,10 +27,11 @@ export default {
   },
   methods: {
     login() {
-      let email = this.email;
-      let password = this.password;
       this.$store
-        .dispatch("login", { email, password })
+        .dispatch("login", { 
+          email: this.email, 
+          password: this.password 
+        })
         .then(() => this.$router.push("/"))
         .catch((err) => console.log(err));
     },

@@ -24,7 +24,6 @@
           </div>
 
           <div class="user-info">
-            {{ $store.state.auth.user.displayName }}
             <div class="user-name" v-if="$store.state.auth.user.displayName">
               {{ $store.state.auth.user.displayName }}
             </div>
@@ -83,7 +82,6 @@
         <div 
         class="tab-item" 
         v-if="activeTab === 3"
-        @clicked="setSlider"
         >
           <vCustomQa></vCustomQa>
         </div>
@@ -128,7 +126,7 @@ export default {
     return {
       active: false,
       activeTab: 1,
-      langList: ["ru", "en"],
+      langList: ["RU", "EN"],
     };
   },
   methods: {
@@ -136,17 +134,11 @@ export default {
       getTableStaticsics_actions: "getTableStaticsics_actions",
     }),
 
-    setSlider(value) {
-        console.log("setSlider-vlaue",value);
-    },
-
     changeTab(value) {
-      console.log("setting", value);
       this.activeTab = value;
 /*      this.$store.commit("calculator/clearForm");   */
     },
     changeLang(value) {
-      console.log("valueLANG", value);
       this.$store.commit("calculator/setLang", value);
       this.getTableStaticsics_actions();
     },

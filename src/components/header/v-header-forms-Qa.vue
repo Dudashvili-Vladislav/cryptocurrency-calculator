@@ -94,7 +94,6 @@ export default {
     ...mapActions(["getMaturity_actions"]),
 
     handleCheckbox(value) {
-      console.log("valueeeeeeeeeeeee", value);
       this.$store.commit("setFlagFutures_mutations", value);
       this.fieldsCheck();
     },
@@ -129,7 +128,6 @@ export default {
       ) {
         this.$store.dispatch("getStatisctics_actions");
         this.$store.dispatch("getTableStaticsics_actions");
-        console.log("amount", this.amount);
       }
     },
   },

@@ -44,12 +44,13 @@
         Ожидаемые значения цены
       </h3>
       <div
-        class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start mt-2 "
+        class="form-control text-gray-700 pointer-events-auto w-1/3 justify-start mt-2 "
       >
         <vSelect
-        class="select_change select-gradient"
           v-model="selectedDirection"
+          :placeholder="'Выберите напраление движения'"
           :options="directionOptions"
+          class="select_change select-gradient"
           @input="setDirection"
         >
 
@@ -86,7 +87,7 @@
         Хотите ли застраховаться от противоположного направления движения цены?
       </h3>
 
-      <div class="form_radio_2">
+      <div class="form_radio">
         <input
           id="radio-3"
           type="radio"
@@ -96,8 +97,7 @@
         />
         <label class="label" for="radio-3"><span>Да /</span></label>
       </div>
-
-      <div class="form_radio_2">
+      <div class="form_radio" :class="{no: saveDirection === 'false'}">
         <input
           id="radio-4"
           type="radio"
@@ -151,7 +151,7 @@
         <label class="label" for="radio-1"><span>Да /</span></label>
       </div>
 
-      <div class="form_radio">
+      <div class="form_radio" :class="{no: subDirectionFlag === 'false'}">
         <input
           id="radio-2"
           type="radio"
@@ -427,11 +427,6 @@ export default {
   },
 
   computed: {
-
-
-
-
-
     requestParams() {
       return {
         main_direction: this.selectedDirection,
@@ -474,9 +469,6 @@ export default {
   watch: {
     selectedUnderlying(newValue) {
       this.getMaturity(newValue);
-      console.log("selectedUnderlying-newValue",newValue);
-
-/*       this.$store.commit("calculator/clearFormCustomQa"); */
     },
 
     saveDirection(newValue, oldValue) {
@@ -488,7 +480,6 @@ export default {
         this.timerId = setTimeout(() => {
           this.FieldsCheck();
         }, DELAY);
-        console.log("newValue-ssaveDirection", newValue);
       }
       if (oldValue) {
         let DELAY = 1000; // Задержка
@@ -497,7 +488,6 @@ export default {
         this.timerId = setTimeout(() => {
           this.FieldsCheck();
         }, DELAY);
-        console.log("oldValue-ssaveDirection", oldValue);
       }
     },
     subDirectionFlag(newValue, oldValue) {
@@ -509,7 +499,6 @@ export default {
         this.timerId = setTimeout(() => {
           this.FieldsCheck();
         }, DELAY);
-        console.log("newValue-subDirectionFlag", newValue);
       }
       if (oldValue) {
         let DELAY = 1000; // Задержка
@@ -518,20 +507,17 @@ export default {
         this.timerId = setTimeout(() => {
           this.FieldsCheck();
         }, DELAY);
-        console.log("oldValue-subDirectionFlag", oldValue);
       }
     },
 
     expectedMaxPrice(newValue, oldValue) {
       if (newValue) {
-        console.log("expectedMaxPrice", newValue);
         this.FieldsCheck();
       }
     },
 
     expectedMinPrice(newValue, oldValue) {
       if (newValue) {
-        console.log("expectedMinPrice", newValue);
         this.FieldsCheck();
       }
     },
@@ -550,7 +536,7 @@ export default {
     },
 
     selectedCoin(newValue, oldValue) {
-      console.log("newValue-selectedCoin", newValue);
+
     },
     selectedDate(newValue, oldValue) {
       this.FieldsCheck();
@@ -575,11 +561,8 @@ export default {
     ]),
 
     async getMaturity(underlying) {
-      console.log("GET MATUROTY");
       this.maturityList = await this.getMaturity_actions(underlying);
       const result = await this.getStrikes_actions(this.selectedCoin); //BTC-ETH
-      console.log(".main_value", result[this.selectedCoin].main_value);
-      console.log("sub_value", result[this.selectedCoin].sub_value);
       this.minSlider = result[this.selectedCoin].min;
       this.maxSlider = result[this.selectedCoin].max;
       this.stepSlider = result[this.selectedCoin].step;
@@ -626,7 +609,6 @@ export default {
     },
 
     async setDirection(value) {
-      console.log("setDirection", value);
       if (value) {
         this.selectedDirection = value;
       }
@@ -638,7 +620,6 @@ export default {
             "getQaStructs_actions",
             this.requestParams
           );
-          console.log("result-setDirection", result);
           if (result) {
             shit++;
             if (shit === 1) {
@@ -648,8 +629,6 @@ export default {
             if (!this.max_slippage) {
               this.max_slippage = result[0].max_slippage;
             }
-            console.log("max_slippage", this.max_slippage);
-            console.log("chartData", this.chartData);
           }
         } catch (error) {
           console.log("catch", error);
@@ -681,13 +660,12 @@ export default {
     changeMaxPrice() {
       this.futHedgeFlag_down = false;
     },
-    setSlider () {
-      
-         this.$emit('clicked', this.setDirection())
-     },
   },
   mounted() {
-    console.log(this.$store);
+    console.log('selectedUnderlying', this.selectedUnderlying)
+    if (this.selectedUnderlying) {
+      this.getMaturity(this.selectedUnderlying)
+    }
   },
 };
 </script>
@@ -854,7 +832,12 @@ margin-bottom: 30px;
 .table__header {
   background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
 }
-
+.wrapper__table tr:last-child td:first-child {
+  border-radius: 0px 0px 0px 10px
+}
+.wrapper__table tr:last-child td:last-child {
+  border-radius: 0px 0px 10px 0px
+}
 .table__title {
   font-family: Gilroy;
   color: #ffffff;
@@ -999,6 +982,10 @@ margin-bottom: 30px;
 .form_radio_2 input[type="radio"]:checked + label:before {
   background: url("../assets/images/checked.png") 0 0 no-repeat;
   border: none;
+}
+
+.form_radio.no input[type="radio"]:checked + label:before {
+  opacity: 0.3;
 }
 
 /* Hover */
