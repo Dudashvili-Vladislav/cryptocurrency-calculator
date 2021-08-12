@@ -41,7 +41,7 @@
         Ожидаемые значения цены
       </h2>  -->
       <h3 class="header__select__change__title w-full mt-8  ">
-        Ожидаемые значения цены
+        {{ $t("price_values") }}
       </h3>
       <div
         class="form-control text-gray-700 pointer-events-auto w-1/3 justify-start mt-2 "
@@ -80,11 +80,11 @@
       <vCheckbox 
       class="header__checkbox__customQa"
       v-model="futHedgeFlag_top">
-        Выбрать рекомендуемый диапазон
+        {{ $t("expected_price") }}
       </vCheckbox>
 
       <h3 class="header__title__on__radio w-full mt-20  ">
-        Хотите ли застраховаться от противоположного направления движения цены?
+        {{ $t("save_price") }}
       </h3>
 
       <div class="form_radio">
@@ -95,7 +95,7 @@
           value="true"
           v-model="saveDirection"
         />
-        <label class="label" for="radio-3"><span>Да /</span></label>
+        <label class="label" for="radio-3"><span>{{ $t("yes") }} /</span></label>
       </div>
       <div class="form_radio" :class="{no: saveDirection === 'false'}">
         <input
@@ -105,7 +105,7 @@
           value="false"
           v-model="saveDirection"
         />
-        <label class="label"  for="radio-4"><span>Нет</span></label>
+        <label class="label"  for="radio-4"><span>{{ $t("no") }}</span></label>
       </div>
 
       <div class="slederCustomQa">
@@ -132,12 +132,12 @@
         <vCheckbox 
         class="header__checkbox__customQa"
         v-model="futHedgeFlag_down">
-          Выбрать рекомендуемый диапазон
+          {{ $t("recommended_price") }}
         </vCheckbox>
       </div>
 
       <h3 class="header__title__on__radio w-full mt-20  ">
-        Хотите ли получать дополнительную прибыль за счет продажи фьючерса?
+        {{ $t("futures") }}
       </h3>
 
       <div class="form_radio">
@@ -148,7 +148,7 @@
           value="true"
           v-model="subDirectionFlag"
         />
-        <label class="label" for="radio-1"><span>Да /</span></label>
+        <label class="label" for="radio-1"><span>{{ $t("yes") }} /</span></label>
       </div>
 
       <div class="form_radio" :class="{no: subDirectionFlag === 'false'}">
@@ -159,7 +159,7 @@
           value="false"
           v-model="subDirectionFlag"
         />
-        <label class="label" for="radio-2"><span>Нет</span></label>
+        <label class="label" for="radio-2"><span>{{ $t("no") }}</span></label>
       </div>
     </div>
 
@@ -226,8 +226,7 @@
         </defs>
       </svg>
       <span  class="span__on__chart ml-3"
-        >Продажа фьючерса требует внесения на счет базового актива в количестве
-        равном номиналу проданных фьючерсов.</span
+        >{{ $t("selling_futures") }}</span
       >
     </h3>
 
@@ -325,6 +324,7 @@
       <div class="v-call-spread-right flex pb-2  ">
         <div class="button__sendorder  flex ">
           <v-button
+          
             @upGetStatisctics="
               sendOrder({
                 tableData: tableData,
@@ -802,6 +802,7 @@ margin-bottom: 30px;
   max-height: 50%;
   margin-top: 46px;
 }
+.button {}
 .description {
   font-family: Gilroy;
   color: #ffffff;

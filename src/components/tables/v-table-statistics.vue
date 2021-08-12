@@ -221,9 +221,6 @@ export default {
 };
 </script>
 <style scoped>
-.button__sendorder {
-
-}
 .v-table-statistics {
   max-width: 100%;
 }
