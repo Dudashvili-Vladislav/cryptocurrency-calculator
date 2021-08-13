@@ -27,11 +27,18 @@ export default {
             type: String,
             default: "",
         },
+        chart_id: {
+            //required: true,
+            default: 'default'
+        }
     },
 
     data() {
         return {
-            structurePnlSet: false, // настройки
+            linesSettings: {
+                portfolio: true,
+                structure: false,
+            }, // настройки
             seriesResult: [], // Тут хранятся графики полученные из пропсов, но к каждой линии добавлен параметр show отвечающий за отображение. В компонент чарта отдаются только те, где show = true
 
             chartOptions: {
@@ -185,24 +192,45 @@ export default {
 
     methods: {
         handleLineChange(chartContext, seriesIndex, config) {
-            if (seriesIndex === 1) { // Если клик был по structurePnl
-                this.structurePnlSet = !this.structurePnlSet // инверисуем (тк апекс не передает нам включена линия или нет, мы предполагаем что клик по ней переключает ее всегда)
-                localStorage.setItem('structurePnlSet', this.structurePnlSet ? '1' : '0')
-                //console.log('SET TO', this.structurePnlSet ? '1' : '0')
+            let targetKey = Object.keys(this.linesSettings)[ seriesIndex ]
+            if (!targetKey) {
+                console.warn('undefined index line has changed')
+                return;
             }
+            this.linesSettings[ targetKey ] = !this.linesSettings[ targetKey ]
+
+            localStorage.setItem(`chart_${ this.chart_id }_settings`, JSON.stringify( this.linesSettings )  )
         },
         getLinesSettings() {
-            let savedSetting = localStorage.getItem('structurePnlSet')
-            savedSetting = savedSetting === '1' // по умолчанию откчлючена
-            this.structurePnlSet = savedSetting
+            try {
+                let savedSettings = JSON.parse( localStorage.getItem(`chart_${ this.chart_id }_settings`) )
+                //console.log(savedSettings)
+                if (!savedSettings || typeof savedSettings !== 'object') throw('err')
 
-            // console.log('LINE STATE', this.structurePnlSet)
-            if (!this.structurePnlSet) { //
+                this.linesSettings = {
+                    portfolio: Object.prototype.hasOwnProperty.call(savedSettings, 'portfolio') ? savedSettings.portfolio : true,
+                    structure: Object.prototype.hasOwnProperty.call(savedSettings, 'structure') ? savedSettings.structure : false,
+                }
+            } catch (err) {
+                // parse err, when settings if not defined or not valid
+                console.log('err during parsing')
+            }
+
+            try {
                 this.$nextTick(() => {
-                    if (this.$refs.chart) {
-                        this.$refs.chart.hideSeries( 'Structure Pnl' );
-                    }
+                    if (!this.$refs.chart) return;
+
+                    Object.keys( this.linesSettings ).map((key, index) => {
+                        let item = this.seriesResult[index]
+                        if (!item) return;
+
+                        if (!this.linesSettings[ key ]) {
+                            this.$refs.chart.hideSeries( item.name );
+                        }
+                    })
                 })
+            } catch (err) {
+                console.log('err during hiding')
             }
         }
     },
