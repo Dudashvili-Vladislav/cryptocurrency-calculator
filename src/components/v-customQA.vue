@@ -48,12 +48,12 @@
       >
         <vSelect
           v-model="selectedDirection"
-          :placeholder="'Выберите напраление движения'"
+         v-bind:placeholder="$t('placeholder')"
           :options="directionOptions"
           class="select_change select-gradient"
           @input="setDirection"
         >
-
+<!--  :placeholder="'Выберите напраление движения'" -->
         </vSelect>
       </div>
       <div class="slederCustomQa">
@@ -86,8 +86,8 @@
       <h3 class="header__title__on__radio w-full mt-20  ">
         {{ $t("save_price") }}
       </h3>
-
-      <div class="form_radio">
+      <div class="form__radio__wrapper flex ">
+      <div class="form_radio" :class="{no: saveDirection === 'false'}">
         <input
           id="radio-3"
           type="radio"
@@ -95,9 +95,10 @@
           value="true"
           v-model="saveDirection"
         />
-        <label class="label" for="radio-3"><span>{{ $t("yes") }} /</span></label>
+        <label class="label" for="radio-3"><span>{{ $t("yes") }} </span></label>
       </div>
-      <div class="form_radio" :class="{no: saveDirection === 'false'}">
+            <div class="slash ">/</div>
+      <div class="form_radio" :class="{no: saveDirection === 'true'}">
         <input
           id="radio-4"
           type="radio"
@@ -107,6 +108,7 @@
         />
         <label class="label"  for="radio-4"><span>{{ $t("no") }}</span></label>
       </div>
+           </div>
 
       <div class="slederCustomQa">
         <div class="mt-20">
@@ -140,7 +142,8 @@
         {{ $t("futures") }}
       </h3>
 
-      <div class="form_radio">
+      <div class="form__radio__wrapper flex ">
+      <div class="form_radio" :class="{no: subDirectionFlag === 'false'}">
         <input
           id="radio-1"
           type="radio"
@@ -148,10 +151,10 @@
           value="true"
           v-model="subDirectionFlag"
         />
-        <label class="label" for="radio-1"><span>{{ $t("yes") }} /</span></label>
+        <label class="label" for="radio-1"><span>{{ $t("yes") }}</span></label>
       </div>
-
-      <div class="form_radio" :class="{no: subDirectionFlag === 'false'}">
+      <div class="slash ">/</div>
+      <div class="form_radio" :class="{no: subDirectionFlag === 'true'}">
         <input
           id="radio-2"
           type="radio"
@@ -160,6 +163,7 @@
           v-model="subDirectionFlag"
         />
         <label class="label" for="radio-2"><span>{{ $t("no") }}</span></label>
+      </div>
       </div>
     </div>
 
@@ -321,8 +325,8 @@
           </tbody>
         </table>
       </div>
-      <div class="v-call-spread-right flex pb-2  ">
-        <div class="button__sendorder  flex ">
+      <div class="v-call-spread-right flex">
+        <div class="button__sendorder  flex pb-10 ">
           <v-button
           
             @upGetStatisctics="
@@ -333,7 +337,7 @@
             "
           />
           <input
-            class="input"
+            class="input "
             v-model="max_slippage"
             name="inputSlipage"
             id="slipage"
@@ -363,6 +367,8 @@ import vLineChart from "@/components/charts/v-line-chart";
 import vLineChart2 from "@/components/charts/v-line-chart-2";
 import vButton from "@/components/v-button";
 import axios from "axios";
+import index from "../locale/index"
+import { string } from 'yup/lib/locale';
 
 export default {
   name: "v-customQA",
@@ -377,6 +383,7 @@ export default {
     vLineChart,
     vLineChart2,
     vButton,
+    index,
   },
   emits: ["upGetStatisctics"],
 
@@ -425,7 +432,8 @@ export default {
       markSliderEth: null,
     };
   },
-
+  props: ['placeholder'],
+  
   computed: {
     requestParams() {
       return {
@@ -671,6 +679,7 @@ export default {
 </script>
 
 <style>
+
 .v-customQA {
   background: linear-gradient(210.96deg, rgba(55, 36, 88, 0.61) 0.01%, rgba(43, 35, 83, 0.7) 42.05%, rgba(63, 59, 115, 0) 104.81%);
   filter: drop-shadow(0px 48px 69px rgba(23, 18, 43, 0.845335));
@@ -717,7 +726,8 @@ margin-bottom: 30px;
   padding-bottom: 20px;
 }
 .button__sendorder {
-  margin-top: auto;
+  margin-top: 30px;
+  
 }
 .v-table-statistics {
   width: 100%;
@@ -888,6 +898,19 @@ margin-bottom: 30px;
   margin: 35px 0;
   border-radius: 10px;
 }
+.form__radio__wrapper {
+  width: 160px;
+  position: relative;
+  justify-content: space-between;
+}
+.slash {
+  font-size: 1.2rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -23px;
+  margin-left: -6px;
+}
 
 /* Radio buttons */
 
@@ -899,6 +922,7 @@ margin-bottom: 30px;
 }
 
 .form_radio span {
+  
   display: block;
   margin-left: 10px;
   margin-bottom: 5px;
@@ -943,61 +967,19 @@ margin-bottom: 30px;
   filter: grayscale(100%);
 }
 
-.form_radio_2 {
-  display: inline-flex;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-right: 12px;
-}
 
-.form_radio_2 span {
-  display: block;
-  margin-left: 10px;
-  margin-bottom: 5px;
-}
-.form_radio_2 input[type="radio"] {
-  display: none;
-}
-.form_radio_2 label {
-  display: inline-block;
-  cursor: pointer;
-  position: relative;
-  padding-left: 25px;
-  margin-right: 0;
-  line-height: 18px;
-  user-select: none;
-}
-.form_radio_2 label:before {
-  content: "";
-  display: inline-block;
-  width: 26px;
-  height: 26px;
-  position: absolute;
-  left: 0;
-  bottom: 1px;
-  border: 1px solid #333;
-  border-radius: 50%;
-}
-
-/* Checked */
-.form_radio_2 input[type="radio"]:checked + label:before {
-  background: url("../assets/images/checked.png") 0 0 no-repeat;
-  border: none;
-}
-
-.form_radio.no input[type="radio"]:checked + label:before {
+ .form_radio.no input[type="radio"] + label:before {
   opacity: 0.3;
-}
+} 
 
-/* Hover */
-.form_radio_2 label:hover:before {
-  filter: brightness(120%);
-}
-
-/* Disabled */
-.form_radio_2 input[type="radio"]:disabled + label:before {
-  filter: grayscale(100%);
-}
+ .form_radio.no label span{
+  opacity: 0.3;
+} 
 
 /* Radio buttons END */
+.input {
+  margin-top: 0;
+  height: 46px;
+  max-height: 100%;
+}
 </style>

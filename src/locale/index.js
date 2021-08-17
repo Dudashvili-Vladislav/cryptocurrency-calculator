@@ -1,3 +1,4 @@
+
 export default {
   en: {
     exit: 'Log out',
@@ -11,7 +12,7 @@ export default {
     futures: 'Do you want to get additional profit by selling futures?',
     selling_futures: 'Selling futures requires depositing margin into the account in an amount equal to the notional value of the futures',
     SEND: 'SEND ORDER',
-    placeholder_customQa: 'Choose the direction of travel',
+    placeholder:'Choose the direction of travel',
 
   },
   ru: {
@@ -26,6 +27,7 @@ export default {
     futures: 'Хотите ли получать дополнительную прибыль за счет продажи фьючерса?',
     selling_futures: 'Продажа фьючерса требует внесения на счет базового актива в количестве равном номиналу проданных фьючерсов',
     SEND: 'ОТПРАВИТЬ ЗАКАЗ',
-    placeholder_customQa: 'Выберите напраление движения',
-  }
+    placeholder: 'Выберите напраление движения',
+  },
+
 }

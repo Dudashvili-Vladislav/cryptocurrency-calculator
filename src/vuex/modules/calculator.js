@@ -6,7 +6,7 @@ export default {
         selectedMaturity: null,
         coinAmount: 0,
         hedgeFunding: false,
-        lang: "en",
+        lang: "ru",
         
 
         maturityList: {

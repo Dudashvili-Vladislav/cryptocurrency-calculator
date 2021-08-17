@@ -221,6 +221,14 @@ export default {
 };
 </script>
 <style scoped>
+.wrapper-text {
+  position: relative;
+}
+.button__sendorder {
+  
+  position: absolute;
+  bottom: 0;
+}
 .v-table-statistics {
   max-width: 100%;
 }
@@ -305,6 +313,7 @@ export default {
   font-weight: normal;
   font-weight: 400;
   width: 120%;
+
   
 }
 .field__description {
