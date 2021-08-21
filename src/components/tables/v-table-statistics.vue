@@ -20,6 +20,7 @@
 
         <div class="button__sendorder flex">
           <v-button
+          class="button-recomended"
             @upGetStatisctics="
               sendOrder({
                 tableData: tableData,
@@ -27,6 +28,9 @@
               })
             "
           />
+          <div class="wrapper__slippage">
+          <h3
+            class="text__spippage-recomended"> {{ $t("slippage")}}</h3>
           <input
             class="input border border-gray-400 rounded slipage-input px-3 py-3 pb-2"
             v-model="mission"
@@ -34,6 +38,7 @@
             id="slipage"
             type="number"
           />
+          </div>
           <!-- <div class="slippage mt-14 text-lg border-b-2 border-gray-500">
           {{ slippage }}
         </div> -->
@@ -221,13 +226,23 @@ export default {
 };
 </script>
 <style scoped>
+
+.text__spippage-recomended {
+  text-align: center;
+  font-family: Gilroy;
+  color: #ffffff;
+  font-size: 16px;
+}
+.button-recomended {
+  margin-top: 23px;
+}
 .wrapper-text {
   position: relative;
 }
 .button__sendorder {
-  
   position: absolute;
   bottom: 0;
+  
 }
 .v-table-statistics {
   max-width: 100%;
@@ -312,7 +327,7 @@ export default {
   font-style: normal;
   font-weight: normal;
   font-weight: 400;
-  width: 120%;
+  width: 126%;
 
   
 }

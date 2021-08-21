@@ -81,7 +81,7 @@ export default {
   align-items: center;
   user-select: none;
   font-family: Gilroy;
-  font-size: 18px;
+  font-size: 17px;
   color: #fff;
 }
 
@@ -97,6 +97,7 @@ export default {
   margin-right: 0.5em;
   background: rgba(0, 186, 6, 0.1);
   border-radius: 12px;
+  border: 1px solid rgba(245, 241, 241, 0.562);
 }
 
 /* стили при наведении курсора на checkbox */

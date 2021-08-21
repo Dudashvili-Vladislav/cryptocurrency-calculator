@@ -6,7 +6,7 @@
       <vSelect
         :modelValue="$store.state.calculator.selectedUnderlying"
         @input="handleUnderlyingSelect"
-        :label="'Underlying'"
+        :label="$t('underlying')"
         :options="underlyingList"
         class="underlying select-gradient"
       >
@@ -19,7 +19,7 @@
       <vSelect
         :modelValue="$store.state.calculator.selectedMaturity"
         @input="handleMaturitySelect"
-        :label="'Maturity'"
+        :label="$t('maturity')"
         :options="maturityList"
         class="select-gradient"
       >
@@ -30,7 +30,7 @@
       <vAmount
         :value="$store.state.calculator.coinAmount"
         @input="handleAmountChange($event)"
-        :label="'Amount ' + $store.state.calculator.selectedUnderlying"
+        :label="$t('Amount') + $store.state.calculator.selectedUnderlying"
       />
       <!--            @click.prevent="$emit('upGetStatisctics')"-->
       <!--            @upAmount="setAmount"-->
@@ -41,7 +41,10 @@
         v-model="Checkbox" 
         @checked="handleCheckbox"
       >
-        Futures hedge funding
+      <h3
+      class="text-chbx-recomended">
+        {{ $t("futures_hedge_funding") }}
+      </h3>
       </vCheckbox>
     </div>
   </div>
@@ -170,6 +173,7 @@ export default {
 };
 </script>
 <style>
+
 .v-header-forms {
   display: flex;
   justify-content: space-between;

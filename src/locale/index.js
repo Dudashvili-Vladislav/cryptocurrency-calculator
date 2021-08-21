@@ -6,15 +6,20 @@ export default {
     price_values: 'What direction of price movement do you expect?',
     expected_price: 'Select your expected price range:',
     save_price: 'Do you want to hedge against the opposite direction of price movement?',
-    yes: 'yes',
-    no: 'no',
+    yes: 'Yes',
+    no: 'No',
     recommended_price: 'Select recommended range:',
     futures: 'Do you want to get additional profit by selling futures?',
     selling_futures: 'Selling futures requires depositing margin into the account in an amount equal to the notional value of the futures',
     SEND: 'SEND ORDER',
     placeholder:'Choose the direction of travel',
-
+    slippage: 'max slippage',
+    underlying: 'Underlying',
+    maturity: 'Maturity',
+    Amount: 'Amount ',
+    futures_hedge_funding: 'Futures hedge funding',
   },
+
   ru: {
     exit: 'Выйти',
     user: 'Пользователь',
@@ -26,8 +31,13 @@ export default {
     recommended_price: 'Выбрать рекомендуемый диапазон',
     futures: 'Хотите ли получать дополнительную прибыль за счет продажи фьючерса?',
     selling_futures: 'Продажа фьючерса требует внесения на счет базового актива в количестве равном номиналу проданных фьючерсов',
-    SEND: 'ОТПРАВИТЬ ЗАКАЗ',
+    SEND: 'ОТПРАВИТЬ ОРДЕР',
     placeholder: 'Выберите напраление движения',
+    slippage: 'Макс. проскальзывание',
+    underlying: 'Базовый актив',
+    maturity: 'Дата экспирации',
+    Amount: 'Количество ',
+    futures_hedge_funding: 'Фондирование за счет продажи фьючерса',
   },
 
 }

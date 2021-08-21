@@ -111,9 +111,11 @@ export default {
 };
 </script>
 <style scoped>
+
 .label-select-header {
     font-family: Gilroy;
     margin-bottom: 10px;
+    font-size: 16px;
 }
 
 .select__wrapper {

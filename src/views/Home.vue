@@ -287,6 +287,7 @@ a {
   align-items: center;
   margin-left: 48px;
   margin-right: 48px;
+  width: 153px;
 }
 
 .lang-select {
@@ -300,7 +301,7 @@ a {
   justify-content: center;
   padding: 0 20px;
   height: 48px;
-  min-width: 120px;
+  width: 123px;
   background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
   border-radius: 5px;
   font-weight: 600;

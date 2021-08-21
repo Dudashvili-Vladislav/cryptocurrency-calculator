@@ -326,8 +326,11 @@
         </table>
       </div>
       <div class="v-call-spread-right flex">
-        <div class="button__sendorder  flex pb-10 ">
+        <div 
+        v-if="tableData"
+        class="button__sendorder  flex pb-10 ">
           <v-button
+          class="button-customQa"
           
             @upGetStatisctics="
               sendOrder({
@@ -336,6 +339,9 @@
               })
             "
           />
+          <div class="wrapper__slippage">
+          <h3
+          class="text__spippage pb-3"> {{ $t("slippage")}}</h3>
           <input
             class="input "
             v-model="max_slippage"
@@ -343,6 +349,7 @@
             id="slipage"
             type="number"
           />
+          </div>
           <!--             {{ max_slippage }} -->
         </div>
       </div>
@@ -679,6 +686,15 @@ export default {
 </script>
 
 <style>
+.text__spippage {
+  text-align: center;
+  font-family: Gilroy;
+  color: #ffffff;
+  font-size: 16px;
+}
+.button-customQa {
+  padding: 36px 0;
+}
 
 .v-customQA {
   background: linear-gradient(210.96deg, rgba(55, 36, 88, 0.61) 0.01%, rgba(43, 35, 83, 0.7) 42.05%, rgba(63, 59, 115, 0) 104.81%);

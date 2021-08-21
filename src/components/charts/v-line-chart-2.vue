@@ -36,8 +36,8 @@ export default {
     data() {
         return {
             linesSettings: {
-                portfolio: true,
-                structure: false,
+                portfolio: false,
+                structure: true,
             }, // настройки
             seriesResult: [], // Тут хранятся графики полученные из пропсов, но к каждой линии добавлен параметр show отвечающий за отображение. В компонент чарта отдаются только те, где show = true
 
@@ -138,7 +138,7 @@ export default {
                     }
                 },
 
-                colors: ["#a4a82c", "#c416b9"],
+                colors: ["#31afd6", "#c416b9"],
                 tickAmount: "dataPoints",
                 grid: {
                     show: true,

@@ -106,5 +106,6 @@ export default {
     color: white;
     margin-left: 2px;
     font-family: Gilroy;
+        font-size: 16px;
 }
 </style>
