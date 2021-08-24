@@ -103,18 +103,25 @@ export default {
           this.fieldsCheck()
         }, 300);
       }
+      this.removeChartSettings()
     },
     selectedCoin(newValue) {
       this.$store.commit("calculator/clearFormRecomended");
+      this.removeChartSettings()
     }
   },
 
   methods: {
     ...mapActions(["getMaturity_actions"]),
 
-/*     removeChartSettings() {
-
-    }, */
+    removeChartSettings() {
+      for (const key in localStorage) {
+        console.log('element', key)
+        if(key.includes('chart_')) {
+          localStorage.removeItem(key)
+        }
+      }
+    },
 
     handleCheckbox(value) {
       this.$store.commit("setFlagFutures_mutations", value);
@@ -122,6 +129,7 @@ export default {
     },
 
     getMaturity(underlying) {
+      this.removeChartSettings()
       this.$store.commit("setUnderlying_mutations", underlying);
       this.getMaturity_actions(underlying);
       (this.selectedMaturity = null),
