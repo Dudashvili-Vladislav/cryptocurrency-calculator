@@ -112,6 +112,10 @@ export default {
   methods: {
     ...mapActions(["getMaturity_actions"]),
 
+/*     removeChartSettings() {
+
+    }, */
+
     handleCheckbox(value) {
       this.$store.commit("setFlagFutures_mutations", value);
       this.fieldsCheck();

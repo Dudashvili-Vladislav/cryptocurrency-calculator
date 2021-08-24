@@ -66,6 +66,8 @@ let store = createStore({
 
     setFullData_mutations(state, data) {
       state.fullDataList = data;
+
+      console.log("data",data);
     },
     setFullData_mutations_lang(state, data) {
       state.fullDataListLang = data
