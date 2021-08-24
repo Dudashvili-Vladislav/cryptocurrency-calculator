@@ -15,6 +15,7 @@
           :chartData="information['chart']"
           :tableList="information['table']"
           :slippage="information['max_slippage']"
+          :chart_id="information['chart_id']"
           class="mb-20"
         />
       </div>
