@@ -18,6 +18,8 @@ const i18n = createI18n({
   messages
 })
 
+// 3. Берешь token из localstorage и добавляешьв axios headers <- write code
+
 //config
 
 var firebaseConfig = {

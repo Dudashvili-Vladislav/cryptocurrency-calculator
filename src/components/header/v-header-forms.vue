@@ -114,7 +114,6 @@ export default {
 
     removeChartSettings() {
       for (const key in localStorage) {
-        console.log("element", key);
         if (key.includes("chart_")) {
           localStorage.removeItem(key);
         }

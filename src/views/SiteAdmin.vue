@@ -57,8 +57,9 @@
         >
           <vSelect
             :modelValue="$store.state.calculator.users"
-            @input="handleUsersSelect"
+            :options="users"
             :label="$t('Select_user_admin')"
+            @input="handleUsersSelect"
             class="underlying select-gradient"
           >
           </vSelect>
@@ -80,18 +81,28 @@ export default {
   components: {
     vSelect,
   },
+
+  data() {
+    return {
+      users: []
+    }
+  },
+
   methods: {
         ...mapActions(["getUsers_actions"]),
 
 
-    handleUsersSelect(value) {
+    async handleUsersSelect(value) {
       this.$store.commit("calculator/setUserSiteAdmin", value);
-      this.getUsers_actions()
+      const users = await this.getUsers_actions()
+      console.log('users', users.data)
+      this.users = users.data
     },
-
-
-
   },
+
+  created() {
+    this.handleUsersSelect()
+  }
 };
 </script>
 

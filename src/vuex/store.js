@@ -4,12 +4,7 @@ import { setInterval } from "core-js";
 import auth from './modules/auth'
 import calculator from "./modules/calculator";
 
-axios.defaults.baseURL = "http://localhost:5000";
-
-const UsersApi = axios.create({
-  baseURL: 'http://213.79.122.13:50805/user/clients'
-});
-
+axios.defaults.baseURL = "http://213.79.122.13:50805";
 
 
 let store = createStore({
@@ -120,20 +115,20 @@ let store = createStore({
 
     async getUsers_actions({ commit,rootState}, ) {
       // Получаем всех пользователей для /siteadmin
+      
       try {
-        const url = UsersApi;
-        const options = {
-          params: { currency: rootState.calculator.users },
-        };
-/*         commit("setLoading", true); */
-        const response = await axios.get(url, options);
-        const data = response.data.data;
-/*         commit("setUsers", false); */
-        commit("setUsersAdmin_mutations", data[rootState.calculator.users]);
-        console.log("data",response.data.data);
+        const response = await axios.post('/auth/getToken', {
+          username: 'emcd',
+          password: '6XeumP6F5J2WMTJ6'
+        })
+        console.log('response', response.data.access_token)
+        axios.defaults.headers.common = {'Authorization': `Bearer ${response.data.access_token}`}
 
-        return data;
+        const response2 = await axios.get('/user/clients')
+        console.log('response', response2)
+        return response2.data
       } catch (error) {
+        console.log('error', error)
         return error;
       }
     },
@@ -153,7 +148,7 @@ let store = createStore({
     async getMaturity_actions({ commit,rootState}, ) {
       // Получаем все даты
       try {
-        const url = "/maturities";
+        const url = "data/maturities";
         const options = {
           params: { currency: rootState.calculator.selectedUnderlying },
         };

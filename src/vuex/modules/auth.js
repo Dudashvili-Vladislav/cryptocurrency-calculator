@@ -49,10 +49,13 @@ export default {
   actions: {
     async login(context, payload) {
       try {
-        const responce = await firebase
+        await firebase
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password);
-      setUserToState(context);
+        setUserToState(context);
+
+        // 1. Получаешь токен <- write code
+        // 2. Добавляешь в localstorage <- write code
       
       } catch (e) {
         context.dispatch('setMessage',{
@@ -66,7 +69,7 @@ export default {
     async createUser(context, { email, password, user}) {
       try {
         console.log('user', user)
-        const responce = await firebase
+        await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password);
         
