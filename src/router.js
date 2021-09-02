@@ -3,6 +3,7 @@ import store from './vuex/store'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
+import SiteAdmin from './views/SiteAdmin.vue'
 
 
 const router = createRouter({
@@ -25,6 +26,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/siteadmin',
+      name: 'siteadmin',
+      component: SiteAdmin
     },
   ]
 }) 

@@ -26,7 +26,6 @@
       </vSelect>
     </div>
     <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
-
       <vAmount
         :value="$store.state.calculator.coinAmount"
         @input="handleAmountChange($event)"
@@ -36,15 +35,14 @@
       <!--            @upAmount="setAmount"-->
     </div>
     <div class="wrapper w-1/4">
-      <vCheckbox 
+      <vCheckbox
         v-if="activeTab !== 3"
-        v-model="Checkbox" 
+        v-model="Checkbox"
         @checked="handleCheckbox"
       >
-      <h3
-      class="text-chbx-recomended">
-        {{ $t("futures_hedge_funding") }}
-      </h3>
+        <h3 class="text-chbx-recomended">
+          {{ $t("futures_hedge_funding") }}
+        </h3>
       </vCheckbox>
     </div>
   </div>
@@ -69,7 +67,7 @@ export default {
   props: {
     activeTab: {
       type: Number,
-      default: 1
+      default: 1,
     },
   },
 
@@ -98,27 +96,27 @@ export default {
   watch: {
     amount(newValue, oldValue) {
       if (this.activeTab === 1) {
-        clearInterval(this.timerId)
+        clearInterval(this.timerId);
         this.timerId = setTimeout(() => {
-          this.fieldsCheck()
+          this.fieldsCheck();
         }, 300);
       }
-      this.removeChartSettings()
+      this.removeChartSettings();
     },
     selectedCoin(newValue) {
       this.$store.commit("calculator/clearFormRecomended");
-      this.removeChartSettings()
-    }
+      this.removeChartSettings();
+    },
   },
 
   methods: {
-    ...mapActions(["getMaturity_actions"]),
+    ...mapActions(["getMaturity_actions","getUsers_actions"]),
 
     removeChartSettings() {
       for (const key in localStorage) {
-        console.log('element', key)
-        if(key.includes('chart_')) {
-          localStorage.removeItem(key)
+        console.log("element", key);
+        if (key.includes("chart_")) {
+          localStorage.removeItem(key);
         }
       }
     },
@@ -129,7 +127,7 @@ export default {
     },
 
     getMaturity(underlying) {
-      this.removeChartSettings()
+      this.removeChartSettings();
       this.$store.commit("setUnderlying_mutations", underlying);
       this.getMaturity_actions(underlying);
       (this.selectedMaturity = null),
@@ -166,14 +164,14 @@ export default {
       this.$store.commit("calculator/setMaturity", value);
       this.$store.commit("setMaturity_mutations", value);
       this.fieldsCheck();
-      this.setMaturity()
+      this.setMaturity();
     },
 
     handleUnderlyingSelect(value) {
       this.$store.commit("calculator/setUnderlying", value);
       this.getMaturity();
+      this.getUsers_actions()
       this.fieldsCheck();
-
     },
     handleAmountChange(value) {
       // FIXME
@@ -182,10 +180,10 @@ export default {
       this.$store.commit("setAmount_mutations", value);
     },
   },
+
 };
 </script>
 <style>
-
 .v-header-forms {
   display: flex;
   justify-content: space-between;

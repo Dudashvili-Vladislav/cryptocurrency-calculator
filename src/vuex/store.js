@@ -6,6 +6,12 @@ import calculator from "./modules/calculator";
 
 axios.defaults.baseURL = "http://localhost:5000";
 
+const UsersApi = axios.create({
+  baseURL: 'http://213.79.122.13:50805/user/clients'
+});
+
+
+
 let store = createStore({
   state() {
     return {
@@ -25,6 +31,8 @@ let store = createStore({
       flagQaStruct: false,
       selectedDirection: null,
       message: null,
+      users: null,
+      users_site_admin: [],
 
     };
   },
@@ -51,6 +59,7 @@ let store = createStore({
       // Получаем дату которую выбрали
       state.maturity = maturity;
     },
+
 
     setUnderlying_mutations(state, underlying) {
       state.underlying = underlying;
@@ -88,6 +97,13 @@ let store = createStore({
     setLoading(state, value) {
       state.loading = value;
     },
+    setUsers(state, value) {
+      state.users = value;
+    },
+    setUsersAdmin_mutations(state, users_site_admin) {
+      console.log("users_site_admin",users_site_admin);
+      state.users_site_admin = users_site_admin;
+    },
 
     /*     selectedDirection(state, selectedDirection) {
       state.selectedDirection = selectedDirection;
@@ -101,6 +117,38 @@ let store = createStore({
         commit('clearMessage')
       }, 3000)
     },
+
+    async getUsers_actions({ commit,rootState}, ) {
+      // Получаем всех пользователей для /siteadmin
+      try {
+        const url = UsersApi;
+        const options = {
+          params: { currency: rootState.calculator.users },
+        };
+/*         commit("setLoading", true); */
+        const response = await axios.get(url, options);
+        const data = response.data.data;
+/*         commit("setUsers", false); */
+        commit("setUsersAdmin_mutations", data[rootState.calculator.users]);
+        console.log("data",response.data.data);
+
+        return data;
+      } catch (error) {
+        return error;
+      }
+    },
+
+/*     GetUsersFromApi({commit}) {
+      return axios("http://213.79.122.13:50805/user/clients", {
+        method: "GET"
+      })
+      .then((users) => {
+        commit("setUsersAdmin_mutations", users);
+      })
+    
+    },
+ */
+
 
     async getMaturity_actions({ commit,rootState}, ) {
       // Получаем все даты

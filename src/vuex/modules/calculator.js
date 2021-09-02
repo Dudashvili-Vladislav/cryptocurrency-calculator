@@ -7,6 +7,7 @@ export default {
         coinAmount: 0,
         hedgeFunding: false,
         lang: "ru",
+        users: [],
         
 
         maturityList: {
@@ -16,6 +17,9 @@ export default {
     },
 
     mutations: {
+        setUserSiteAdmin(state, value) {
+            state.users = value
+        },
         setLang(state, value) {
             state.lang = value
         },
