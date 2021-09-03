@@ -1,7 +1,10 @@
 import firebase from "firebase";
 import {error} from '@/components/utils/error.js';
 import { root } from "postcss";
-import { mapMutations, mapGetters, } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
+import axios from "axios";
+
+
 
 function setUserToState(context, userName) {
   const userFirebase = firebase.auth().currentUser;
@@ -30,6 +33,9 @@ export default {
     ...mapMutations([
       "setUser"
     ]),
+    ...mapActions([
+      "getToken"
+    ]),
   },
 
 
@@ -53,15 +59,22 @@ export default {
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password);
         setUserToState(context);
-
-        // 1. Получаешь токен <- write code
-        // 2. Добавляешь в localstorage <- write code
+        const response = await axios.post("/auth/getToken", {
+          username: "emcd",
+          password: "6XeumP6F5J2WMTJ6",
+        });
+        console.log("response", response.data.access_token);
+        axios.defaults.headers.common = {
+          Authorization: `Bearer ${response.data.access_token}`,
+        };
+        window.localStorage.setItem("Token",response.data.access_token);
       
       } catch (e) {
         context.dispatch('setMessage',{
           value: e.message,
           type: 'danger'
         }, {root: true})
+        console.log("E",e);
         return e.message
       }
     },

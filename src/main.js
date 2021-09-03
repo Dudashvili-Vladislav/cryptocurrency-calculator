@@ -4,7 +4,7 @@ import store from "./vuex/store";
 import "./index.css";
 import router from "./router";
 import Vue from "vue";
-import Axios from "axios";
+import axios from "axios";
 import firebase from 'firebase/app';
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
@@ -19,7 +19,11 @@ const i18n = createI18n({
 })
 
 // 3. Берешь token из localstorage и добавляешьв axios headers <- write code
+let Token =  localStorage.getItem("Token")
 
+axios.defaults.headers.common = {
+  Authorization: `Bearer ${Token}`,
+};
 //config
 
 var firebaseConfig = {

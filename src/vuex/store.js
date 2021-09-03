@@ -1,11 +1,10 @@
 import { createStore } from "vuex";
 import axios from "axios";
 import { setInterval } from "core-js";
-import auth from './modules/auth'
+import auth from "./modules/auth";
 import calculator from "./modules/calculator";
 
 axios.defaults.baseURL = "http://213.79.122.13:50805";
-
 
 let store = createStore({
   state() {
@@ -28,22 +27,20 @@ let store = createStore({
       message: null,
       users: null,
       users_site_admin: [],
-
     };
   },
 
   mutations: {
-
     setUser(state, user) {
-      state.user = user
+      state.user = user;
     },
 
     setMessage(state, message) {
-      state.message = message
+      state.message = message;
     },
 
     clearMessage(state) {
-      state.message = null
+      state.message = null;
     },
 
     setMaturityList_mutations(state, maturityList) {
@@ -54,7 +51,6 @@ let store = createStore({
       // Получаем дату которую выбрали
       state.maturity = maturity;
     },
-
 
     setUnderlying_mutations(state, underlying) {
       state.underlying = underlying;
@@ -71,10 +67,10 @@ let store = createStore({
     setFullData_mutations(state, data) {
       state.fullDataList = data;
 
-      console.log("data",data);
+      console.log("data", data);
     },
     setFullData_mutations_lang(state, data) {
-      state.fullDataListLang = data
+      state.fullDataListLang = data;
     },
 
     setTable_mutations(state, table) {
@@ -96,7 +92,7 @@ let store = createStore({
       state.users = value;
     },
     setUsersAdmin_mutations(state, users_site_admin) {
-      console.log("users_site_admin",users_site_admin);
+      console.log("users_site_admin", users_site_admin);
       state.users_site_admin = users_site_admin;
     },
 
@@ -106,46 +102,26 @@ let store = createStore({
   },
 
   actions: {
-    setMessage({commit}, message) {
-      commit('setMessage', message)
-      setTimeout( () => {
-        commit('clearMessage')
-      }, 3000)
+    setMessage({ commit }, message) {
+      commit("setMessage", message);
+      setTimeout(() => {
+        commit("clearMessage");
+      }, 3000);
     },
 
-    async getUsers_actions({ commit,rootState}, ) {
-      // Получаем всех пользователей для /siteadmin
-      
-      try {
-        const response = await axios.post('/auth/getToken', {
-          username: 'emcd',
-          password: '6XeumP6F5J2WMTJ6'
-        })
-        console.log('response', response.data.access_token)
-        axios.defaults.headers.common = {'Authorization': `Bearer ${response.data.access_token}`}
 
-        const response2 = await axios.get('/user/clients')
-        console.log('response', response2)
-        return response2.data
+    async getUsers() {
+      try {
+        const response2 = await axios.get("/user/clients");
+        console.log("response", response2);
+        return response2.data;
       } catch (error) {
-        console.log('error', error)
+        console.log("error", error);
         return error;
       }
     },
 
-/*     GetUsersFromApi({commit}) {
-      return axios("http://213.79.122.13:50805/user/clients", {
-        method: "GET"
-      })
-      .then((users) => {
-        commit("setUsersAdmin_mutations", users);
-      })
-    
-    },
- */
-
-
-    async getMaturity_actions({ commit,rootState}, ) {
+    async getMaturity_actions({ commit, rootState }) {
       // Получаем все даты
       try {
         const url = "data/maturities";
@@ -156,7 +132,10 @@ let store = createStore({
         const response = await axios.get(url, options);
         const data = response.data.data;
         commit("setLoading", false);
-        commit("setMaturityList_mutations", data[rootState.calculator.selectedUnderlying]);
+        commit(
+          "setMaturityList_mutations",
+          data[rootState.calculator.selectedUnderlying]
+        );
 
         return data;
       } catch (error) {
@@ -229,7 +208,7 @@ let store = createStore({
         const response = await axios.get(url, options);
         return response.data.data;
       } catch (error) {
-        console.log(error)
+        console.log(error);
         return false;
       }
     },
@@ -242,18 +221,26 @@ let store = createStore({
           amount: context.rootState.calculator.coinAmount,
           fut_hedge_flag: params.fut_hedge_flag,
           main_direction: params.main_direction,
-          main_range: `[${ Array.isArray(params.main_range) ? params.main_range.join(',') : params.main_range }]`,
+          main_range: `[${
+            Array.isArray(params.main_range)
+              ? params.main_range.join(",")
+              : params.main_range
+          }]`,
           sub_direction_flag: params.sub_direction_flag,
-          sub_range: `[${ Array.isArray(params.sub_range) ? params.sub_range.join(',') : params.sub_range }]`,
-          max_slippage: params.max_slippage
-        }
+          sub_range: `[${
+            Array.isArray(params.sub_range)
+              ? params.sub_range.join(",")
+              : params.sub_range
+          }]`,
+          max_slippage: params.max_slippage,
+        };
 
-        const url = `/qaStructs?${ Object.entries(query).map(r => `${ r[0] }=${ r[1] }`).join('&') }`;
+        const url = `/qaStructs?${Object.entries(query)
+          .map((r) => `${r[0]}=${r[1]}`)
+          .join("&")}`;
         let response = await axios.get(url);
         return response.data.data;
-      }
-
-       catch (error) {
+      } catch (error) {
         return false;
       }
     },
@@ -270,7 +257,7 @@ let store = createStore({
 
   modules: {
     auth,
-    calculator
+    calculator,
   },
 });
 

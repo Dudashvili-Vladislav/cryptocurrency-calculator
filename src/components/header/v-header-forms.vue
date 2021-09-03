@@ -169,7 +169,6 @@ export default {
     handleUnderlyingSelect(value) {
       this.$store.commit("calculator/setUnderlying", value);
       this.getMaturity();
-      this.getUsers_actions()
       this.fieldsCheck();
     },
     handleAmountChange(value) {
