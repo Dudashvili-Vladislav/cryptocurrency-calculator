@@ -113,7 +113,7 @@
             >Result</a>
           </li>
         </ul>
-
+        {{margins['Lots number']}}
         <div class="tab-content">
           <div class="tab-item"></div>
           <div class="tab-item" v-if="activeTab === 2"></div>
@@ -221,6 +221,8 @@ export default {
     const store = useStore();
     return {
       users: [],
+      margins: [],
+      positions: [],
       active: false,
       activeTab: 1,
 
@@ -232,14 +234,15 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getUsers_actions", "getTableStaticsics_actions"]),
+    ...mapActions(["getUsers", "fetchCleintTableInfoByTab", "getTableStaticsics_actions"]),
 
-    async handleUsersSelect(value) {
-      this.$store.commit("calculator/setUserSiteAdmin", value);
-      const users = await this.getUsers_actions();
-      console.log("users", users.data);
-      this.users = users.data;
+    async handleUsersSelect(user) {
+      this.$store.commit("calculator/setUserSiteAdmin", user);
+      this.margins = await this.fetchCleintTableInfoByTab({userId: user, url: '/admin/margins'})
+      this.positions = await this.fetchCleintTableInfoByTab({userId: user, url: '/admin/positions'})
+      this.users = await this.getUsers();
     },
+
 
     changeLang(value) {
       console.log("value", value);

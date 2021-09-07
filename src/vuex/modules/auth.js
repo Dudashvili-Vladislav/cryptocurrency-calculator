@@ -98,7 +98,6 @@ export default {
       }
       let result = max + ' ' + min;
       return result;
-      console.log("res",result);
     },
 
     async createUser(context, { email, password, user}) {

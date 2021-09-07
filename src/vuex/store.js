@@ -4,8 +4,6 @@ import { setInterval } from "core-js";
 import auth from "./modules/auth";
 import calculator from "./modules/calculator";
 
-axios.defaults.baseURL = "http://213.79.122.13:50805";
-
 let store = createStore({
   state() {
     return {
@@ -114,7 +112,7 @@ let store = createStore({
       try {
         const response2 = await axios.get("/user/clients");
         console.log("response", response2);
-        return response2.data;
+        return response2.data.data;
       } catch (error) {
         console.log("error", error);
         return error;
@@ -161,21 +159,14 @@ let store = createStore({
 
 
 
-    async getMaturity_actions({ commit, rootState }) {
+    async fetchCleintTableInfoByTab({ commit, rootState }, {userId, url}) {
       // Получаем все даты
       try {
-        const url = "data/maturities";
         const options = {
-          params: { currency: rootState.calculator.selectedUnderlying },
+          params: { client_id: userId },
         };
-        commit("setLoading", true);
         const response = await axios.get(url, options);
         const data = response.data.data;
-        commit("setLoading", false);
-        commit(
-          "setMaturityList_mutations",
-          data[rootState.calculator.selectedUnderlying]
-        );
 
         return data;
       } catch (error) {

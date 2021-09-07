@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="v-mainHeader">
     <div class="header-wrapper flex  ">
       <h1 class="logo font-bold text-xl">

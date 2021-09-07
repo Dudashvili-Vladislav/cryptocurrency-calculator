@@ -110,7 +110,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getMaturity_actions","getUsers_actions"]),
+    ...mapActions(["getMaturity_actions","getUsers"]),
 
     removeChartSettings() {
       for (const key in localStorage) {
