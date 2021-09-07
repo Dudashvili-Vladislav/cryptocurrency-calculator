@@ -120,6 +120,46 @@ let store = createStore({
         return error;
       }
     },
+    highAndLow(numbers){
+      let arr = numbers.split(' ');
+      let max = arr[0],min = arr[0];
+      for(var i = 0;i<arr.length;i++){
+        if(parseInt(arr[i]) > max){
+          max = arr[i];
+        }
+        if(parseInt(arr[i]) < min){
+          min = arr[i]
+        }
+      }
+      let result = max + ' ' + min;
+      console.log("RESULT",result);
+      return result;
+
+    },
+
+    async getMaturity_actions({ commit, rootState }) {
+      // Получаем все даты
+      try {
+        const url = "data/maturities";
+        const options = {
+          params: { currency: rootState.calculator.selectedUnderlying },
+        };
+        commit("setLoading", true);
+        const response = await axios.get(url, options);
+        const data = response.data.data;
+        commit("setLoading", false);
+        commit(
+          "setMaturityList_mutations",
+          data[rootState.calculator.selectedUnderlying]
+        );
+
+        return data;
+      } catch (error) {
+        return error;
+      }
+    },
+
+
 
     async getMaturity_actions({ commit, rootState }) {
       // Получаем все даты
@@ -147,7 +187,7 @@ let store = createStore({
       // Получаем все графики
       try {
         const flag = String(rootState.futHedgeFlag);
-        const url = "/recStructs";
+        const url = "data/recStructs";
         const options = {
           params: {
             currency: rootState.calculator.selectedUnderlying,
@@ -168,7 +208,7 @@ let store = createStore({
     getTableStaticsics_actions({ commit, rootState }) {
       try {
         const flag = String(rootState.futHedgeFlag);
-        const url = "/recStructs";
+        const url = "data/recStructs";
         const options = {
           params: {
             currency: rootState.calculator.selectedUnderlying,
@@ -192,13 +232,13 @@ let store = createStore({
     },
 
     async sendOrder({ commit }, data) {
-      const url = "/sendOrder";
+      const url = "data/sendOrder";
       axios.post(url, data);
     },
 
     async getStrikes_actions(context) {
       try {
-        const url = "/strikes";
+        const url = "data/strikes";
         const options = {
           params: {
             currency: context.rootState.calculator.selectedUnderlying,
@@ -235,7 +275,7 @@ let store = createStore({
           max_slippage: params.max_slippage,
         };
 
-        const url = `/qaStructs?${Object.entries(query)
+        const url = `data/qaStructs?${Object.entries(query)
           .map((r) => `${r[0]}=${r[1]}`)
           .join("&")}`;
         let response = await axios.get(url);

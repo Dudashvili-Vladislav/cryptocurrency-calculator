@@ -36,6 +36,7 @@ export default {
     ...mapActions([
       "getToken"
     ]),
+
   },
 
 
@@ -53,6 +54,9 @@ export default {
     },
   },
   actions: {
+
+
+
     async login(context, payload) {
       try {
         await firebase
@@ -68,6 +72,8 @@ export default {
           Authorization: `Bearer ${response.data.access_token}`,
         };
         window.localStorage.setItem("Token",response.data.access_token);
+
+
       
       } catch (e) {
         context.dispatch('setMessage',{
@@ -77,6 +83,22 @@ export default {
         console.log("E",e);
         return e.message
       }
+    },
+
+     highAndLow(numbers){
+      let arr =numbers.split(' ');
+      let max = arr[0],min =arr[0];
+      for(let i = 0;i<arr.length;i++){
+        if(parseInt(arr[i]) > max){
+          max = arr[i];
+        }
+        if(parseInt(arr[i]) < min){
+          min = arr[i]
+        }
+      }
+      let result = max + ' ' + min;
+      return result;
+      console.log("res",result);
     },
 
     async createUser(context, { email, password, user}) {
@@ -109,6 +131,8 @@ export default {
         throw error.message;
       }
     },
+
+
   },
 
   getters: {
