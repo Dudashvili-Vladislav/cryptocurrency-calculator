@@ -1,12 +1,14 @@
 <template>
-  <div class="home">
+  <div class="v-mainHeader">
     <div class="header-wrapper flex  ">
       <h1 class="logo font-bold text-xl">
-        Calculator
+        <slot>
+          Calculator
+        </slot>
       </h1>
 
       <div class="user-panel ml-auto">
-<!--         <div class="swicher">
+        <!--         <div class="swicher">
           <input class="switch" id="switch1" type="checkbox" />
           <label class="switch-for" for="switch1"></label>
         </div> -->
@@ -16,9 +18,9 @@
           @input="changeLang"
           class="lang-select"
         >
-          <option 
-            v-for="locale in $i18n.availableLocales" 
-            :key="`locale-${locale}`" 
+          <option
+            v-for="locale in $i18n.availableLocales"
+            :key="`locale-${locale}`"
             :value="locale"
             class="option"
           >
@@ -51,109 +53,13 @@
       </div>
 
       <div class="divider"></div>
-
-      <v-header-forms :active-tab="activeTab" />
-    </div>
-    <!-- Tabs -->
-    <div class="container with-nav">
-      <ul class="tab-nav">
-        <li class="tab-nav-item">
-          <a
-            @mouseover="active = true"
-            @mouseleave="active = false"
-            @click="changeTab(1)"
-            class="tab-link"
-            :class="{ active: activeTab === 1 }"
-            >Recommended</a
-          >
-        </li>
-
-        <li class="tab-nav-item">
-          <a
-            @click="changeTab(3)"
-            class="tab-link"
-            :class="{ active: activeTab === 3 }"
-            >Custom QA</a
-          >
-        </li>
-      </ul>
-
-      <div class="tab-content">
-        <div
-          class="tab-item"
-          v-if="activeTab === 1 &&$store.state.calculator.selectedUnderlying &&$store.state.calculator.selectedMaturity &&$store.state.calculator.coinAmount"> 
-          <v-recommended></v-recommended>
-        </div>
-        <div class="tab-item" v-if="activeTab === 2">
-          <v-customPro></v-customPro>
-        </div>
-        <div 
-        class="tab-item" 
-        v-if="activeTab === 3"
-        >
-          <vCustomQa></vCustomQa>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import vmainHeader from "@/components/v-mainHeader.vue"
-import VRecommended from "@/components/v-recommended.vue";
-import VCustomPro from "@/components/v-customPro.vue";
-import vCustomQa from "@/components/v-customQA.vue";
-import vSelect from "@/components/header/forms/v-select";
-import vHeaderForms from "@/components/header/v-header-forms";
-import { useRouter } from "vue-router";
-import { mapActions, useStore } from "vuex";
-
 export default {
-  setup() {
-    const router = useRouter();
-    const store = useStore();
-
-    return {
-      loguot: () => {
-        store.dispatch("auth/signOut");
-        router.push("/Login");
-      },
-    };
-  },
-
-  name: "Home",
-
-  components: {
-    vSelect,
-    vHeaderForms,
-    vCustomQa,
-    VCustomPro,
-    VRecommended,
-    vmainHeader
-  },
-
-  data() {
-    return {
-      active: false,
-      activeTab: 1,
-    };
-  },
-  methods: {
-    ...mapActions({
-      getTableStaticsics_actions: "getTableStaticsics_actions",
-    }),
-
-    changeTab(value) {
-      this.activeTab = value;
-/*      this.$store.commit("calculator/clearForm");   */
-    },
-    changeLang(value) {
-      console.log('value', value)
-      this.$root.$i18n.locale = value
-      this.$store.commit("calculator/setLang", value);
-      this.getTableStaticsics_actions();
-    },
-  },
+  name: "v-mainHeader",
 };
 </script>
 

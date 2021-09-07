@@ -66,6 +66,140 @@
           {{ $store.state.calculator.users }}
         </div>
       </div>
+
+      <!-- Tabs -->
+
+      <div class="container with-nav">
+        <ul class="tab-nav">
+          <li class="tab-nav-item">
+            <a
+              @mouseover="active = true"
+              @mouseleave="active = false"
+              @click="changeTab(1)"
+              class="tab-link"
+              :class="{ active: activeTab === 1 }"
+            >Margins</a>
+          </li>
+
+          <li class="tab-nav-item">
+            <a
+              @click="changeTab(2)"
+              class="tab-link"
+              :class="{ active: activeTab === 2 }"
+            >Positions</a>
+          </li>
+
+          <li class="tab-nav-item">
+            <a
+              @click="changeTab(3)"
+              class="tab-link"
+              :class="{ active: activeTab === 3 }"
+            >Orders</a>
+          </li>
+
+          <li class="tab-nav-item">
+            <a
+              @click="changeTab(4)"
+              class="tab-link"
+              :class="{ active: activeTab === 4 }"
+            >Deals</a>
+          </li>
+
+          <li class="tab-nav-item">
+            <a
+              @click="changeTab(5)"
+              class="tab-link"
+              :class="{ active: activeTab === 5 }"
+            >Result</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-item"></div>
+          <div class="tab-item" v-if="activeTab === 2"></div>
+          <div class="tab-item" v-if="activeTab === 3"></div>
+          <div class="tab-item" v-if="activeTab === 4"></div>
+          <div class="tab-item" v-if="activeTab === 5"></div>
+        </div>
+        <div class="gradient-table">
+          <table
+            class="table-auto  text-center  justify-end m-left table-statistic"
+          >
+            <thead class="border__thead  ">
+              <tr class="table__header">
+                <th class="th"></th>
+                <th class="table__title">Product Name</th>
+                <th class="table__title">Amount</th>
+                <th class="table__title__USD">Fut Hedge flag</th>
+                <th class="table__title">Margin requirements</th>
+                <th class="table__title">Available funds</th>
+                <th class="table__title">Funds / Notional</th>
+              </tr>
+            </thead>
+            <tbody class="wrapper__table">
+              <tr class="table__border ">
+                <td class="field__description">Amount of underlying</td>
+                <td class="field__values">
+                 
+                </td>
+                <td class="field__values">
+                 
+                </td>
+                <td class="field__values">
+                 
+                </td>
+              </tr>
+              <tr class="bg-emerald-200">
+                <td class="field__description">Max profit</td>
+                <td class="field__values">
+               
+                </td>
+                <td class="field__values">
+                
+                </td>
+                <td class="field__values">
+                 
+                </td>
+              </tr>
+              <tr class="">
+                <td class="field__description">Structure product price</td>
+                <td class="field__values">
+                </td>
+                <td class="field__values">
+            
+                </td>
+                <td class="field__values">
+                 
+                </td>
+              </tr>
+              <tr class="">
+                <td class="field__description">Maintenance margin</td>
+                <td class="field__values">
+
+                </td>
+                <td class="field__values">
+
+                </td>
+                <td class="field__values">
+
+                </td>
+              </tr>
+              <tr class="">
+                <td class="field__description">Total margin</td>
+                <td class="field__values">
+
+                </td>
+                <td class="field__values">
+                
+                </td>
+                <td class="field__values">
+                 
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -73,7 +207,7 @@
 <script>
 import vSelect from "@/components/header/forms/v-select";
 import { useRouter } from "vue-router";
-import { mapGetters, mapActions, mapState } from "vuex";
+import { mapGetters, mapActions, mapState, useStore } from "vuex";
 
 export default {
   name: "SiteAdmin",
@@ -83,26 +217,45 @@ export default {
   },
 
   data() {
+    const router = useRouter();
+    const store = useStore();
     return {
-      users: []
-    }
+      users: [],
+      active: false,
+      activeTab: 1,
+
+      loguot: () => {
+        store.dispatch("auth/signOut");
+        router.push("/Login");
+      },
+    };
   },
 
   methods: {
-        ...mapActions(["getUsers_actions"]),
-
+    ...mapActions(["getUsers_actions", "getTableStaticsics_actions"]),
 
     async handleUsersSelect(value) {
       this.$store.commit("calculator/setUserSiteAdmin", value);
-      const users = await this.getUsers_actions()
-      console.log('users', users.data)
-      this.users = users.data
+      const users = await this.getUsers_actions();
+      console.log("users", users.data);
+      this.users = users.data;
+    },
+
+    changeLang(value) {
+      console.log("value", value);
+      this.$root.$i18n.locale = value;
+      this.$store.commit("calculator/setLang", value);
+      this.getTableStaticsics_actions();
+    },
+
+    changeTab(value) {
+      this.activeTab = value;
     },
   },
 
   created() {
-    this.handleUsersSelect()
-  }
+    this.handleUsersSelect();
+  },
 };
 </script>
 

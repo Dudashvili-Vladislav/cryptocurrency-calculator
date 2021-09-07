@@ -12,6 +12,7 @@ import VueApexCharts from "vue3-apexcharts";
 import { createI18n } from 'vue-i18n'
 import messages from "@/locale/index";
 
+
 const i18n = createI18n({
   locale: 'ru',
   fallbackLocale: 'en',
@@ -51,6 +52,10 @@ if (window.localStorage) {
 }
 
 const app = createApp(App);
+
+
+ 
+
 
 
 app.use(VueApexCharts);
