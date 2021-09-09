@@ -126,6 +126,7 @@ export default {
         await firebase.auth().signOut();
         context.commit("setUser", null);
         localStorage.removeItem("user");
+        // убрать токен и localStorage
       } catch (error) {
         throw error.message;
       }

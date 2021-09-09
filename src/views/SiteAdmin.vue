@@ -31,8 +31,8 @@
             <i class="icon user-icon"></i>
           </div>
 
-          <div class="user-info">
-            <div class="user-name" v-if="$store.state.auth.user.displayName">
+          <div class="user-info" v-if="$store.state.auth.user">
+            <div class="user-name">
               {{ $store.state.auth.user.displayName }}
             </div>
             <div class="user-type">{{ $t("user") }}</div>
@@ -63,13 +63,14 @@
             class="underlying select-gradient"
           >
           </vSelect>
-          {{ $store.state.calculator.users }}
         </div>
       </div>
     </div>
     <!-- Tabs -->
 
+
     <div class="container with-nav">
+      
       <ul class="tab-nav">
         <li class="tab-nav-item">
           <a
@@ -119,7 +120,12 @@
         </li>
       </ul>
 
-      <div class="tabe__wrapper">
+      <button class="btn" @click="onClickEditButton">Edit</button>
+      <h3>{{ isEditing }}</h3>
+
+
+
+      <div class="tabe__wrapper" >
         <table class="table__main w-full ">
           <thead class="table__thead">
             <tr class="table__tr">
@@ -132,45 +138,17 @@
             </tr>
           </thead>
           <tbody class="table__tbody">
-            <tr class="table__tbody__tr">
-              <td class="field__descriptions">{{ margins["Product name"][0] }}</td>
-              <td class="field__descriptions">1</td>
-              <td class="field__descriptions">{{ margins["Fut hedge flag"][0] }}</td>
-              <td class="field__descriptions">{{ margins["Margin requirements"] [0] }}</td>
-              <td class="field__descriptions">{{ margins["Available funds"] [0] }}</td>
-              <td class="field__descriptions">{{ margins["Funds/Notional"] [0] }}</td>
-            </tr>
-            <tr class="table__tbody__tr">
-              <td class="field__descriptions">{{ margins["Product name"][1] }}</td>
-              <td class="field__descriptions">1</td>
-              <td class="field__descriptions">{{ margins["Fut hedge flag"][1] }}</td>
-              <td class="field__descriptions"></td>
-              <td class="field__descriptions"></td>
-              <td class="field__descriptions"></td>
-            </tr>
-            <tr class="table__tbody__tr">
-              <td class="field__descriptions">Structure product price</td>
-              <td class="field__descriptions"></td>
-              <td class="field__descriptions"></td>
-              <td class="field__descriptions"></td>
-              <td class="field__descriptions"></td>
-              <td class="field__descriptions"></td>
-            </tr>
-            <tr class="table__tbody__tr">
-              <td class="field__descriptions">Maintenance margin</td>
-              <td class="field__values"></td>
-              <td class="field__values"></td>
-              <td class="field__values"></td>
-              <td class="field__descriptions"></td>
-              <td class="field__descriptions"></td>
-            </tr>
-            <tr class="table__tbody__tr">
-              <td class="field__descriptions">Total margin</td>
-              <td class="field__values"></td>
-              <td class="field__values"></td>
-              <td class="field__values"></td>
-              <td class="field__descriptions"></td>
-              <td class="field__descriptions"></td>
+            <tr class="table__tbody__tr" v-for="(margin, index) in margins" :key="index">
+              <td class="field__descriptions">
+                
+                  <p v-if="!isEditing">{{ margin.productsName }}</p>
+                  <input v-if="isEditing" v-model="margin.productsName">
+              </td>
+              <td class="field__descriptions">{{ 1 }}</td>
+              <td class="field__descriptions">{{ margin.futHedgeFlag }}</td>
+              <td class="field__descriptions">{{ margin.marginRequirements }}</td>
+              <td class="field__descriptions">{{ margin.availableFunds }}</td>
+              <td class="field__descriptions">{{ margin.fundsNotional }}</td>
             </tr>
           </tbody>
         </table>
@@ -200,6 +178,8 @@ export default {
       positions: [],
       active: false,
       activeTab: 1,
+      timerId: null,
+      isEditing: false,
 
       loguot: () => {
         store.dispatch("auth/signOut");
@@ -215,18 +195,84 @@ export default {
       "getTableStaticsics_actions",
     ]),
 
-    async handleUsersSelect(user) {
-      this.$store.commit("calculator/setUserSiteAdmin", user);
-      this.margins = await this.fetchCleintTableInfoByTab({
-        userId: user,
-        url: "/admin/margins",
-      });
-      this.positions = await this.fetchCleintTableInfoByTab({
-        userId: user,
-        url: "/admin/positions",
-      });
-      this.users = await this.getUsers();
+    async handleUsersSelect(userId) {
+      clearInterval(this.timerId)
+      this.$store.commit("calculator/setUserSiteAdmin", userId);
+      
+      this.timerId = setInterval(async () => {
+        const marginsResponse = await this.fetchCleintTableInfoByTab({
+          userId,
+          url: "/admin/margins",
+        });
+        this.margins = this.convertMargins(marginsResponse)
+        this.positions = await this.fetchCleintTableInfoByTab({
+          userId,
+          url: "/admin/positions",
+        });
+      }, 1000);
+      
     },
+
+    convertPositions () {
+
+    },
+
+    onClickEditButton () {
+      this.isEditing = !this.isEditing
+      clearInterval(this.timerId)
+    },
+
+    convertMargins (response) {
+      let convertMargins = []
+      const productsName = Object.entries(response['Product name'])
+      const marginReq = Object.entries(response['Margin requirements'])
+      const lostReq = Object.entries(response['Lots number'])
+      const futHedgeFlagReq = Object.entries(response['Fut hedge flag'])
+      const fundsNotionalReq = Object.entries(response['Funds/Notional'])
+      const availableFunds = Object.entries(response['Available funds'])
+
+      productsName.forEach((item, index) => {
+        convertMargins.push({})
+        convertMargins[index].productsName = item[1]
+      })
+
+      marginReq.forEach((item, index) => {
+        convertMargins[index].marginRequirements = item[1]
+      })
+
+      lostReq.forEach((item, index) => {
+        convertMargins[index].lotsNumber = item[1]
+      })
+
+      futHedgeFlagReq.forEach((item, index) => {
+        convertMargins[index].futHedgeFlag = item[1]
+      })
+
+      fundsNotionalReq.forEach((item, index) => {
+        convertMargins[index].fundsNotional = item[1]
+      })
+
+      availableFunds.forEach((item, index) => {
+        convertMargins[index].availableFunds = item[1]
+      })
+
+      // const lotsNumber = this.setupFields(lostReq, 'lostNumbers')
+      // console.log('lotsNumber', lotsNumber)
+      return convertMargins
+    },
+
+    // setupFields(array, fieldType) {
+    //   array.forEach((item, index) => {
+    //     if (!convertMargins.length) {
+    //       convertMargins.push({})
+    //     }
+    //     console.log('index', index)
+    //     console.log('fieldType', fieldType)
+    //     console.log('item[1]', item[1])
+    //     convertMargins[index][fieldType] = item[1]
+    //   })
+    //   return convertMargins
+    // },
 
     changeLang(value) {
       console.log("value", value);
@@ -240,8 +286,8 @@ export default {
     },
   },
 
-  created() {
-    this.handleUsersSelect();
+  async mounted() {
+    this.users = await this.getUsers();
   },
 };
 </script>
