@@ -66,139 +66,114 @@
           {{ $store.state.calculator.users }}
         </div>
       </div>
+    </div>
+    <!-- Tabs -->
 
-      <!-- Tabs -->
-
-      <div class="container with-nav">
-        <ul class="tab-nav">
-          <li class="tab-nav-item">
-            <a
-              @mouseover="active = true"
-              @mouseleave="active = false"
-              @click="changeTab(1)"
-              class="tab-link"
-              :class="{ active: activeTab === 1 }"
-            >Margins</a>
-          </li>
-
-          <li class="tab-nav-item">
-            <a
-              @click="changeTab(2)"
-              class="tab-link"
-              :class="{ active: activeTab === 2 }"
-            >Positions</a>
-          </li>
-
-          <li class="tab-nav-item">
-            <a
-              @click="changeTab(3)"
-              class="tab-link"
-              :class="{ active: activeTab === 3 }"
-            >Orders</a>
-          </li>
-
-          <li class="tab-nav-item">
-            <a
-              @click="changeTab(4)"
-              class="tab-link"
-              :class="{ active: activeTab === 4 }"
-            >Deals</a>
-          </li>
-
-          <li class="tab-nav-item">
-            <a
-              @click="changeTab(5)"
-              class="tab-link"
-              :class="{ active: activeTab === 5 }"
-            >Result</a>
-          </li>
-        </ul>
-        {{margins['Lots number']}}
-        <div class="tab-content">
-          <div class="tab-item"></div>
-          <div class="tab-item" v-if="activeTab === 2"></div>
-          <div class="tab-item" v-if="activeTab === 3"></div>
-          <div class="tab-item" v-if="activeTab === 4"></div>
-          <div class="tab-item" v-if="activeTab === 5"></div>
-        </div>
-        <div class="gradient-table">
-          <table
-            class="table-auto  text-center  justify-end m-left table-statistic"
+    <div class="container with-nav">
+      <ul class="tab-nav">
+        <li class="tab-nav-item">
+          <a
+            @mouseover="active = true"
+            @mouseleave="active = false"
+            @click="changeTab(1)"
+            class="tab-link"
+            :class="{ active: activeTab === 1 }"
+            >Margins</a
           >
-            <thead class="border__thead  ">
-              <tr class="table__header">
-                <th class="th"></th>
-                <th class="table__title">Product Name</th>
-                <th class="table__title">Amount</th>
-                <th class="table__title__USD">Fut Hedge flag</th>
-                <th class="table__title">Margin requirements</th>
-                <th class="table__title">Available funds</th>
-                <th class="table__title">Funds / Notional</th>
-              </tr>
-            </thead>
-            <tbody class="wrapper__table">
-              <tr class="table__border ">
-                <td class="field__description">Amount of underlying</td>
-                <td class="field__values">
-                 
-                </td>
-                <td class="field__values">
-                 
-                </td>
-                <td class="field__values">
-                 
-                </td>
-              </tr>
-              <tr class="bg-emerald-200">
-                <td class="field__description">Max profit</td>
-                <td class="field__values">
-               
-                </td>
-                <td class="field__values">
-                
-                </td>
-                <td class="field__values">
-                 
-                </td>
-              </tr>
-              <tr class="">
-                <td class="field__description">Structure product price</td>
-                <td class="field__values">
-                </td>
-                <td class="field__values">
-            
-                </td>
-                <td class="field__values">
-                 
-                </td>
-              </tr>
-              <tr class="">
-                <td class="field__description">Maintenance margin</td>
-                <td class="field__values">
+        </li>
 
-                </td>
-                <td class="field__values">
+        <li class="tab-nav-item">
+          <a
+            @click="changeTab(2)"
+            class="tab-link"
+            :class="{ active: activeTab === 2 }"
+            >Positions</a
+          >
+        </li>
 
-                </td>
-                <td class="field__values">
+        <li class="tab-nav-item">
+          <a
+            @click="changeTab(3)"
+            class="tab-link"
+            :class="{ active: activeTab === 3 }"
+            >Orders</a
+          >
+        </li>
 
-                </td>
-              </tr>
-              <tr class="">
-                <td class="field__description">Total margin</td>
-                <td class="field__values">
+        <li class="tab-nav-item">
+          <a
+            @click="changeTab(4)"
+            class="tab-link"
+            :class="{ active: activeTab === 4 }"
+            >Deals</a
+          >
+        </li>
 
-                </td>
-                <td class="field__values">
-                
-                </td>
-                <td class="field__values">
-                 
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <li class="tab-nav-item">
+          <a
+            @click="changeTab(5)"
+            class="tab-link"
+            :class="{ active: activeTab === 5 }"
+            >Result</a
+          >
+        </li>
+      </ul>
+
+      <div class="tabe__wrapper">
+        <table class="table__main w-full ">
+          <thead class="table__thead">
+            <tr class="table__tr">
+              <th class="table__th__header">Product Name</th>
+              <th class="table__th__header">Amount</th>
+              <th class="table__th__header">Fut Hedge flag</th>
+              <th class="table__th__header">Margin requirements</th>
+              <th class="table__th__header">Available funds</th>
+              <th class="table__th__header">Funds / Notional</th>
+            </tr>
+          </thead>
+          <tbody class="table__tbody">
+            <tr class="table__tbody__tr">
+              <td class="field__descriptions">{{ margins["Product name"][0] }}</td>
+              <td class="field__descriptions">1</td>
+              <td class="field__descriptions">{{ margins["Fut hedge flag"][0] }}</td>
+              <td class="field__descriptions">{{ margins["Margin requirements"] [0] }}</td>
+              <td class="field__descriptions">{{ margins["Available funds"] [0] }}</td>
+              <td class="field__descriptions">{{ margins["Funds/Notional"] [0] }}</td>
+            </tr>
+            <tr class="table__tbody__tr">
+              <td class="field__descriptions">{{ margins["Product name"][1] }}</td>
+              <td class="field__descriptions">1</td>
+              <td class="field__descriptions">{{ margins["Fut hedge flag"][1] }}</td>
+              <td class="field__descriptions"></td>
+              <td class="field__descriptions"></td>
+              <td class="field__descriptions"></td>
+            </tr>
+            <tr class="table__tbody__tr">
+              <td class="field__descriptions">Structure product price</td>
+              <td class="field__descriptions"></td>
+              <td class="field__descriptions"></td>
+              <td class="field__descriptions"></td>
+              <td class="field__descriptions"></td>
+              <td class="field__descriptions"></td>
+            </tr>
+            <tr class="table__tbody__tr">
+              <td class="field__descriptions">Maintenance margin</td>
+              <td class="field__values"></td>
+              <td class="field__values"></td>
+              <td class="field__values"></td>
+              <td class="field__descriptions"></td>
+              <td class="field__descriptions"></td>
+            </tr>
+            <tr class="table__tbody__tr">
+              <td class="field__descriptions">Total margin</td>
+              <td class="field__values"></td>
+              <td class="field__values"></td>
+              <td class="field__values"></td>
+              <td class="field__descriptions"></td>
+              <td class="field__descriptions"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -234,15 +209,24 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getUsers", "fetchCleintTableInfoByTab", "getTableStaticsics_actions"]),
+    ...mapActions([
+      "getUsers",
+      "fetchCleintTableInfoByTab",
+      "getTableStaticsics_actions",
+    ]),
 
     async handleUsersSelect(user) {
       this.$store.commit("calculator/setUserSiteAdmin", user);
-      this.margins = await this.fetchCleintTableInfoByTab({userId: user, url: '/admin/margins'})
-      this.positions = await this.fetchCleintTableInfoByTab({userId: user, url: '/admin/positions'})
+      this.margins = await this.fetchCleintTableInfoByTab({
+        userId: user,
+        url: "/admin/margins",
+      });
+      this.positions = await this.fetchCleintTableInfoByTab({
+        userId: user,
+        url: "/admin/positions",
+      });
       this.users = await this.getUsers();
     },
-
 
     changeLang(value) {
       console.log("value", value);
@@ -263,6 +247,40 @@ export default {
 </script>
 
 <style>
+/*  TABLE */
+.tabe__wrapper {
+  flex: 1 1 100%;
+  max-width: 2000px;
+  max-height: 700px;
+  background: linear-gradient(
+    210.96deg,
+    rgba(55, 36, 88, 0.61) 0.01%,
+    rgba(43, 35, 83, 0.7) 42.05%,
+    rgba(63, 59, 115, 0) 104.81%
+  );
+}
+
+.table__main {
+  color: #ffffff;
+}
+
+.table__thead {
+  height: 50px;
+}
+
+.field__descriptions {
+  padding-top: 10px;
+  padding-left: 5px;
+}
+
+.table__tr {
+  text-align: left;
+}
+.table__th__header {
+  padding-left: 5px;
+}
+
+/*  TABLE END */
 .select {
   display: flex;
   justify-content: space-between;
@@ -432,24 +450,6 @@ a {
   margin: 28px 0 20px;
 }
 
-.recomended-ul {
-  margin-top: 40px;
-}
-
-.recomended {
-  background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
-  border-radius: 18px 0px 0px 0px;
-  color: white;
-  border-color: rgba(0, 0, 0, 0.2);
-}
-
-.qustom-qa {
-  background: rgba(0, 0, 0, 0.2);
-  color: white;
-  border-radius: 0px;
-  border-color: rgba(0, 0, 0, 0.2);
-}
-
 .switch-for {
   cursor: pointer;
   font-size: 16px;
@@ -494,29 +494,4 @@ a {
 .switch:checked ~ .header-wrapper {
   background-color: #fff;
 }
-
-/* Slider */
-
-.vue-slider .vue-slider-rail {
-  border-radius: 0;
-  background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
-  height: 2px;
-}
-
-.vue-slider .vue-slider-process {
-  height: 6px !important;
-  background: #fb49c0;
-  top: -2px !important;
-}
-
-.vue-slider .vue-slider-dot-handle {
-  background: linear-gradient(135deg, #fff2fe 0%, #ffbff6 100%);
-  box-shadow: 0px 0 0 5px #ffbff657;
-}
-
-.vue-slider.blue-slider .vue-slider-process {
-  background: linear-gradient(0deg, #31afd6, #31afd6), #fb49c0;
-}
-
-/* Slider END */
 </style>

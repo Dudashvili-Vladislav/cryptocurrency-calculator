@@ -118,22 +118,7 @@ let store = createStore({
         return error;
       }
     },
-    highAndLow(numbers){
-      let arr = numbers.split(' ');
-      let max = arr[0],min = arr[0];
-      for(var i = 0;i<arr.length;i++){
-        if(parseInt(arr[i]) > max){
-          max = arr[i];
-        }
-        if(parseInt(arr[i]) < min){
-          min = arr[i]
-        }
-      }
-      let result = max + ' ' + min;
-      console.log("RESULT",result);
-      return result;
 
-    },
 
     async getMaturity_actions({ commit, rootState }) {
       // Получаем все даты
@@ -160,7 +145,7 @@ let store = createStore({
 
 
     async fetchCleintTableInfoByTab({ commit, rootState }, {userId, url}) {
-      // Получаем все даты
+      // Получение данных для siteadmin
       try {
         const options = {
           params: { client_id: userId },
