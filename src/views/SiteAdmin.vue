@@ -66,11 +66,10 @@
         </div>
       </div>
     </div>
+
     <!-- Tabs -->
 
-
     <div class="container with-nav">
-      
       <ul class="tab-nav">
         <li class="tab-nav-item">
           <a
@@ -120,39 +119,98 @@
         </li>
       </ul>
 
-      <button class="btn" @click="onClickEditButton">Edit</button>
-      <h3>{{ isEditing }}</h3>
+      <div class="tab-content">
+        <div class="tab-item" v-if="activeTab === 1">
+          <div class="tabe__wrapper">
+            <table class="table__main w-full">
+              <thead class="table__thead">
+                <tr class="table__tr">
+                  <th class="table__th__header">Product Name</th>
+                  <th class="table__th__header">Amount</th>
+                  <th class="table__th__header">Fut Hedge flag</th>
+                  <th class="table__th__header">Margin requirements</th>
+                  <th class="table__th__header">Available funds</th>
+                  <th class="table__th__header">Funds / Notional</th>
+                </tr>
+              </thead>
 
+              <tbody class="table__tbody">
+                <tr
+                  class="table__tbody__tr"
+                  v-for="(margin, index) in margins"
+                  :key="index"
+                >
+                  <td class="field__descriptions">
+                    <p v-if="!isEditing">{{ margin.productsName }}</p>
+                    <input v-if="isEditing" v-model="margin.productsName" />
+                  </td>
+                  <td class="field__descriptions">{{ 1 }}</td>
 
+                  <td class="field__descriptions">
+                    <p v-if="!isEditing">{{ margin.futHedgeFlag }}</p>
+                    <input v-if="isEditing" v-model="margin.futHedgeFlag" />
+                  </td>
 
-      <div class="tabe__wrapper" >
-        <table class="table__main w-full ">
-          <thead class="table__thead">
-            <tr class="table__tr">
-              <th class="table__th__header">Product Name</th>
-              <th class="table__th__header">Amount</th>
-              <th class="table__th__header">Fut Hedge flag</th>
-              <th class="table__th__header">Margin requirements</th>
-              <th class="table__th__header">Available funds</th>
-              <th class="table__th__header">Funds / Notional</th>
-            </tr>
-          </thead>
-          <tbody class="table__tbody">
-            <tr class="table__tbody__tr" v-for="(margin, index) in margins" :key="index">
-              <td class="field__descriptions">
-                
-                  <p v-if="!isEditing">{{ margin.productsName }}</p>
-                  <input v-if="isEditing" v-model="margin.productsName">
-              </td>
-              <td class="field__descriptions">{{ 1 }}</td>
-              <td class="field__descriptions">{{ margin.futHedgeFlag }}</td>
-              <td class="field__descriptions">{{ margin.marginRequirements }}</td>
-              <td class="field__descriptions">{{ margin.availableFunds }}</td>
-              <td class="field__descriptions">{{ margin.fundsNotional }}</td>
-            </tr>
-          </tbody>
-        </table>
+                  <td class="field__descriptions">
+                    {{ margin.marginRequirements }}
+                  </td>
+                  <td class="field__descriptions">
+                    {{ margin.availableFunds }}
+                  </td>
+                  <td class="field__descriptions">
+                    {{ margin.fundsNotional }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tab-item" v-if="activeTab === 2">
+  
+          <div class="tabe__wrapper">
+            <table class="table__main w-full">
+               <thead class="table__thead">
+                <tr class="table__tr">
+                  <th class="table__th__header">Product Name</th>
+                  <th class="table__th__header">Amount</th>
+                  <th class="table__th__header">Fut Hedge flag</th>
+                  <th class="table__th__header">Margin requirements</th>
+                  <th class="table__th__header">Available funds</th>
+                  <th class="table__th__header">Funds / Notional</th>
+                </tr>
+              </thead>
+              <tbody class="table__tbody">
+                <tr
+                  class="table__tbody__tr"
+                  v-for="(position, index) in positions"
+                  :key="index"
+                >
+                  <td class="field__descriptions">
+                    <p v-if="!isEditing">{{ position.productsName }}</p>
+                    <input v-if="isEditing" v-model="position.productsName" />
+                  </td>
+
+                  <td class="field__descriptions">
+                    <p v-if="!isEditing">{{ position.Amount }}</p>
+                    <input v-if="isEditing" v-model="position.Amount" />
+                  </td>
+
+                  <td class="field__descriptions">
+                    <p v-if="!isEditing">{{ position.OptionName }}</p>
+                    <input v-if="isEditing" v-model="position.OptionName" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tab-item" v-if="activeTab === 3"></div>
       </div>
+
+      <button class="btn test" @click="onClickEditButton">
+        Edit
+      </button>
     </div>
   </div>
 </template>
@@ -196,69 +254,86 @@ export default {
     ]),
 
     async handleUsersSelect(userId) {
-      clearInterval(this.timerId)
+      clearInterval(this.timerId);
       this.$store.commit("calculator/setUserSiteAdmin", userId);
-      
+
       this.timerId = setInterval(async () => {
         const marginsResponse = await this.fetchCleintTableInfoByTab({
           userId,
           url: "/admin/margins",
         });
-        this.margins = this.convertMargins(marginsResponse)
-        this.positions = await this.fetchCleintTableInfoByTab({
+        const positionsResponse = await this.fetchCleintTableInfoByTab({
           userId,
           url: "/admin/positions",
         });
-      }, 1000);
-      
+        this.margins = this.convertMargins(marginsResponse);
+        this.positions = this.convertPositions(positionsResponse);
+      }, 2000);
     },
 
-    convertPositions () {
-
-    },
-
-    onClickEditButton () {
-      this.isEditing = !this.isEditing
-      clearInterval(this.timerId)
-    },
-
-    convertMargins (response) {
-      let convertMargins = []
-      const productsName = Object.entries(response['Product name'])
-      const marginReq = Object.entries(response['Margin requirements'])
-      const lostReq = Object.entries(response['Lots number'])
-      const futHedgeFlagReq = Object.entries(response['Fut hedge flag'])
-      const fundsNotionalReq = Object.entries(response['Funds/Notional'])
-      const availableFunds = Object.entries(response['Available funds'])
+    convertPositions(response) {
+      let convertPositions = [];
+      const productsName = Object.entries(response["Product name"]);
+      const Amount = Object.entries(response["Amount"]);
+      const OptionName = Object.entries(response["Option name"]);
 
       productsName.forEach((item, index) => {
-        convertMargins.push({})
-        convertMargins[index].productsName = item[1]
-      })
+        convertPositions.push({});
+        convertPositions[index].productsName = item[1];
+      });
+
+      Amount.forEach((item, index) => {
+        convertPositions[index].Amount = item[1];
+      });
+
+      OptionName.forEach((item, index) => {
+        convertPositions[index].OptionName = item[1];
+      });
+      return convertPositions;
+    },
+
+    onClickEditButton() {
+      this.isEditing = !this.isEditing;
+      clearInterval(this.timerId);
+    },
+
+    convertMargins(response) {
+      let convertMargins = [];
+      const productsName = Object.entries(response["Product name"]);
+      const marginReq = Object.entries(response["Margin requirements"]);
+      const lostReq = Object.entries(response["Lots number"]);
+      const futHedgeFlagReq = Object.entries(response["Fut hedge flag"]);
+      const fundsNotionalReq = Object.entries(response["Funds/Notional"]);
+      const availableFunds = Object.entries(response["Available funds"]);
+
+      productsName.forEach((item, index) => {
+        convertMargins.push({});
+        convertMargins[index].productsName = item[1];
+      });
 
       marginReq.forEach((item, index) => {
-        convertMargins[index].marginRequirements = item[1]
-      })
+        convertMargins[index].marginRequirements = item[1];
+      });
 
       lostReq.forEach((item, index) => {
-        convertMargins[index].lotsNumber = item[1]
-      })
+        convertMargins[index].lotsNumber = item[1];
+      });
 
       futHedgeFlagReq.forEach((item, index) => {
-        convertMargins[index].futHedgeFlag = item[1]
-      })
+        convertMargins[index].futHedgeFlag = item[1];
+      });
 
       fundsNotionalReq.forEach((item, index) => {
-        convertMargins[index].fundsNotional = item[1]
-      })
+        convertMargins[index].fundsNotional = item[1];
+      });
 
       availableFunds.forEach((item, index) => {
-        convertMargins[index].availableFunds = item[1]
-      })
+        convertMargins[index].availableFunds = item[1];
+      });
 
       // const lotsNumber = this.setupFields(lostReq, 'lostNumbers')
       // console.log('lotsNumber', lotsNumber)
-      return convertMargins
+      return convertMargins;
     },
 
     // setupFields(array, fieldType) {
@@ -327,6 +402,10 @@ export default {
 }
 
 /*  TABLE END */
+
+.test {
+  margin-top: 20px;
+}
 .select {
   display: flex;
   justify-content: space-between;
@@ -347,7 +426,6 @@ export default {
 
 .tab-nav {
   display: flex;
-  padding-top: 300px;
 }
 
 .tab-nav-item {
