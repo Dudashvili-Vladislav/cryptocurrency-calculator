@@ -4,6 +4,7 @@
       <h1 class="logo font-bold text-xl">
         Calculator
       </h1>
+<!--       {{$store.state}} -->
 
       <div class="user-panel ml-auto">
 <!--         <div class="swicher">

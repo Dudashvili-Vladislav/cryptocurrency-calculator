@@ -67,150 +67,176 @@
       </div>
     </div>
 
-    <!-- Tabs -->
-
-    <div class="container with-nav">
-      <ul class="tab-nav">
-        <li class="tab-nav-item">
-          <a
-            @mouseover="active = true"
-            @mouseleave="active = false"
-            @click="changeTab(1)"
-            class="tab-link"
-            :class="{ active: activeTab === 1 }"
-            >Margins</a
-          >
-        </li>
-
-        <li class="tab-nav-item">
-          <a
-            @click="changeTab(2)"
-            class="tab-link"
-            :class="{ active: activeTab === 2 }"
-            >Positions</a
-          >
-        </li>
-
-        <li class="tab-nav-item">
-          <a
-            @click="changeTab(3)"
-            class="tab-link"
-            :class="{ active: activeTab === 3 }"
-            >Orders</a
-          >
-        </li>
-
-        <li class="tab-nav-item">
-          <a
-            @click="changeTab(4)"
-            class="tab-link"
-            :class="{ active: activeTab === 4 }"
-            >Deals</a
-          >
-        </li>
-
-        <li class="tab-nav-item">
-          <a
-            @click="changeTab(5)"
-            class="tab-link"
-            :class="{ active: activeTab === 5 }"
-            >Result</a
-          >
-        </li>
-      </ul>
-
-      <div class="tab-content">
-        <div class="tab-item" v-if="activeTab === 1">
-          <div class="tabe__wrapper">
-            <table class="table__main w-full">
-              <thead class="table__thead">
-                <tr class="table__tr">
-                  <th class="table__th__header">Product Name</th>
-                  <th class="table__th__header">Amount</th>
-                  <th class="table__th__header">Fut Hedge flag</th>
-                  <th class="table__th__header">Margin requirements</th>
-                  <th class="table__th__header">Available funds</th>
-                  <th class="table__th__header">Funds / Notional</th>
-                </tr>
-              </thead>
-
-              <tbody class="table__tbody">
-                <tr
-                  class="table__tbody__tr"
-                  v-for="(margin, index) in margins"
-                  :key="index"
-                >
-                  <td class="field__descriptions">
-                    <p v-if="!isEditing">{{ margin.productsName }}</p>
-                    <input v-if="isEditing" v-model="margin.productsName" />
-                  </td>
-                  <td class="field__descriptions">{{ 1 }}</td>
-
-                  <td class="field__descriptions">
-                    <p v-if="!isEditing">{{ margin.futHedgeFlag }}</p>
-                    <input v-if="isEditing" v-model="margin.futHedgeFlag" />
-                  </td>
-
-                  <td class="field__descriptions">
-                    {{ margin.marginRequirements }}
-                  </td>
-                  <td class="field__descriptions">
-                    {{ margin.availableFunds }}
-                  </td>
-                  <td class="field__descriptions">
-                    {{ margin.fundsNotional }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="tab-item" v-if="activeTab === 2">
-  
-          <div class="tabe__wrapper">
-            <table class="table__main w-full">
-               <thead class="table__thead">
-                <tr class="table__tr">
-                  <th class="table__th__header">Product Name</th>
-                  <th class="table__th__header">Amount</th>
-                  <th class="table__th__header">Fut Hedge flag</th>
-                  <th class="table__th__header">Margin requirements</th>
-                  <th class="table__th__header">Available funds</th>
-                  <th class="table__th__header">Funds / Notional</th>
-                </tr>
-              </thead>
-              <tbody class="table__tbody">
-                <tr
-                  class="table__tbody__tr"
-                  v-for="(position, index) in positions"
-                  :key="index"
-                >
-                  <td class="field__descriptions">
-                    <p v-if="!isEditing">{{ position.productsName }}</p>
-                    <input v-if="isEditing" v-model="position.productsName" />
-                  </td>
-
-                  <td class="field__descriptions">
-                    <p v-if="!isEditing">{{ position.Amount }}</p>
-                    <input v-if="isEditing" v-model="position.Amount" />
-                  </td>
-
-                  <td class="field__descriptions">
-                    <p v-if="!isEditing">{{ position.OptionName }}</p>
-                    <input v-if="isEditing" v-model="position.OptionName" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="tab-item" v-if="activeTab === 3"></div>
+    <div class="wrapper__table__btn">
+      <div class="btn__tab-nav" v-if="this.margins != 0">
+        <button class="btn test" @click="onClickEditButton">
+          {{ $t("edit") }}
+        </button>
       </div>
+      <!-- Tabs -->
 
-      <button class="btn test" @click="onClickEditButton">
-        Edit
-      </button>
+      <div class="container with-nav">
+        <ul class="tab-nav">
+          <li class="tab-nav-item">
+            <a
+              @mouseover="active = true"
+              @mouseleave="active = false"
+              @click="changeTab(1)"
+              class="tab-link"
+              :class="{ active: activeTab === 1 }"
+              >Margins</a
+            >
+          </li>
+
+          <li class="tab-nav-item">
+            <a
+              @click="changeTab(2)"
+              class="tab-link"
+              :class="{ active: activeTab === 2 }"
+              >Positions</a
+            >
+          </li>
+
+          <li class="tab-nav-item">
+            <a
+              @click="changeTab(3)"
+              class="tab-link"
+              :class="{ active: activeTab === 3 }"
+              >Orders</a
+            >
+          </li>
+
+          <li class="tab-nav-item">
+            <a
+              @click="changeTab(4)"
+              class="tab-link"
+              :class="{ active: activeTab === 4 }"
+              >Deals</a
+            >
+          </li>
+
+          <li class="tab-nav-item">
+            <a
+              @click="changeTab(5)"
+              class="tab-link"
+              :class="{ active: activeTab === 5 }"
+              >Result</a
+            >
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-item" v-if="activeTab === 1">
+            <div class="tabe__wrapper">
+              <table class="table__main w-full">
+                <thead class="table__thead">
+                  <tr class="table__tr">
+                    <th class="table__th__header">Product Name</th>
+                    <th class="table__th__header">Amount</th>
+                    <th class="table__th__header">Fut Hedge flag</th>
+                    <th class="table__th__header">Margin requirements</th>
+                    <th class="table__th__header">Available funds</th>
+                    <th class="table__th__header">Funds / Notional</th>
+                  </tr>
+                </thead>
+                <div class="hr__wrapper">
+                  <hr class="table__hr" />
+                </div>
+                <tbody class="table__tbody">
+                  <tr
+                    class="table__tbody__tr"
+                    v-for="(margin, index) in margins"
+                    :key="index"
+                  >
+                    <td class="field__descriptions">
+                      <p v-if="!isEditing">{{ margin.productsName }}</p>
+                      <input v-if="isEditing" v-model="margin.productsName" />
+                    </td>
+                    <td class="field__descriptions">{{ 1 }}</td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditing">{{ margin.futHedgeFlag }}</p>
+                      <input v-if="isEditing" v-model="margin.futHedgeFlag" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditing">{{ margin.marginRequirements }}</p>
+                      <input
+                        v-if="isEditing"
+                        v-model="margin.marginRequirements"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditing">{{ margin.availableFunds }}</p>
+                      <input v-if="isEditing" v-model="margin.availableFunds" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditing">{{ margin.fundsNotional }}</p>
+                      <input v-if="isEditing" v-model="margin.fundsNotional" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="tab-item" v-if="activeTab === 2">
+            <div class="tabe__wrapper">
+              <table class="table__main w-full">
+                <thead class="table__thead">
+                  <tr class="table__tr">
+                    <th class="table__th__header">Product Name</th>
+                    <th class="table__th__header">Amount</th>
+                    <th class="table__th__header">Fut Hedge flag</th>
+                    <th class="table__th__header">Margin requirements</th>
+                    <th class="table__th__header">Available funds</th>
+                    <th class="table__th__header">Funds / Notional</th>
+                  </tr>
+                </thead>
+                <div class="hr__wrapper">
+                  <hr class="table__hr" />
+                </div>
+                <tbody class="table__tbody">
+                  <tr
+                    class="table__tbody__tr"
+                    v-for="(position, index) in positions"
+                    :key="index"
+                  >
+                    <td class="field__descriptions">
+                      <p v-if="!isEditing">{{ position.productsName }}</p>
+                      <input v-if="isEditing" v-model="position.productsName" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditing">{{ position.Amount }}</p>
+                      <input v-if="isEditing" v-model="position.Amount" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditing">{{ position.OptionName }}</p>
+                      <input v-if="isEditing" v-model="position.OptionName" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-item" v-if="activeTab === 3"></div>
+        </div>
+      </div>
+      <div class="wrapper__table__btn__footer" v-if="this.margins != 0">
+        <v-button
+          class="button-recomended "
+          @upGetStatisctics="
+            sendOrder({
+              tableData: tableData,
+              slippage: Number(mission),
+            })
+          "
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -219,12 +245,14 @@
 import vSelect from "@/components/header/forms/v-select";
 import { useRouter } from "vue-router";
 import { mapGetters, mapActions, mapState, useStore } from "vuex";
+import vButton from "@/components/v-button";
 
 export default {
   name: "SiteAdmin",
 
   components: {
     vSelect,
+    vButton,
   },
 
   data() {
@@ -368,7 +396,31 @@ export default {
 </script>
 
 <style>
+.wrapper__table__btn__footer {
+  padding-top: 20px;
+  float: right;
+}
+.with-nav {
+  padding-top: 35px;
+}
+.btn__tab-nav {
+  position: relative;
+}
+.field__descriptions input {
+  color: black;
+  background: linear-gradient(270deg, #fcfaff 0%, #afafd1 100%);
+}
 /*  TABLE */
+
+.hr__wrapper {
+  position: relative;
+}
+.table__hr {
+  position: absolute;
+  width: 1279px;
+  opacity: 0.4;
+}
+
 .tabe__wrapper {
   flex: 1 1 100%;
   max-width: 2000px;
@@ -381,8 +433,12 @@ export default {
   );
 }
 
-.table__main {
-  color: #ffffff;
+.table__main td + td {
+  border-left: 1px solid #fff3;
+}
+
+.table__main td {
+  padding: 8px 10px;
 }
 
 .table__thead {
@@ -404,7 +460,23 @@ export default {
 /*  TABLE END */
 
 .test {
-  margin-top: 20px;
+  position: absolute;
+  top: 270px;
+  right: 3.1%;
+    display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  height: 48px;
+  width: 123px;
+  background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
 }
 .select {
   display: flex;
@@ -419,9 +491,6 @@ export default {
   line-height: 29px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-}
-.tab-content {
-  color: #ffffff;
 }
 
 .tab-nav {

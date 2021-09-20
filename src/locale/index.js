@@ -19,6 +19,7 @@ export default {
     Amount: 'Amount ',
     futures_hedge_funding: 'Futures hedge funding',
     Select_user_admin: 'Select user',
+    edit: 'EDIT',
   },
 
   ru: {
@@ -39,7 +40,8 @@ export default {
     maturity: 'Дата экспирации',
     Amount: 'Количество ',
     futures_hedge_funding: 'Фондирование за счет продажи фьючерса',
-    Select_user_admin: 'Выберите пользователя'
+    Select_user_admin: 'Выберите пользователя',
+    edit: 'Изменить',
   },
 
 }

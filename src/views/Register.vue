@@ -125,7 +125,7 @@ export default {
       validatePassword: yup
         .string()
         .required()
-        .min(8)
+        .min(6)
         .trim(),
     };
   },

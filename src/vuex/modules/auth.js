@@ -63,11 +63,13 @@ export default {
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password);
         setUserToState(context);
+        console.log("CTX",context);
         const response = await axios.post("/auth/getToken", {
           username: "emcd",
           password: "6XeumP6F5J2WMTJ6",
         });
         console.log("response", response.data.access_token);
+        console.log("login-response.data",response);
         axios.defaults.headers.common = {
           Authorization: `Bearer ${response.data.access_token}`,
         };
@@ -85,20 +87,6 @@ export default {
       }
     },
 
-     highAndLow(numbers){
-      let arr =numbers.split(' ');
-      let max = arr[0],min =arr[0];
-      for(let i = 0;i<arr.length;i++){
-        if(parseInt(arr[i]) > max){
-          max = arr[i];
-        }
-        if(parseInt(arr[i]) < min){
-          min = arr[i]
-        }
-      }
-      let result = max + ' ' + min;
-      return result;
-    },
 
     async createUser(context, { email, password, user}) {
       try {
