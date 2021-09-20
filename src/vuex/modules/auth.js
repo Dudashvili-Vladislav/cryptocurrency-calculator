@@ -9,9 +9,8 @@ import axios from "axios";
 function setUserToState(context, userName) {
   const userFirebase = firebase.auth().currentUser;
   const user = {email: userFirebase.email, uid: userFirebase.uid, displayName: userFirebase.displayName || userName}
-  console.log('user', user)
-  context.commit("setUser", user);
   window.localStorage.setItem("user", JSON.stringify(user));
+  return userFirebase.uid
 }
 
 /* const TOKEN_KEY = "jwt-token"
@@ -25,20 +24,6 @@ export default {
       user: null,
     };
   },
-
-  computed: {
-    ...mapGetters(["userFirebase"]),
-  },
-  methods: {
-    ...mapMutations([
-      "setUser"
-    ]),
-    ...mapActions([
-      "getToken"
-    ]),
-
-  },
-
 
   mutations: {
     setUser(state, user) {
@@ -90,19 +75,22 @@ export default {
 
     async createUser(context, { email, password, user}) {
       try {
-        console.log('user', user)
         await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password);
-        
+               
         const userFirebase = firebase.auth().currentUser;
         userFirebase.updateProfile({
           displayName: user
         })
 
-        setUserToState(context, user);
+        const uid = setUserToState(context, user);
 
-        /* 				setUserToState(context, responce); */
+        const admin = true
+        if (admin) {
+          axios.post('https:...', { uid })
+        }
+
       } catch (error) {
         console.log('error', error)
         throw error.message;
