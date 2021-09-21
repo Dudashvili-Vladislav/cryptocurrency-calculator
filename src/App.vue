@@ -1,39 +1,53 @@
 <template>
-  <div class="container mx-auto">
-    <router-view></router-view>
-  </div>
+    <div class="container mx-auto">
+        <div v-if="isError">Произошла ошибка</div>
+        <router-view v-if="$store.state.auth.auth_checked"/>
+        <div v-else >Загрузка</div>
+    </div>
 </template>
 
 <script>
 
 export default {
-  name: "App",
+    name: "App",
+    data() {
+        return {
+            isError: false
+        }
+    },
+    created() {
+        this.$store.dispatch('initApp').catch(err => {
+            if (err.code !== 401) {
+                this.isError = true
+            }
+        })
+    }
 };
 </script>
 
 <style>
 .auth-body {
-  max-width: 400px;
-  margin: 50px auto;
+    max-width: 400px;
+    margin: 50px auto;
 }
 
 #app {
-  min-height: 100vh;
-  background: radial-gradient(123.22% 129.67% at 100.89% -5.6%, #2C1D47 0%, #18153A 100%)
+    min-height: 100vh;
+    background: radial-gradient(123.22% 129.67% at 100.89% -5.6%, #2C1D47 0%, #18153A 100%)
 }
 
 #app .container {
-  max-width: 1280px;
+    max-width: 1280px;
 }
 
 .icon {
-  display: inline-block;
+    display: inline-block;
 }
 
 .user-icon {
-  width: 23px;
-  height: 24px;
-  background: url('assets/images/user-icon.svg');
+    width: 23px;
+    height: 24px;
+    background: url('assets/images/user-icon.svg');
 }
 
 .select .option {

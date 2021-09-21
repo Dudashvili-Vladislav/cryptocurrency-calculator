@@ -20,27 +20,27 @@ const i18n = createI18n({
 })
 
 // 3. Берешь token из localstorage и добавляешьв axios headers <- write code
-let Token =  localStorage.getItem("Token")
-
-axios.defaults.headers.common = {
-  Authorization: `Bearer ${Token}`,
-};
-
-axios.interceptors.response.use(
-  function (response) {
-    console.log('response', response)
-    return response
-  },
-  function (error) {
-    console.log('error.response.status', error.response.status)
-    if (error.response.status === 401) {
-      store.dispatch('auth/signOut').then(() => {
-        router.push("/Login")
-      })
-    }
-    return Promise.reject(error);
-  }
-);
+// let Token =  localStorage.getItem("Token")
+//
+// axios.defaults.headers.common = {
+//   Authorization: `Bearer ${Token}`,
+// };
+//
+// axios.interceptors.response.use(
+//   function (response) {
+//     console.log('response', response)
+//     return response
+//   },
+//   function (error) {
+//     console.log('error.response.status', error.response.status)
+//     if (error.response.status === 401) {
+//       store.dispatch('auth/signOut').then(() => {
+//         router.push("/Login")
+//       })
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 //config
 
@@ -69,11 +69,6 @@ if (window.localStorage) {
 }
 
 const app = createApp(App);
-
-
- 
-
-
 
 app.use(VueApexCharts);
 app.use(router);

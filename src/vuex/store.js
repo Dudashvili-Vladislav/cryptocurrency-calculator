@@ -100,13 +100,25 @@ let store = createStore({
   },
 
   actions: {
+    async initApp({ dispatch }) {
+      try {
+        await dispatch('auth/checkAuth')
+
+        dispatch('auth/initTokenRefresher')
+
+        // можно получить другие данные нужные для приложения
+      } catch (err) {
+        console.log(err)
+        throw (err)
+      }
+    },
+
     setMessage({ commit }, message) {
       commit("setMessage", message);
       setTimeout(() => {
         commit("clearMessage");
       }, 3000);
     },
-
 
     async getUsers() {
       try {
