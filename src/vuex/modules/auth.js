@@ -123,7 +123,7 @@ export default {
 
                 context.commit('setSession', { token, username: "emcd", password: "6XeumP6F5J2WMTJ6" })
 
-                const userFirebase = firebase.auth().currentUser;
+                const userFirebase = await firebase.auth().currentUser;
                 const user = {email: userFirebase.email, uid: userFirebase.uid, displayName: userFirebase.displayName}
                 context.commit('setUser', user, { root: true })
 
