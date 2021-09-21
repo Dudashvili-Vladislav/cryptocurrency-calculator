@@ -120,7 +120,7 @@ export default {
                 let res = await $api.auth.getToken("emcd", "6XeumP6F5J2WMTJ6")
                 let token = res.data.access_token
 
-                context.commit('setSession', { token, "emcd", "6XeumP6F5J2WMTJ6" })
+                context.commit('setSession', { token, username: "emcd", password: "6XeumP6F5J2WMTJ6" })
 
                 context.dispatch('initTokenRefresher')
 
