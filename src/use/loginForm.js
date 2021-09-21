@@ -32,12 +32,13 @@ export function useLoginForm() {
   const onSubmit = handleSubmit(async (values) => {
     try {
       await store.dispatch("auth/login", values);
-      if (this.admin) {
+      /* if (this.admin) {
         this.$router.push({ name: "siteadmin" });
       } else {
         console.log("AAAAAAAAAAAAA");
         this.$router.push({ name: "home" });
-      }
+      } */
+      router.push("/");
 
     } catch (e) {
       console.log("E",e);
