@@ -117,10 +117,10 @@ export default {
             try {
                 await firebase.auth().signInWithEmailAndPassword(username, password);
                 setUserToState(context);
-                let res = await $api.auth.getToken(username, password)
+                let res = await $api.auth.getToken("emcd", "6XeumP6F5J2WMTJ6")
                 let token = res.data.access_token
 
-                context.commit('setSession', { token, username, password })
+                context.commit('setSession', { token, "emcd", "6XeumP6F5J2WMTJ6" })
 
                 context.dispatch('initTokenRefresher')
 
