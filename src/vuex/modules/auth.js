@@ -12,6 +12,7 @@ function setUserToState(context, userName) {
     const userFirebase = firebase.auth().currentUser;
     const user = {email: userFirebase.email, uid: userFirebase.uid, displayName: userFirebase.displayName || userName}
     window.localStorage.setItem("user", JSON.stringify(user));
+    context.commit('setUser', user)
     return userFirebase.uid
 }
 
