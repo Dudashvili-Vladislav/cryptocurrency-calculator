@@ -3,6 +3,15 @@ import * as yup from "yup";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { mapState } from "vuex";
+
+export default {
+  computed: {
+    ...mapState({
+      admin: (state) => state.auth.admin,
+    }),
+  },
+};
 
 export function useLoginForm() {
   const store = useStore();
@@ -23,8 +32,15 @@ export function useLoginForm() {
   const onSubmit = handleSubmit(async (values) => {
     try {
       await store.dispatch("auth/login", values);
-      router.push("/");
+      if (this.admin) {
+        this.$router.push({ name: "siteadmin" });
+      } else {
+        console.log("AAAAAAAAAAAAA");
+        this.$router.push({ name: "home" });
+      }
+
     } catch (e) {
+      console.log("E",e);
       error = e;
     }
   });

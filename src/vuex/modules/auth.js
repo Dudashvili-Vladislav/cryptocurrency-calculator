@@ -3,6 +3,7 @@ import {error} from '@/components/utils/error.js';
 import { root } from "postcss";
 import { mapMutations, mapGetters, mapActions } from "vuex";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 
 
@@ -22,8 +23,10 @@ export default {
     return {
       token: null,
       user: null,
+      admin: true,
     };
   },
+  
 
   mutations: {
     setUser(state, user) {
@@ -40,8 +43,6 @@ export default {
   },
   actions: {
 
-
-
     async login(context, payload) {
       try {
         await firebase
@@ -53,15 +54,22 @@ export default {
           username: "emcd",
           password: "6XeumP6F5J2WMTJ6",
         });
-        console.log("response", response.data.access_token);
-        console.log("login-response.data",response);
+/*         console.log("response", response.data.access_token);
+        console.log("login-response.data",response); */
         axios.defaults.headers.common = {
           Authorization: `Bearer ${response.data.access_token}`,
         };
         window.localStorage.setItem("Token",response.data.access_token);
 
 
-      
+/*         if (this.admin) {
+          console.log("fqf");
+          this.$router.push({ name: "siteadmin" });
+        } else {
+          console.log("AAAAAAAAAAAAA");
+          this.$router.push({ name: "home" });
+        } */
+
       } catch (e) {
         context.dispatch('setMessage',{
           value: e.message,
@@ -85,11 +93,8 @@ export default {
         })
 
         const uid = setUserToState(context, user);
+        await firebase.firestore().collection("users").doc(uid).set({admin: 'client'})
 
-        const admin = true
-        if (admin) {
-          axios.post('https:...', { uid })
-        }
 
       } catch (error) {
         console.log('error', error)
