@@ -7,7 +7,7 @@ import calculator from "./modules/calculator";
 let store = createStore({
   state() {
     return {
-      user: null,
+      user: {},
       maturityList: [],
       maturity: null,
       underlying: null,

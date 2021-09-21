@@ -17,9 +17,9 @@
           @input="changeLang"
           class="lang-select"
         >
-          <option 
-            v-for="locale in $i18n.availableLocales" 
-            :key="`locale-${locale}`" 
+          <option
+            v-for="locale in $i18n.availableLocales"
+            :key="`locale-${locale}`"
             :value="locale"
             class="option"
           >
@@ -33,7 +33,7 @@
           </div>
 
           <div class="user-info">
-            <div class="user-name" v-if="$store.state.auth.user.displayName">
+            <div class="user-name" v-if="$store.state.auth.user">
               {{ $store.state.auth.user.displayName }}
             </div>
             <div class="user-type">{{ $t("user") }}</div>
@@ -82,14 +82,14 @@
       <div class="tab-content">
         <div
           class="tab-item"
-          v-if="activeTab === 1 &&$store.state.calculator.selectedUnderlying &&$store.state.calculator.selectedMaturity &&$store.state.calculator.coinAmount"> 
+          v-if="activeTab === 1 &&$store.state.calculator.selectedUnderlying &&$store.state.calculator.selectedMaturity &&$store.state.calculator.coinAmount">
           <v-recommended></v-recommended>
         </div>
         <div class="tab-item" v-if="activeTab === 2">
           <v-customPro></v-customPro>
         </div>
-        <div 
-        class="tab-item" 
+        <div
+        class="tab-item"
         v-if="activeTab === 3"
         >
           <vCustomQa></vCustomQa>
