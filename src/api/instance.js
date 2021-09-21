@@ -18,10 +18,10 @@ axios.interceptors.response.use(
     function (error) {
         //console.log(error)
         // console.log('error.response.status', error.response.status)
-        if (error.response.status === 401) {
+        if (error.status === 401) {
             store.dispatch('auth/signOut')
         }
-        return error
+        throw error
     }
 );
 

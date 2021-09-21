@@ -80,20 +80,28 @@ export default {
                 let timestamp = new Date().getTime()
                 // получем таймстамп текущего времени
 
-                if (timestamp - cache_token_time >= (1000 * 60 * 30)) { // Если токен в кеше старше 30 минут, получаем новый
-                    cache_token = await $api.auth.getToken(username, password)
-                    cache_token = cache_token.data.access_token
-                }
+                if (cache_token !== null) {
+                    if (timestamp - cache_token_time >= (1000 * 60 * 30)) { // Если токен в кеше старше 30 минут, получаем новый
+                        cache_token = await $api.auth.getToken(username, password)
+                        cache_token = cache_token.data.access_token
+                    }
 
-                commit('setSession', { token: cache_token, username, password })
+                    commit('setSession', { token: cache_token, username, password })
+                } else {
+                    throw({ status: 401 })
+                }
             } catch(err) {
-                console.log(err)
+                if (err.status === 401) {
+                    router.push('/login')
+                }
                 commit('setSession', { token: null }) // убираем токен
+                throw(err)
             }
         },
 
         async initTokenRefresher({ commit, state }) {
             setInterval(async () => {
+                console.log('REFRESH TOKEN')
                 try {
                     let token = await $api.auth.getToken(state.username, state.password)
                     token = token.data.access_token
@@ -102,7 +110,7 @@ export default {
                 } catch (err) {
                     console.log(err)
                 }
-            }, 1000 * 60 * 29) // каждые 29 минут
+            }, 1000 * 60 * 25) // каждые 25 минут
         },
 
         async login(context, { username, password }) {
@@ -113,6 +121,14 @@ export default {
                 let token = res.data.access_token
 
                 context.commit('setSession', { token, username, password })
+
+                context.dispatch('initTokenRefresher')
+
+                if (username === 'admin@adm.com') {
+                    await router.push({ name: 'siteadmin' })
+                } else {
+                    await router.push({ name: "home" });
+                }
             } catch (err) {
                 context.commit('setSession', { token: null })
                 context.dispatch('setMessage', {

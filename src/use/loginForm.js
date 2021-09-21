@@ -30,15 +30,18 @@ export function useLoginForm() {
   );
 
   const onSubmit = handleSubmit(async (values) => {
+
+    console.log(values)
+
     try {
-      await store.dispatch("auth/login", values);
+      await store.dispatch("auth/login", { username: values.email, password: values.password });
       /* if (this.admin) {
         this.$router.push({ name: "siteadmin" });
       } else {
         console.log("AAAAAAAAAAAAA");
         this.$router.push({ name: "home" });
-      } */
-      router.push("/");
+      // } */
+      // router.push("/");
 
     } catch (e) {
       console.log("E",e);
