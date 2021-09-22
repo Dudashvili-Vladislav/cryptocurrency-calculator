@@ -30,47 +30,40 @@ const router = createRouter({
       path: "/siteadmin",
       name: "siteadmin",
       component: SiteAdmin,
+      meta: {
+        admin: true,
+      },
     },
   ],
 });
 
-function getCurrentUser() {
+function isLoggedIn() {
   const localUserString = window.localStorage.getItem("user") || null;
 /*   const localUserEmail = window.localStorage.getItem("email") || null;  */
-  return JSON.parse(localUserString);
+  return !!JSON.parse(localUserString);
 }
+
+
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.meta.auth;
+  const requiresAdmin = to.meta.auth;
+  const isAdmin = store.state.auth.admin
+  console.log('isAdmin', isAdmin)
   console.log("window.localStorage", window.localStorage);
   console.log("window.localStorage", window.localStorage.user);
   console.log("requiresAuth", requiresAuth);
   
 /*    if (to.path === "/siteadmin" && localUserEmail === "admin@adm.com") 
     next();  */
-   if (requiresAuth && getCurrentUser()) {
+  requiresAdmin && !isAdmin => next({name: 'home'})
+
+  if (requiresAuth && isLoggedIn()) {
     next();
-  } else if (requiresAuth && !getCurrentUser()) {
+  } else if (requiresAuth && !isLoggedIn()) {
     next("/login?message=login");
   } else {
     next();
   }
 });
-
-/*  router.beforeEach((to, from, next) => {
-  console.log('user', store.user)
-  // если залогинен => redirect next()
-  // если не залогинен => redirect на стринацу логина
-  console.log('to', to)
-  if (to.meta.requiresAuth) {
-    if (!store.user) {
-      next({ path: '/login' });
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-  
-})  */
 
 export default router;

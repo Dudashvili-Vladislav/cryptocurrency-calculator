@@ -28,13 +28,15 @@ export default {
             token_timestamp: null,
             username: null,
             password: null,
-
             user: null,
-            admin: true,
+            admin: false,
         };
     },
 
     mutations: {
+      setAdmin (state, value) {
+        state.admin = value
+      },  
         setUser(state, user) {
             state.user = user;
         },
@@ -132,6 +134,8 @@ export default {
 
                 if (username === 'admin@adm.com') {
                     await router.push({ name: 'siteadmin' })
+                    context.commit('setAdmin', true)
+                    // localStorage.set
                 } else {
                     await router.push({ name: "home" });
                 }
