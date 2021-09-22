@@ -39,27 +39,29 @@ const router = createRouter({
 
 function isLoggedIn() {
   const localUserString = window.localStorage.getItem("user") || null;
-/*   const localUserEmail = window.localStorage.getItem("email") || null;  */
   return !!JSON.parse(localUserString);
 }
 
-
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.meta.auth;
-  const requiresAdmin = to.meta.auth;
-  const isAdmin = store.state.auth.admin
-  console.log('isAdmin', isAdmin)
+  const requiresAdmin = to.meta.admin;
+  const isAdmin = window.localStorage.getItem("admin")
+  console.log("isAdmin", isAdmin);
   console.log("window.localStorage", window.localStorage);
   console.log("window.localStorage", window.localStorage.user);
   console.log("requiresAuth", requiresAuth);
-  
-/*    if (to.path === "/siteadmin" && localUserEmail === "admin@adm.com") 
-    next();  */
-  requiresAdmin && !isAdmin => next({name: 'home'})
+  console.log("requiresAdmin", requiresAdmin);
+
 
   if (requiresAuth && isLoggedIn()) {
     next();
-  } else if (requiresAuth && !isLoggedIn()) {
+  } else if (requiresAdmin && !isAdmin) {
+    next({ name: "home" });
+  } 
+  else if (requiresAuth && requiresAdmin) {
+    next({ name: "siteadmin" });
+  }
+  else if (requiresAuth && !isLoggedIn()) {
     next("/login?message=login");
   } else {
     next();

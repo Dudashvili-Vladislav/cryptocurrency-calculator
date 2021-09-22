@@ -36,6 +36,7 @@ export default {
     mutations: {
       setAdmin (state, value) {
         state.admin = value
+        console.log("setAdmin value",value);
       },  
         setUser(state, user) {
             state.user = user;
@@ -134,8 +135,8 @@ export default {
 
                 if (username === 'admin@adm.com') {
                     await router.push({ name: 'siteadmin' })
+                    localStorage.setItem('admin', true);
                     context.commit('setAdmin', true)
-                    // localStorage.set
                 } else {
                     await router.push({ name: "home" });
                 }
@@ -208,6 +209,8 @@ export default {
                 await firebase.auth().signOut();
                 commit("setUser", null);
                 commit('setSession', { token: null })
+                commit('setAdmin', false);
+                localStorage.removeItem("admin");
                 localStorage.removeItem("user");
                 // убрать токен и localStorage
                 router.push("/login")
