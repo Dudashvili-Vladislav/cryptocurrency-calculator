@@ -134,9 +134,9 @@ export default {
                 context.dispatch('initTokenRefresher')
 
                 if (username === 'admin@adm.com') {
-                    await router.push({ name: 'siteadmin' })
-                    localStorage.setItem('admin', true);
                     context.commit('setAdmin', true)
+                    localStorage.setItem('admin', true);
+                    await router.push({ name: 'siteadmin' })
                 } else {
                     await router.push({ name: "home" });
                 }

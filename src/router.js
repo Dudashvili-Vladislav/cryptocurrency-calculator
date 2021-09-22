@@ -42,7 +42,17 @@ function isLoggedIn() {
   return !!JSON.parse(localUserString);
 }
 
+
 router.beforeEach((to, from, next) => {
+  const isAdmin = window.localStorage.getItem("admin")
+  console.log("isAdmin", isAdmin);
+  if (to.meta.admin && ! isAdmin) { next({ name: 'home' }) }
+  else { next() }
+});
+
+
+
+/* router.beforeEach((to, from, next) => {
   const requiresAuth = to.meta.auth;
   const requiresAdmin = to.meta.admin;
   const isAdmin = window.localStorage.getItem("admin")
@@ -66,6 +76,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-});
+}); */
 
 export default router;
