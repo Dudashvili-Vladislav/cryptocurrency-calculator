@@ -15,29 +15,20 @@
     <div class="wrapper-text  mt-20 ml-5 flex justify-between ">
       <div class="discription__button pr-20">
         <div class="description text pr-10 mb-3" v-if="description">
-         {{ description }}
+          {{ description }}
         </div>
 
         <div class="button__sendorder flex">
-          <v-button
-          class="button-recomended"
-            @upGetStatisctics="
-              sendOrder({
-                tableData: tableData,
-                slippage: Number(mission),
-              })
-            "
-          />
+          <v-button class="button-recomended" @upGetStatisctics="OnSendOrder(mission)" />
           <div class="wrapper__slippage">
-          <h3
-            class="text__spippage-recomended"> {{ $t("slippage")}}</h3>
-          <input
-            class="input border border-gray-400 rounded slipage-input px-3 py-3 pb-2"
-            v-model="mission"
-            name="inputSlipage"
-            id="slipage"
-            type="number"
-          />
+            <h3 class="text__spippage-recomended">{{ $t("slippage") }}</h3>
+            <input
+              class="input border border-gray-400 rounded slipage-input px-3 py-3 pb-2"
+              v-model="mission"
+              name="inputSlipage"
+              id="slipage"
+              type="number"
+            />
           </div>
           <!-- <div class="slippage mt-14 text-lg border-b-2 border-gray-500">
           {{ slippage }}
@@ -87,9 +78,7 @@
               <td class="field__description">Structure product price</td>
               <td class="field__values">
                 {{
-                  tableData[selectedCoin][
-                    "Structure product price"
-                  ].toFixed(2)
+                  tableData[selectedCoin]["Structure product price"].toFixed(2)
                 }}
               </td>
               <td class="field__values">
@@ -102,9 +91,7 @@
             <tr class="">
               <td class="field__description">Maintenance margin</td>
               <td class="field__values">
-                {{
-                  tableData[selectedCoin]["Maintenace margin"].toFixed(2)
-                }}
+                {{ tableData[selectedCoin]["Maintenace margin"].toFixed(2) }}
               </td>
               <td class="field__values">
                 {{ tableData["%"]["Maintenace margin"].toFixed(2) }}
@@ -205,8 +192,6 @@ export default {
       handler(oldValue, oldVal) {},
       immediate: true,
     },
-
-
   },
 
   methods: {
@@ -215,18 +200,61 @@ export default {
       "getTableStaticsics_actions",
       "sendOrder",
     ]),
+
+    OnSendOrder(mission) {
+      const body_2 = { 
+      client_id: 'test_user_01', 
+      struct_title: 'call-spread', 
+      fut_hedge_flag: 'False', 
+      max_slippage: 300, 
+      table: { 
+        BTC: { 
+          'Amount of underlying': 1, 
+          'Max profit': 0.07219065033625899, 
+          'Structure product price': -0.0020646935990654325, 
+          'Maintenace margin': 0.01242917811539504, 
+          'Total margin': 0.010364484516329608, 
+        }, 
+        '%': { 
+          'Amount of underlying': '', 
+          'Max profit': 0.07219065033625899, 
+          'Structure product price': -0.0020646935990654325, 
+          'Maintenace margin': 0.01242917811539504, 
+          'Total margin': 0.010364484516329608, 
+        }, 
+        USD: { 
+          'Amount of underlying': '', 
+          'Max profit': 4117.770577123287, 
+          'Structure product price': -117.77057712328406, 
+          'Maintenace margin': 708.9630541213185, 
+          'Total margin': 591.1924769980344, 
+        }, 
+      }, 
+      table_struct: { 
+        'instrument name': { 0: 'BTC-24SEP21-60000-C', 1: 'BTC-24SEP21-70000-C' }, 
+        type: { 0: 'call', 1: 'call' }, 
+        direction: { 0: 1, 1: -1 }, 
+        strike: { 0: 60000, 1: 70000 }, 
+        amount: { 0: 1, 1: 1 }, 
+      }, 
+    }
+      const body = {
+        tableData: this.tableData,
+        max_slippage: Number(mission),
+
+      }
+      this.sendOrder(body_2);
+    },
   },
 
   data() {
     return {
       mission: this.slippage,
-
     };
   },
 };
 </script>
 <style scoped>
-
 .text__spippage-recomended {
   text-align: center;
   font-family: Gilroy;
@@ -242,7 +270,6 @@ export default {
 .button__sendorder {
   position: absolute;
   bottom: 0;
-  
 }
 .v-table-statistics {
   max-width: 100%;
@@ -328,8 +355,6 @@ export default {
   font-weight: normal;
   font-weight: 400;
   width: 126%;
-
-  
 }
 .field__description {
   font-family: Gilroy;
