@@ -421,6 +421,10 @@ export default {
   opacity: 0.4;
 }
 
+.table__tbody__tr:last-child td{
+  border-top: 1px solid #fff3;
+}
+
 .tabe__wrapper {
   flex: 1 1 100%;
   max-width: 2000px;
@@ -461,6 +465,7 @@ export default {
 
 .test {
   position: absolute;
+  z-index: 250;
   top: 270px;
   right: 3.1%;
     display: inline-flex;
