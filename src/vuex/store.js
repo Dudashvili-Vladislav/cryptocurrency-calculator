@@ -3,6 +3,7 @@ import axios from "axios";
 import { setInterval } from "core-js";
 import auth from "./modules/auth";
 import calculator from "./modules/calculator";
+import $api from '../api/requests'
 
 let store = createStore({
   state() {
@@ -219,10 +220,14 @@ let store = createStore({
       }
     },
 
+    /**
+     *
+     * @param data - request data
+     * @returns {Promise<void>}
+     */
     async sendOrder({ commit }, data) {
-      const url = "order/sendOrder";
       console.log("data-SENT-ORDER",data);
-      axios.post(url, data);
+      return $api.orders.sendOrder(data)
     },
 
     async getStrikes_actions(context) {
