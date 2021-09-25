@@ -229,12 +229,7 @@
       <div class="wrapper__table__btn__footer" v-if="this.margins != 0">
         <v-button
           class="button-recomended "
-          @upGetStatisctics="
-            sendOrder({
-              tableData: tableData,
-              slippage: Number(mission),
-            })
-          "
+          @upGetStatisctics="OnSendOrder(mission)"
         />
       </div>
     </div>
@@ -274,12 +269,69 @@ export default {
     };
   },
 
+  created() {
+    console.log("window.localStorage", window.localStorage);
+    console.log("$store", this.$store);
+  },
+
   methods: {
     ...mapActions([
       "getUsers",
       "fetchCleintTableInfoByTab",
       "getTableStaticsics_actions",
+      "sendOrder",
     ]),
+  
+    OnSendOrder(mission) {
+      const body_2 = {
+        order_json: {
+          client_id: "test_user_01",
+          struct_title: "call-spread",
+          fut_hedge_flag: "False",
+          max_slippage: 300,
+          table: {
+            BTC: {
+              "Amount of underlying": 1,
+              "Max profit": 0.07219065033625899,
+              "Structure product price": -0.0020646935990654325,
+              "Maintenace margin": 0.01242917811539504,
+              "Total margin": 0.0103644845163296023,
+            },
+            "%": {
+              "Amount of underlying": "",
+              "Max profit": 0.07219065033625899,
+              "Structure product price": -0.0020646935990654325,
+              "Maintenace margin": 0.01242917811539504,
+              "Total margin": 0.010364484516329608,
+            },
+            USD: {
+              "Amount of underlying": "",
+              "Max profit": 4117.770577123287,
+              "Structure product price": -117.77057712328406,
+              "Maintenace margin": 708.9630541213185,
+              "Total margin": 591.1924769980344,
+            },
+          },
+          table_struct: {
+            "instrument name": {
+              0: "BTC-24SEP21-60000-C",
+              1: "BTC-24SEP21-70000-C",
+            },
+            type: { 0: "call", 1: "call" },
+            direction: { 0: 1, 1: -1 },
+            strike: { 0: 60000, 1: 70001 },
+            amount: { 0: 1, 1: 1 },
+          },
+        },
+      };
+      const body = {
+        order_json: {
+          tableData: this.tableData,
+          client_id: this.$store.state.calculator.users,
+        },
+      };
+      this.sendOrder(body);
+    },
 
     async handleUsersSelect(userId) {
       clearInterval(this.timerId);
@@ -294,6 +346,7 @@ export default {
           userId,
           url: "/admin/positions",
         });
+        console.log("$store", this.$store.state.calculator.users);
         this.margins = this.convertMargins(marginsResponse);
         this.positions = this.convertPositions(positionsResponse);
       }, 2000);
@@ -421,7 +474,7 @@ export default {
   opacity: 0.4;
 }
 
-.table__tbody__tr:last-child td{
+.table__tbody__tr:last-child td {
   border-top: 1px solid #fff3;
 }
 
@@ -468,7 +521,7 @@ export default {
   z-index: 250;
   top: 270px;
   right: 3.1%;
-    display: inline-flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0 20px;
