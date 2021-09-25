@@ -176,6 +176,8 @@ export default {
       value = Number(typeof value === "object" ? value.target.value : value);
       this.$store.commit("calculator/setCoinAmount", value);
       this.$store.commit("setAmount_mutations", value);
+          console.log("$store-USERR", this.$store.state.auth.user.uid);
+          console.log("$store-USERR-2", this.$store.state.auth.user.displayName);
     },
   },
 

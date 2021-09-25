@@ -222,6 +222,7 @@ let store = createStore({
     async sendOrder({ commit }, data) {
       const url = "order/sendOrder";
       console.log("data-SENT-ORDER",data);
+      console.log("window.localStorage",window.localStorage);
       axios.post(url, data);
     },
 

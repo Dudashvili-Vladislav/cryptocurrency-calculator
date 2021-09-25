@@ -19,7 +19,10 @@
         </div>
 
         <div class="button__sendorder flex">
-          <v-button class="button-recomended" @upGetStatisctics="OnSendOrder(mission)" />
+          <v-button
+            class="button-recomended"
+            @upGetStatisctics="OnSendOrder(mission,title_Struct)"
+          />
           <div class="wrapper__slippage">
             <h3 class="text__spippage-recomended">{{ $t("slippage") }}</h3>
             <input
@@ -176,6 +179,10 @@ export default {
     },
   },
 
+    created() {
+    console.log("$store", this.$store);
+  },
+
   computed: {
     ...mapGetters(["fullDataList", "underlyingChoice"]),
     ...mapState({
@@ -201,55 +208,65 @@ export default {
       "sendOrder",
     ]),
 
-    OnSendOrder(mission) {
-      const body_2 = { 
-      client_id: 'test_user_01', 
-      struct_title: 'call-spread', 
-      fut_hedge_flag: 'False', 
-      max_slippage: 300, 
-      table: { 
-        BTC: { 
-          'Amount of underlying': 1, 
-          'Max profit': 0.07219065033625899, 
-          'Structure product price': -0.0020646935990654325, 
-          'Maintenace margin': 0.01242917811539504, 
-          'Total margin': 0.0103644845163296023, 
-        }, 
-        '%': { 
-          'Amount of underlying': '', 
-          'Max profit': 0.07219065033625899, 
-          'Structure product price': -0.0020646935990654325, 
-          'Maintenace margin': 0.01242917811539504, 
-          'Total margin': 0.010364484516329608, 
-        }, 
-        USD: { 
-          'Amount of underlying': '', 
-          'Max profit': 4117.770577123287, 
-          'Structure product price': -117.77057712328406, 
-          'Maintenace margin': 708.9630541213185, 
-          'Total margin': 591.1924769980344, 
-        }, 
-      }, 
-      table_struct: { 
-        'instrument name': { 0: 'BTC-24SEP21-60000-C', 1: 'BTC-24SEP21-70000-C' }, 
-        type: { 0: 'call', 1: 'call' }, 
-        direction: { 0: 1, 1: -1 }, 
-        strike: { 0: 60000, 1: 70001 }, 
-        amount: { 0: 1, 1: 1 }, 
-      }, 
-    }
+    OnSendOrder(mission,title_Struct) {
+      
+      const body_2 = {
+        order_json: {
+          client_id: "test_user_01",
+          struct_title: "call-spread",
+          fut_hedge_flag: "False",
+          max_slippage: 300,
+          table: {
+            BTC: {
+              "Amount of underlying": 1,
+              "Max profit": 0.07219065033625899,
+              "Structure product price": -0.0020646935990654325,
+              "Maintenace margin": 0.01242917811539504,
+              "Total margin": 0.0103644845163296023,
+            },
+            "%": {
+              "Amount of underlying": "",
+              "Max profit": 0.07219065033625899,
+              "Structure product price": -0.0020646935990654325,
+              "Maintenace margin": 0.01242917811539504,
+              "Total margin": 0.010364484516329608,
+            },
+            USD: {
+              "Amount of underlying": "",
+              "Max profit": 4117.770577123287,
+              "Structure product price": -117.77057712328406,
+              "Maintenace margin": 708.9630541213185,
+              "Total margin": 591.1924769980344,
+            },
+          },
+          table_struct: {
+            "instrument name": {
+              0: "BTC-24SEP21-60000-C",
+              1: "BTC-24SEP21-70000-C",
+            },
+            type: { 0: "call", 1: "call" },
+            direction: { 0: 1, 1: -1 },
+            strike: { 0: 60000, 1: 70001 },
+            amount: { 0: 1, 1: 1 },
+          },
+        },
+      };
       const body = {
-        tableData: this.tableData,
-        max_slippage: Number(mission),
-
-      }
-      this.sendOrder(body_2);
+        order_json: {
+          tableData: this.tableData,
+          max_slippage: Number(mission),
+          client_id: this.$store.state.auth.user,
+          struct_title: String(title_Struct),
+        },
+      };
+      this.sendOrder(body);
     },
   },
 
   data() {
     return {
       mission: this.slippage,
+      title_Struct: this.title
     };
   },
 };
