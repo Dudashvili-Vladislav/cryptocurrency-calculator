@@ -247,7 +247,7 @@ export default {
             type: { 0: "call", 1: "call" },
             direction: { 0: 1, 1: -1 },
             strike: { 0: 60000, 1: 70001 },
-            amount: { 0: 1, 1: 1 },
+            amount: { 0: 1, 1: 2 },
           },
         },
       };
