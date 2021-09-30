@@ -20,6 +20,8 @@ export default {
     futures_hedge_funding: 'Futures hedge funding',
     Select_user_admin: 'Select user',
     edit: 'EDIT',
+    save: 'SAVE',
+    back: 'BACK',
   },
 
   ru: {
@@ -42,6 +44,8 @@ export default {
     futures_hedge_funding: 'Фондирование за счет продажи фьючерса',
     Select_user_admin: 'Выберите пользователя',
     edit: 'Изменить',
+    save: 'СОХРАНИТЬ',
+    back: 'НАЗАД',
   },
 
 }

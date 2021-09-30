@@ -124,7 +124,6 @@
             >
           </li>
         </ul>
-
         <div class="tab-content">
           <div class="tab-item" v-if="activeTab === 1">
             <div class="tabe__wrapper">
@@ -179,6 +178,21 @@
                   </tr>
                 </tbody>
               </table>
+              <div
+                class="wrapper__table__btn__footer flex"
+                v-if="this.margins != 0"
+              >
+                <v-button
+                  class="button-recomended "
+                  @upGetStatisctics="SendOrderMar"
+                >
+                  {{ $t("save") }}
+                </v-button>
+
+                <v-button class="button-cancel" @upGetStatisctics="cancelOrder"
+                  >{{ $t("back") }}
+                </v-button>
+              </div>
             </div>
           </div>
 
@@ -205,32 +219,53 @@
                     :key="index"
                   >
                     <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ position.productsName }}</p>
-                      <input v-if="isEditing" v-model="position.productsName" />
+                      <p v-if="!isEditingPosition">
+                        {{ position.productsName }}
+                      </p>
+                      <input
+                        v-if="isEditingPosition"
+                        v-model="position.productsName"
+                      />
                     </td>
 
                     <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ position.Amount }}</p>
-                      <input v-if="isEditing" v-model="position.Amount" />
+                      <p v-if="!isEditingPosition">{{ position.Amount }}</p>
+                      <input
+                        v-if="isEditingPosition"
+                        v-model="position.Amount"
+                      />
                     </td>
 
                     <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ position.OptionName }}</p>
-                      <input v-if="isEditing" v-model="position.OptionName" />
+                      <p v-if="!isEditingPosition">{{ position.OptionName }}</p>
+                      <input
+                        v-if="isEditingPosition"
+                        v-model="position.OptionName"
+                      />
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <div
+                class="wrapper__table__btn__footer flex"
+                v-if="this.positions != 0"
+              >
+                <v-button
+                  class="button-recomended "
+                  @upGetStatisctics="SendOrderPos"
+                >
+                  {{ $t("save") }}</v-button
+                >
+                <v-button
+                  class="button-cancel"
+                  @upGetStatisctics="cancelOrder"
+                  >{{ $t("back") }}</v-button
+                >
+              </div>
             </div>
           </div>
           <div class="tab-item" v-if="activeTab === 3"></div>
         </div>
-      </div>
-      <div class="wrapper__table__btn__footer" v-if="this.margins != 0">
-        <v-button
-          class="button-recomended "
-          @upGetStatisctics="OnSendOrder(mission)"
-        />
       </div>
     </div>
   </div>
@@ -261,6 +296,7 @@ export default {
       activeTab: 1,
       timerId: null,
       isEditing: false,
+      isEditingPosition: false,
 
       loguot: () => {
         store.dispatch("auth/signOut");
@@ -269,9 +305,17 @@ export default {
     };
   },
 
-  created() {
+  /* created() {
     console.log("window.localStorage", window.localStorage);
     console.log("$store", this.$store);
+  }, */
+
+  computed: {
+    ...mapGetters(["fullDataList"]),
+
+    ...mapState({
+      fullDataListState: (state) => state.fullDataList,
+    }),
   },
 
   methods: {
@@ -279,58 +323,45 @@ export default {
       "getUsers",
       "fetchCleintTableInfoByTab",
       "getTableStaticsics_actions",
-      "sendOrder",
+      "sendOrderMargins",
+      "sendOrderPositions",
     ]),
-  
-    OnSendOrder(mission) {
-      const body_2 = {
+
+    cancelOrder() {
+      if (this.activeTab === 1) {
+        this.isEditing = false;
+      } else if (this.activeTab === 2) {
+        this.isEditingPosition = false;
+      }
+    },
+
+    SendOrderMar() {
+      const body_margins = {
         order_json: {
-          client_id: "test_user_01",
-          struct_title: "call-spread",
-          fut_hedge_flag: "False",
-          max_slippage: 300,
-          table: {
-            BTC: {
-              "Amount of underlying": 1,
-              "Max profit": 0.07219065033625899,
-              "Structure product price": -0.0020646935990654325,
-              "Maintenace margin": 0.01242917811539504,
-              "Total margin": 0.0103644845163296023,
-            },
-            "%": {
-              "Amount of underlying": "",
-              "Max profit": 0.07219065033625899,
-              "Structure product price": -0.0020646935990654325,
-              "Maintenace margin": 0.01242917811539504,
-              "Total margin": 0.010364484516329608,
-            },
-            USD: {
-              "Amount of underlying": "",
-              "Max profit": 4117.770577123287,
-              "Structure product price": -117.77057712328406,
-              "Maintenace margin": 708.9630541213185,
-              "Total margin": 591.1924769980344,
-            },
-          },
-          table_struct: {
-            "instrument name": {
-              0: "BTC-24SEP21-60000-C",
-              1: "BTC-24SEP21-70000-C",
-            },
-            type: { 0: "call", 1: "call" },
-            direction: { 0: 1, 1: -1 },
-            strike: { 0: 60000, 1: 70001 },
-            amount: { 0: 1, 1: 1 },
-          },
-        },
-      };
-      const body = {
-        order_json: {
-          tableData: this.tableData,
+          table: this.margins,
           client_id: this.$store.state.calculator.users,
         },
       };
-      this.sendOrder(body);
+      console.log("MARGINS", this.margins);
+      console.log("store-SendOrderMar", this.$store.state);
+      console.log(
+        "$store.state.calculator.users",
+        this.$store.state.calculator.users
+      );
+      console.log("BODY", body_margins);
+      this.sendOrderMargins(body_margins);
+      this.isEditing = false;
+    },
+
+    SendOrderPos() {
+      const body_positions = {
+        order_json: {
+          table: this.positions,
+          client_id: this.$store.state.calculator.users,
+        },
+      };
+      this.sendOrderPositions(body_positions);
+      this.isEditingPosition = false;
     },
 
     async handleUsersSelect(userId) {
@@ -374,8 +405,13 @@ export default {
     },
 
     onClickEditButton() {
-      this.isEditing = !this.isEditing;
-      clearInterval(this.timerId);
+      if (this.activeTab === 1) {
+        this.isEditing = true;
+        clearInterval(this.timerId);
+      } else if (this.activeTab === 2) {
+        this.isEditingPosition = true;
+        clearInterval(this.timerId);
+      }
     },
 
     convertMargins(response) {

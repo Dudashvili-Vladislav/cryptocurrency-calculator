@@ -1,45 +1,6 @@
 <template>
   <div class="v-customQA pt-6 container mx-auto ">
     <div class="header-form w-full">
-      <!--      <div
-        class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start  "
-      >
-         <vSelect
-          :label="'Выберите базовый актив:'"
-          :options="underlyingList"
-          @change="getMaturity"
-          v-model="selectedCoin"
-        >
-        </vSelect>
-      </div>
-
-      <h3 class="w-full mt-7 absolute ">
-        Какой срок хеджирования вас интересует?
-      </h3>
-
-      <div
-        class="form-control text-gray-700 pointer-events-auto w-1/6 justify-start mt-14 "
-      >
-        <vSelect
-          :options="maturityList"
-          @change="setMaturity"
-          v-model="selectedDate"
-        >
-        </vSelect>
-      </div>
-      <h3 class="w-full absolute mt-7 ">
-        Укажите сумму активов для хеджирования:
-      </h3>
-      <div class="form-control text-gray-700 pointer-events-auto w-1/6 mt-14">
-        <vAmount
-          @click.prevent="$emit('upGetStatisctics')"
-          @upAmount="setAmount"
-          v-model="coinAmount"
-        />
-      </div>
-      <h2 class="text-2xl  pb-5 font-medium mt-5 ">
-        Ожидаемые значения цены
-      </h2>  -->
       <h3 class="header__select__change__title w-full mt-8  ">
         {{ $t("price_values") }}
       </h3>
@@ -48,12 +9,12 @@
       >
         <vSelect
           v-model="selectedDirection"
-         v-bind:placeholder="$t('placeholder')"
+          v-bind:placeholder="$t('placeholder')"
           :options="directionOptions"
           class="select_change select-gradient"
           @input="setDirection"
         >
-<!--  :placeholder="'Выберите напраление движения'" -->
+          <!--  :placeholder="'Выберите напраление движения'" -->
         </vSelect>
       </div>
       <div class="slederCustomQa">
@@ -77,9 +38,7 @@
         </div>
       </div>
 
-      <vCheckbox 
-      class="header__checkbox__customQa"
-      v-model="futHedgeFlag_top">
+      <vCheckbox class="header__checkbox__customQa" v-model="futHedgeFlag_top">
         {{ $t("expected_price") }}
       </vCheckbox>
 
@@ -87,28 +46,32 @@
         {{ $t("save_price") }}
       </h3>
       <div class="form__radio__wrapper flex ">
-      <div class="form_radio" :class="{no: saveDirection === 'false'}">
-        <input
-          id="radio-3"
-          type="radio"
-          name="radio_2"
-          value="true"
-          v-model="saveDirection"
-        />
-        <label class="label" for="radio-3"><span>{{ $t("yes") }} </span></label>
+        <div class="form_radio" :class="{ no: saveDirection === 'false' }">
+          <input
+            id="radio-3"
+            type="radio"
+            name="radio_2"
+            value="true"
+            v-model="saveDirection"
+          />
+          <label class="label" for="radio-3"
+            ><span>{{ $t("yes") }} </span></label
+          >
+        </div>
+        <div class="slash ">/</div>
+        <div class="form_radio" :class="{ no: saveDirection === 'true' }">
+          <input
+            id="radio-4"
+            type="radio"
+            name="radio_2"
+            value="false"
+            v-model="saveDirection"
+          />
+          <label class="label" for="radio-4"
+            ><span>{{ $t("no") }}</span></label
+          >
+        </div>
       </div>
-            <div class="slash ">/</div>
-      <div class="form_radio" :class="{no: saveDirection === 'true'}">
-        <input
-          id="radio-4"
-          type="radio"
-          name="radio_2"
-          value="false"
-          v-model="saveDirection"
-        />
-        <label class="label"  for="radio-4"><span>{{ $t("no") }}</span></label>
-      </div>
-           </div>
 
       <div class="slederCustomQa">
         <div class="mt-20">
@@ -131,9 +94,10 @@
           <span v-for="label in sliderLabels" :key="label">{{ label }}</span>
         </div>
 
-        <vCheckbox 
-        class="header__checkbox__customQa"
-        v-model="futHedgeFlag_down">
+        <vCheckbox
+          class="header__checkbox__customQa"
+          v-model="futHedgeFlag_down"
+        >
           {{ $t("recommended_price") }}
         </vCheckbox>
       </div>
@@ -143,27 +107,31 @@
       </h3>
 
       <div class="form__radio__wrapper flex ">
-      <div class="form_radio" :class="{no: subDirectionFlag === 'false'}">
-        <input
-          id="radio-1"
-          type="radio"
-          name="radio"
-          value="true"
-          v-model="subDirectionFlag"
-        />
-        <label class="label" for="radio-1"><span>{{ $t("yes") }}</span></label>
-      </div>
-      <div class="slash ">/</div>
-      <div class="form_radio" :class="{no: subDirectionFlag === 'true'}">
-        <input
-          id="radio-2"
-          type="radio"
-          name="radio"
-          value="false"
-          v-model="subDirectionFlag"
-        />
-        <label class="label" for="radio-2"><span>{{ $t("no") }}</span></label>
-      </div>
+        <div class="form_radio" :class="{ no: subDirectionFlag === 'false' }">
+          <input
+            id="radio-1"
+            type="radio"
+            name="radio"
+            value="true"
+            v-model="subDirectionFlag"
+          />
+          <label class="label" for="radio-1"
+            ><span>{{ $t("yes") }}</span></label
+          >
+        </div>
+        <div class="slash ">/</div>
+        <div class="form_radio" :class="{ no: subDirectionFlag === 'true' }">
+          <input
+            id="radio-2"
+            type="radio"
+            name="radio"
+            value="false"
+            v-model="subDirectionFlag"
+          />
+          <label class="label" for="radio-2"
+            ><span>{{ $t("no") }}</span></label
+          >
+        </div>
       </div>
     </div>
 
@@ -229,9 +197,7 @@
           </linearGradient>
         </defs>
       </svg>
-      <span  class="span__on__chart ml-3"
-        >{{ $t("selling_futures") }}</span
-      >
+      <span class="span__on__chart ml-3">{{ $t("selling_futures") }}</span>
     </h3>
 
     <div class="v-table-statistics   items-center">
@@ -326,29 +292,18 @@
         </table>
       </div>
       <div class="v-call-spread-right flex">
-        <div 
-        v-if="tableData"
-        class="button__sendorder  flex pb-10 ">
-          <v-button
-          class="button-customQa"
-          
-            @upGetStatisctics="
-              sendOrder({
-                tableData: tableData,
-                max_slippage: Number(max_slippage),
-              })
-            "
-          />
+        <div v-if="tableData" class="button__sendorder  flex pb-10 ">
+          <v-button class="button-customQa" @upGetStatisctics="OnSendOrder()" />
+        
           <div class="wrapper__slippage">
-          <h3
-          class="text__spippage pb-3"> {{ $t("slippage")}}</h3>
-          <input
-            class="input "
-            v-model="max_slippage"
-            name="inputSlipage"
-            id="slipage"
-            type="number"
-          />
+            <h3 class="text__spippage pb-3">{{ $t("slippage") }}</h3>
+            <input
+              class="input_slip"
+              v-model="max_slippage"
+              name="inputSlipage"
+              id="slipage"
+              type="number"
+            />
           </div>
           <!--             {{ max_slippage }} -->
         </div>
@@ -374,8 +329,8 @@ import vLineChart from "@/components/charts/v-line-chart";
 import vLineChart2 from "@/components/charts/v-line-chart-2";
 import vButton from "@/components/v-button";
 import axios from "axios";
-import index from "../locale/index"
-import { string } from 'yup/lib/locale';
+import index from "../locale/index";
+import { string } from "yup/lib/locale";
 
 export default {
   name: "v-customQA",
@@ -439,8 +394,8 @@ export default {
       markSliderEth: null,
     };
   },
-  props: ['placeholder'],
-  
+  props: ["placeholder"],
+
   computed: {
     requestParams() {
       return {
@@ -550,9 +505,7 @@ export default {
       }
     },
 
-    selectedCoin(newValue, oldValue) {
-
-    },
+    selectedCoin(newValue, oldValue) {},
     selectedDate(newValue, oldValue) {
       this.FieldsCheck();
     },
@@ -561,6 +514,10 @@ export default {
     },
   },
 
+  created() {
+    console.log("QustomQA-user", this.$store.state.auth.user.uid);
+    console.log("max-slippage", this.max_slippage);
+  },
   methods: {
     ...mapMutations([
       "setUnderlying",
@@ -574,6 +531,22 @@ export default {
       "getQaStructs_actions",
       "sendOrder",
     ]),
+
+    OnSendOrder() {
+      const body = {
+        order_json: {
+          client_id: this.$store.state.auth.user.uid,
+          struct_title: "",
+          fut_hedge_flag: false,
+          max_slippage: this.max_slippage,
+          table: this.tableData,
+          table_struct: {},
+        },
+      };
+
+      this.sendOrder(body);
+    },
+
 
     async getMaturity(underlying) {
       this.maturityList = await this.getMaturity_actions(underlying);
@@ -677,9 +650,9 @@ export default {
     },
   },
   mounted() {
-    console.log('selectedUnderlying', this.selectedUnderlying)
+    console.log("selectedUnderlying", this.selectedUnderlying);
     if (this.selectedUnderlying) {
-      this.getMaturity(this.selectedUnderlying)
+      this.getMaturity(this.selectedUnderlying);
     }
   },
 };
@@ -697,7 +670,12 @@ export default {
 }
 
 .v-customQA {
-  background: linear-gradient(210.96deg, rgba(55, 36, 88, 0.61) 0.01%, rgba(43, 35, 83, 0.7) 42.05%, rgba(63, 59, 115, 0) 104.81%);
+  background: linear-gradient(
+    210.96deg,
+    rgba(55, 36, 88, 0.61) 0.01%,
+    rgba(43, 35, 83, 0.7) 42.05%,
+    rgba(63, 59, 115, 0) 104.81%
+  );
   filter: drop-shadow(0px 48px 69px rgba(23, 18, 43, 0.845335));
   backdrop-filter: blur(20px);
   border-radius: 0px 10px 10px 10px;
@@ -709,30 +687,27 @@ export default {
 }
 .span__on__chart {
   font-style: normal;
-font-weight: normal;
-font-size: 18px;
-line-height: 21px;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
 }
 .label {
   font-style: normal;
-font-weight: normal;
-font-size: 18px;
-line-height: 21px;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
 }
 .header__title__on__radio {
-font-style: normal;
-font-weight: normal;
-font-size: 18px;
-line-height: 21px;
-margin-bottom: 30px;
-
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  margin-bottom: 30px;
 }
 .header__checkbox__customQa {
-  
- padding-top: 50px;
-    width: auto;
-    margin-left: 0;
-  
+  padding-top: 50px;
+  width: auto;
+  margin-left: 0;
 }
 .header__select__change__title {
   font-weight: 600;
@@ -743,7 +718,6 @@ margin-bottom: 30px;
 }
 .button__sendorder {
   margin-top: 30px;
-  
 }
 .v-table-statistics {
   width: 100%;
@@ -758,7 +732,6 @@ margin-bottom: 30px;
 .gradient-table {
   flex: 1 1 100%;
   max-width: 50%;
-
 }
 
 .gradient-table {
@@ -818,17 +791,6 @@ margin-bottom: 30px;
   background: #261b43;
 }
 
-.input {
-  background: none;
-  border: 1px solid rgba(65, 54, 241, 1);
-  color: #ffffff;
-  font-family: Gilroy;
-  border-radius: 4px;
-  opacity: 0.8;
-  max-height: 50%;
-  margin-top: 46px;
-}
-.button {}
 .description {
   font-family: Gilroy;
   color: #ffffff;
@@ -860,10 +822,10 @@ margin-bottom: 30px;
   background: linear-gradient(270deg, #8743ff 0%, #4136f1 100%);
 }
 .wrapper__table tr:last-child td:first-child {
-  border-radius: 0px 0px 0px 10px
+  border-radius: 0px 0px 0px 10px;
 }
 .wrapper__table tr:last-child td:last-child {
-  border-radius: 0px 0px 10px 0px
+  border-radius: 0px 0px 10px 0px;
 }
 .table__title {
   font-family: Gilroy;
@@ -938,7 +900,6 @@ margin-bottom: 30px;
 }
 
 .form_radio span {
-  
   display: block;
   margin-left: 10px;
   margin-bottom: 5px;
@@ -983,17 +944,29 @@ margin-bottom: 30px;
   filter: grayscale(100%);
 }
 
-
- .form_radio.no input[type="radio"] + label:before {
+.form_radio.no input[type="radio"] + label:before {
   opacity: 0.3;
-} 
+}
 
- .form_radio.no label span{
+.form_radio.no label span {
   opacity: 0.3;
-} 
+}
 
 /* Radio buttons END */
-.input {
+
+.wrapper__slippage .input_slip {
+  background-color: transparent;
+  border: 1px solid rgba(65, 54, 241, 1);
+  opacity: 0.8;
+  border-radius: 4px;
+  font-family: Gilroy;
+}
+
+.input_slip {
+  max-height: 50%;
+  margin-top: 46px;
+}
+.input_slip {
   margin-top: 0;
   height: 46px;
   max-height: 100%;

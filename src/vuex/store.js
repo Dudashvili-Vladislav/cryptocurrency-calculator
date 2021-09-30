@@ -4,6 +4,9 @@ import { setInterval } from "core-js";
 import auth from "./modules/auth";
 import calculator from "./modules/calculator";
 
+
+
+
 let store = createStore({
   state() {
     return {
@@ -226,6 +229,18 @@ let store = createStore({
       axios.post(url, data);
     },
 
+    async sendOrderMargins({ commit }, data) {
+      const url = "admin/margins";
+      console.log("admin/margins",data);
+      axios.post(url, data);
+    },
+
+    async sendOrderPositions({ commit }, data) {
+      const url = "admin/positions";
+      console.log("admin/positions",data);
+      axios.post(url, data);
+    },
+
     async getStrikes_actions(context) {
       try {
         const url = "data/strikes";
@@ -268,6 +283,7 @@ let store = createStore({
         const url = `data/qaStructs?${Object.entries(query)
           .map((r) => `${r[0]}=${r[1]}`)
           .join("&")}`;
+          console.log("url",url)
         let response = await axios.get(url);
         return response.data.data;
       } catch (error) {
