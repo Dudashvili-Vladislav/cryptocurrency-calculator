@@ -3,6 +3,7 @@ import axios from "axios";
 import { setInterval } from "core-js";
 import auth from "./modules/auth";
 import calculator from "./modules/calculator";
+import $api from '../api/requests'
 
 
 
@@ -222,9 +223,14 @@ let store = createStore({
       }
     },
 
+    /**
+     *
+     * @param data - request data
+     * @returns {Promise<void>}
+     */
     async sendOrder({ commit }, data) {
-      const url = "order/sendOrder";
       console.log("data-SENT-ORDER",data);
+<<<<<<< HEAD
       console.log("window.localStorage",window.localStorage);
       axios.post(url, data);
     },
@@ -239,6 +245,9 @@ let store = createStore({
       const url = "admin/positions";
       console.log("admin/positions",data);
       axios.post(url, data);
+=======
+      return $api.orders.sendOrder(data)
+>>>>>>> 9c672886375c6a8e52872722f987d674e85bc8cc
     },
 
     async getStrikes_actions(context) {
