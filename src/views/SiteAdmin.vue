@@ -344,10 +344,6 @@ export default {
       };
       console.log("MARGINS", this.margins);
       console.log("store-SendOrderMar", this.$store.state);
-      console.log(
-        "$store.state.calculator.users",
-        this.$store.state.calculator.users
-      );
       console.log("BODY", body_margins);
       this.sendOrderMargins(body_margins);
       this.isEditing = false;
