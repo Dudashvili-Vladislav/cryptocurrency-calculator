@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import axios from "axios";
+import $api from '../api/requests/index'
 import { setInterval } from "core-js";
 import auth from "./modules/auth";
 import calculator from "./modules/calculator";
@@ -229,10 +230,10 @@ let store = createStore({
       axios.post(url, data);
     },
 
-    async sendOrderMargins({ commit }, data) {
-      const url = "admin/margins";
-      console.log("admin/margins",data);
-      axios.post(url, data);
+    async sendOrderMargins({ commit }, { client_id, table_json }) {
+      console.log("/admin/margins", { client_id, table_json });
+      let res = await $api.admin.margins.create(client_id, table_json);
+      console.log('AN IMPORTANT RES', res.data.data)
     },
 
     async sendOrderPositions({ commit }, data) {

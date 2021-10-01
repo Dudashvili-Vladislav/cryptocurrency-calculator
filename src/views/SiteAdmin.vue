@@ -336,20 +336,10 @@ export default {
     },
 
     SendOrderMar() {
-      const body_margins = {
-        order_json: {
-          table: this.margins,
+      this.sendOrderMargins({
           client_id: this.$store.state.calculator.users,
-        },
-      };
-      console.log("MARGINS", this.margins);
-      console.log("store-SendOrderMar", this.$store.state);
-      console.log(
-        "$store.state.calculator.users",
-        this.$store.state.calculator.users
-      );
-      console.log("BODY", body_margins);
-      this.sendOrderMargins(body_margins);
+          table_json: this.margins
+      });
       this.isEditing = false;
     },
 
