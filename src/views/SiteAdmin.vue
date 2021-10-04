@@ -330,28 +330,29 @@ export default {
     cancelOrder() {
       if (this.activeTab === 1) {
         this.isEditing = false;
+        this.handleUsersSelect();
       } else if (this.activeTab === 2) {
         this.isEditingPosition = false;
+        this.handleUsersSelect();
       }
     },
 
     SendOrderMar() {
       this.sendOrderMargins({
-          client_id: this.$store.state.calculator.users,
-          table_json: this.margins
+        client_id: this.$store.state.calculator.users,
+        table_json: this.margins,
       });
       this.isEditing = false;
+      this.handleUsersSelect();
     },
 
     SendOrderPos() {
-      const body_positions = {
-        order_json: {
-          table: this.positions,
-          client_id: this.$store.state.calculator.users,
-        },
-      };
-      this.sendOrderPositions(body_positions);
+      this.sendOrderPositions({
+        client_id: this.$store.state.calculator.users,
+        table_json: this.positions,
+      });
       this.isEditingPosition = false;
+      this.handleUsersSelect();
     },
 
     async handleUsersSelect(userId) {

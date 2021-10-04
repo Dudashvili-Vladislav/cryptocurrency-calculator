@@ -1,12 +1,9 @@
 import { createStore } from "vuex";
 import axios from "axios";
-import $api from '../api/requests/index'
+import $api from "../api/requests/index";
 import { setInterval } from "core-js";
 import auth from "./modules/auth";
 import calculator from "./modules/calculator";
-
-
-
 
 let store = createStore({
   state() {
@@ -106,14 +103,14 @@ let store = createStore({
   actions: {
     async initApp({ dispatch }) {
       try {
-        await dispatch('auth/checkAuth')
+        await dispatch("auth/checkAuth");
 
-        dispatch('auth/initTokenRefresher')
+        dispatch("auth/initTokenRefresher");
 
         // можно получить другие данные нужные для приложения
       } catch (err) {
-        console.log(err)
-        throw (err)
+        console.log(err);
+        throw err;
       }
     },
 
@@ -134,7 +131,6 @@ let store = createStore({
         return error;
       }
     },
-
 
     async getMaturity_actions({ commit, rootState }) {
       // Получаем все даты
@@ -158,9 +154,7 @@ let store = createStore({
       }
     },
 
-
-
-    async fetchCleintTableInfoByTab({ commit, rootState }, {userId, url}) {
+    async fetchCleintTableInfoByTab({ commit, rootState }, { userId, url }) {
       // Получение данных для siteadmin
       try {
         const options = {
@@ -225,21 +219,24 @@ let store = createStore({
 
     async sendOrder({ commit }, data) {
       const url = "order/sendOrder";
-      console.log("data-SENT-ORDER",data);
-      console.log("window.localStorage",window.localStorage);
+      console.log("data-SENT-ORDER", data);
+      console.log("window.localStorage", window.localStorage);
       axios.post(url, data);
     },
 
     async sendOrderMargins({ commit }, { client_id, table_json }) {
       console.log("/admin/margins", { client_id, table_json });
       let res = await $api.admin.margins.create(client_id, table_json);
-      console.log('AN IMPORTANT RES', res.data.data)
+      console.log("RES", res);
+      console.log("API-MAR", $api);
+      console.log("AN IMPORTANT RES", res.data.data);
     },
 
-    async sendOrderPositions({ commit }, data) {
-      const url = "admin/positions";
-      console.log("admin/positions",data);
-      axios.post(url, data);
+    async sendOrderPositions({ commit }, { client_id, table_json }) {
+      console.log("/admin/positions", { client_id, table_json });
+      let res = await $api.admin.positions.create(client_id, table_json);
+      console.log("API-POS", $api);
+      console.log("AN IMPORTANT RES sendOrderPositions", res.data.data);
     },
 
     async getStrikes_actions(context) {
@@ -284,7 +281,7 @@ let store = createStore({
         const url = `data/qaStructs?${Object.entries(query)
           .map((r) => `${r[0]}=${r[1]}`)
           .join("&")}`;
-          console.log("url",url)
+        console.log("url", url);
         let response = await axios.get(url);
         return response.data.data;
       } catch (error) {

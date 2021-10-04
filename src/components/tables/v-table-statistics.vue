@@ -22,7 +22,8 @@
           <v-button
             class="button-recomended"
             @upGetStatisctics="OnSendOrder(mission, title_Struct, table_Struct)"
-          />
+            >{{ $t("SEND") }}
+          </v-button>
           <div class="wrapper__slippage">
             <h3 class="text__spippage-recomended">{{ $t("slippage") }}</h3>
             <input
@@ -181,12 +182,11 @@ export default {
       type: Object,
       default() {
         return {};
-      }
-    }
-
+      },
+    },
   },
 
-    created() {
+  created() {
     console.log("$store", this.$store);
   },
 
@@ -198,7 +198,6 @@ export default {
       maturity: (state) => state.maturity,
       amount: (state) => state.amount,
       futHedgeFlag: (state) => state.futHedgeFlag,
-
     }),
   },
 
@@ -216,8 +215,7 @@ export default {
       "sendOrder",
     ]),
 
-    OnSendOrder(mission,title_Struct,table_Struct) {
-
+    OnSendOrder(mission, title_Struct, table_Struct) {
       const body = {
         order_json: {
           client_id: this.$store.state.auth.user.uid,
@@ -225,7 +223,7 @@ export default {
           fut_hedge_flag: this.futHedgeFlag,
           max_slippage: Number(mission),
           table: this.tableData,
-          table_struct: Object(table_Struct)
+          table_struct: Object(table_Struct),
         },
       };
 

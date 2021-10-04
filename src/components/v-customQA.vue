@@ -293,8 +293,10 @@
       </div>
       <div class="v-call-spread-right flex">
         <div v-if="tableData" class="button__sendorder  flex pb-10 ">
-          <v-button class="button-customQa" @upGetStatisctics="OnSendOrder()" />
-        
+          <v-button class="button-customQa" @upGetStatisctics="OnSendOrder()">
+            {{ $t("SEND") }}</v-button
+          >
+
           <div class="wrapper__slippage">
             <h3 class="text__spippage pb-3">{{ $t("slippage") }}</h3>
             <input
@@ -546,7 +548,6 @@ export default {
 
       this.sendOrder(body);
     },
-
 
     async getMaturity(underlying) {
       this.maturityList = await this.getMaturity_actions(underlying);
