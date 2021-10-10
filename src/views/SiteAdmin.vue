@@ -310,6 +310,8 @@ export default {
     console.log("$store", this.$store);
   }, */
 
+  watch: {},
+
   computed: {
     ...mapGetters(["fullDataList"]),
 
@@ -368,6 +370,7 @@ export default {
           userId,
           url: "/admin/positions",
         });
+        console.log("marginsResponse", marginsResponse);
         console.log("$store", this.$store.state.calculator.users);
         this.margins = this.convertMargins(marginsResponse);
         this.positions = this.convertPositions(positionsResponse);
@@ -407,28 +410,13 @@ export default {
 
     convertMargins(response) {
       let convertMargins = [];
-      const productsName = Object.entries(response["Product name"]);
-      const marginReq = Object.entries(response["Margin requirements"]);
-      const lostReq = Object.entries(response["Lots number"]);
-      const futHedgeFlagReq = Object.entries(response["Fut hedge flag"]);
-      const fundsNotionalReq = Object.entries(response["Funds/Notional"]);
-      const availableFunds = Object.entries(response["Available funds"]);
-
-      productsName.forEach((item, index) => {
-        convertMargins.push({});
-        convertMargins[index].productsName = item[1];
-      });
+      console.log("response-Mar", response);
+      const marginReq = Object.entries(response["Margin Requirements"]);
+      const fundsNotionalReq = Object.entries(response["Notional"]);
+      const availableFunds = Object.entries(response["Available Funds"]);
 
       marginReq.forEach((item, index) => {
         convertMargins[index].marginRequirements = item[1];
-      });
-
-      lostReq.forEach((item, index) => {
-        convertMargins[index].lotsNumber = item[1];
-      });
-
-      futHedgeFlagReq.forEach((item, index) => {
-        convertMargins[index].futHedgeFlag = item[1];
       });
 
       fundsNotionalReq.forEach((item, index) => {
