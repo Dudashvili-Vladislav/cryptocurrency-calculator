@@ -89,11 +89,6 @@ export default {
         },
     },
 
-    ...mapState({
-        underlying: (state) => state.underlying,
-        maturity: (state) => state.maturity,
-    }),
-
     methods: {
         onChangeSelect() {
             this.$emit("update:modelValue", String(this.selected));

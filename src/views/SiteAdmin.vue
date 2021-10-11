@@ -305,11 +305,6 @@ export default {
     };
   },
 
-  /* created() {
-    console.log("window.localStorage", window.localStorage);
-    console.log("$store", this.$store);
-  }, */
-
   watch: {},
 
   computed: {
@@ -357,7 +352,8 @@ export default {
       this.handleUsersSelect();
     },
 
-    async handleUsersSelect(userId) {
+    async handleUsersSelect(userID) {
+      const userId = userID || this.$store.state.calculator.users
       clearInterval(this.timerId);
       this.$store.commit("calculator/setUserSiteAdmin", userId);
 
@@ -379,9 +375,8 @@ export default {
 
     convertPositions(response) {
       let convertPositions = [];
-      const productsName = Object.entries(response["Product name"]);
+      const productsName = Object.entries(response["Product Name"]);
       const Amount = Object.entries(response["Amount"]);
-      const OptionName = Object.entries(response["Option name"]);
 
       productsName.forEach((item, index) => {
         convertPositions.push({});
@@ -392,9 +387,6 @@ export default {
         convertPositions[index].Amount = item[1];
       });
 
-      OptionName.forEach((item, index) => {
-        convertPositions[index].OptionName = item[1];
-      });
       return convertPositions;
     },
 
@@ -410,12 +402,13 @@ export default {
 
     convertMargins(response) {
       let convertMargins = [];
-      console.log("response-Mar", response);
+      const availableFunds = Object.entries(response["Available Funds"]);
+      const currency = Object.entries(response["Currency"]);
       const marginReq = Object.entries(response["Margin Requirements"]);
       const fundsNotionalReq = Object.entries(response["Notional"]);
-      const availableFunds = Object.entries(response["Available Funds"]);
 
       marginReq.forEach((item, index) => {
+        convertMargins.push({});
         convertMargins[index].marginRequirements = item[1];
       });
 
@@ -427,8 +420,11 @@ export default {
         convertMargins[index].availableFunds = item[1];
       });
 
+      currency.forEach((item, index) => {
+        convertMargins[index].currency = item[1];
+      });
+
       // const lotsNumber = this.setupFields(lostReq, 'lostNumbers')
-      // console.log('lotsNumber', lotsNumber)
       return convertMargins;
     },
 
@@ -437,16 +433,12 @@ export default {
     //     if (!convertMargins.length) {
     //       convertMargins.push({})
     //     }
-    //     console.log('index', index)
-    //     console.log('fieldType', fieldType)
-    //     console.log('item[1]', item[1])
     //     convertMargins[index][fieldType] = item[1]
     //   })
     //   return convertMargins
     // },
 
     changeLang(value) {
-      console.log("value", value);
       this.$root.$i18n.locale = value;
       this.$store.commit("calculator/setLang", value);
       this.getTableStaticsics_actions();
@@ -459,6 +451,7 @@ export default {
 
   async mounted() {
     this.users = await this.getUsers();
+    // this.handleUsersSelect()
   },
 };
 </script>
