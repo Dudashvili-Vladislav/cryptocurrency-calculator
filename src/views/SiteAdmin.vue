@@ -102,7 +102,7 @@
               @click="changeTab(3)"
               class="tab-link"
               :class="{ active: activeTab === 3 }"
-              >Orders</a
+              >Deals</a
             >
           </li>
 
@@ -111,7 +111,7 @@
               @click="changeTab(4)"
               class="tab-link"
               :class="{ active: activeTab === 4 }"
-              >Deals</a
+              >Orders</a
             >
           </li>
 
@@ -120,7 +120,7 @@
               @click="changeTab(5)"
               class="tab-link"
               :class="{ active: activeTab === 5 }"
-              >Result</a
+              >Funds</a
             >
           </li>
         </ul>
@@ -130,12 +130,11 @@
               <table class="table__main w-full">
                 <thead class="table__thead">
                   <tr class="table__tr">
-                    <th class="table__th__header">Product Name</th>
-                    <th class="table__th__header">Amount</th>
-                    <th class="table__th__header">Fut Hedge flag</th>
-                    <th class="table__th__header">Margin requirements</th>
+                    <th class="table__th__header">Client Id</th>
                     <th class="table__th__header">Available funds</th>
-                    <th class="table__th__header">Funds / Notional</th>
+                    <th class="table__th__header">Currency</th>
+                    <th class="table__th__header">Margin Requirements</th>
+                    <th class="table__th__header">Notional</th>
                   </tr>
                 </thead>
                 <div class="hr__wrapper">
@@ -148,14 +147,18 @@
                     :key="index"
                   >
                     <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ margin.productsName }}</p>
-                      <input v-if="isEditing" v-model="margin.productsName" />
+                      <p v-if="!isEditing">{{ margin.Client_Id }}</p>
+                      <input v-if="isEditing" v-model="margin.Client_Id" />
                     </td>
-                    <td class="field__descriptions">{{ 1 }}</td>
 
                     <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ margin.futHedgeFlag }}</p>
-                      <input v-if="isEditing" v-model="margin.futHedgeFlag" />
+                      <p v-if="!isEditing">{{ margin.availableFunds }}</p>
+                      <input v-if="isEditing" v-model="margin.availableFunds" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditing">{{ margin.currency }}</p>
+                      <input v-if="isEditing" v-model="margin.currency" />
                     </td>
 
                     <td class="field__descriptions">
@@ -164,11 +167,6 @@
                         v-if="isEditing"
                         v-model="margin.marginRequirements"
                       />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ margin.availableFunds }}</p>
-                      <input v-if="isEditing" v-model="margin.availableFunds" />
                     </td>
 
                     <td class="field__descriptions">
@@ -202,11 +200,12 @@
                 <thead class="table__thead">
                   <tr class="table__tr">
                     <th class="table__th__header">Product Name</th>
+                    <th class="table__th__header">Client Id</th>
                     <th class="table__th__header">Amount</th>
+                    <th class="table__th__header">Exchange Position</th>
+                    <th class="table__th__header">Fin Result USD</th>
                     <th class="table__th__header">Fut Hedge flag</th>
-                    <th class="table__th__header">Margin requirements</th>
-                    <th class="table__th__header">Available funds</th>
-                    <th class="table__th__header">Funds / Notional</th>
+                    <th class="table__th__header">Initial Price USD</th>
                   </tr>
                 </thead>
                 <div class="hr__wrapper">
@@ -220,11 +219,19 @@
                   >
                     <td class="field__descriptions">
                       <p v-if="!isEditingPosition">
-                        {{ position.productsName }}
+                        {{ position.ProductName }}
                       </p>
                       <input
                         v-if="isEditingPosition"
-                        v-model="position.productsName"
+                        v-model="position.ProductName"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingPosition">{{ position.Client_Id }}</p>
+                      <input
+                        v-if="isEditingPosition"
+                        v-model="position.Client_Id"
                       />
                     </td>
 
@@ -237,10 +244,42 @@
                     </td>
 
                     <td class="field__descriptions">
-                      <p v-if="!isEditingPosition">{{ position.OptionName }}</p>
+                      <p v-if="!isEditingPosition">
+                        {{ position.ExchangePosition }}
+                      </p>
                       <input
                         v-if="isEditingPosition"
-                        v-model="position.OptionName"
+                        v-model="position.ExchangePosition"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingPosition">
+                        {{ position.FinResultUSD }}
+                      </p>
+                      <input
+                        v-if="isEditingPosition"
+                        v-model="position.FinResultUSD"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingPosition">
+                        {{ position.FutHedgeFlag }}
+                      </p>
+                      <input
+                        v-if="isEditingPosition"
+                        v-model="position.FutHedgeFlag"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingPosition">
+                        {{ position.InitialPriceUSD }}
+                      </p>
+                      <input
+                        v-if="isEditingPosition"
+                        v-model="position.InitialPriceUSD"
                       />
                     </td>
                   </tr>
@@ -353,7 +392,7 @@ export default {
     },
 
     async handleUsersSelect(userID) {
-      const userId = userID || this.$store.state.calculator.users
+      const userId = userID || this.$store.state.calculator.users;
       clearInterval(this.timerId);
       this.$store.commit("calculator/setUserSiteAdmin", userId);
 
@@ -375,16 +414,41 @@ export default {
 
     convertPositions(response) {
       let convertPositions = [];
-      const productsName = Object.entries(response["Product Name"]);
+      const Product_Name = Object.entries(response["Product Name"]);
+      const Client_Id = Object.entries(response["Client Id"]);
       const Amount = Object.entries(response["Amount"]);
+      const Exchange_Position = Object.entries(response["Exchange Position"]);
+      const Fin_Result_USD = Object.entries(response["Fin Result USD"]);
+      const Fut_Hedge_flag = Object.entries(response["Fut Hedge flag"]);
+      const Initial_Price_USD = Object.entries(response["Initial Price USD"]);
 
-      productsName.forEach((item, index) => {
+      Client_Id.forEach((item, index) => {
         convertPositions.push({});
-        convertPositions[index].productsName = item[1];
+        convertPositions[index].Client_Id = item[1];
+      });
+
+      Product_Name.forEach((item, index) => {
+        convertPositions[index].ProductName = item[1];
       });
 
       Amount.forEach((item, index) => {
         convertPositions[index].Amount = item[1];
+      });
+
+      Exchange_Position.forEach((item, index) => {
+        convertPositions[index].ExchangePosition = item[1];
+      });
+
+      Fin_Result_USD.forEach((item, index) => {
+        convertPositions[index].FinResultUSD = item[1];
+      });
+
+      Fut_Hedge_flag.forEach((item, index) => {
+        convertPositions[index].FutHedgeFlag = item[1];
+      });
+
+      Initial_Price_USD.forEach((item, index) => {
+        convertPositions[index].InitialPriceUSD = item[1];
       });
 
       return convertPositions;
@@ -403,6 +467,7 @@ export default {
     convertMargins(response) {
       let convertMargins = [];
       const availableFunds = Object.entries(response["Available Funds"]);
+      const Client_Id = Object.entries(response["Client Id"]);
       const currency = Object.entries(response["Currency"]);
       const marginReq = Object.entries(response["Margin Requirements"]);
       const fundsNotionalReq = Object.entries(response["Notional"]);
@@ -422,6 +487,10 @@ export default {
 
       currency.forEach((item, index) => {
         convertMargins[index].currency = item[1];
+      });
+
+      Client_Id.forEach((item, index) => {
+        convertMargins[index].Client_Id = item[1];
       });
 
       // const lotsNumber = this.setupFields(lostReq, 'lostNumbers')
@@ -451,7 +520,7 @@ export default {
 
   async mounted() {
     this.users = await this.getUsers();
-    // this.handleUsersSelect()
+    /*     this.handleUsersSelect(); */
   },
 };
 </script>
