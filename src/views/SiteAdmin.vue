@@ -245,12 +245,14 @@
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingPosition">
-                        {{ position.ExchangePosition }}
+                        <span v-for="item in position.ExchangePosition" :key="item" class="block">
+                           {{item}}
+                        </span>
                       </p>
-                      <input
+                      <!-- <input
                         v-if="isEditingPosition"
                         v-model="position.ExchangePosition"
-                      />
+                      /> -->
                     </td>
 
                     <td class="field__descriptions">
@@ -436,11 +438,11 @@ export default {
       });
 
       Exchange_Position.forEach((item, index) => {
-        convertPositions[index].ExchangePosition = item[1];
+        convertPositions[index].ExchangePosition = item[1].split(',');
       });
 
       Fin_Result_USD.forEach((item, index) => {
-        convertPositions[index].FinResultUSD = item[1];
+        convertPositions[index].FinResultUSD = item[1]
       });
 
       Fut_Hedge_flag.forEach((item, index) => {

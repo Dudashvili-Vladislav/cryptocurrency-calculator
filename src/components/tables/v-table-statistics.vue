@@ -57,13 +57,13 @@
             <tr class="table__border ">
               <td class="field__description">Amount of underlying</td>
               <td class="field__values">
-                {{ tableData[selectedCoin]["Amount of underlying"] }}
+                {{ +tableData[selectedCoin]["Amount of underlying"] }}
               </td>
               <td class="field__values">
-                {{ tableData["%"]["Amount of underlying"] }}
+                {{ +tableData["%"]["Amount of underlying"] }}
               </td>
               <td class="field__values">
-                {{ tableData["USD"]["Amount of underlying"] }}
+                {{ +tableData["USD"]["Amount of underlying"] }}
               </td>
             </tr>
             <tr class="bg-emerald-200">
@@ -95,13 +95,13 @@
             <tr class="">
               <td class="field__description">Maintenance margin</td>
               <td class="field__values">
-                {{ tableData[selectedCoin]["Maintenace margin"].toFixed(2) }}
+                {{ tableData[selectedCoin]["Maintenance margin"].toFixed(2) }}
               </td>
               <td class="field__values">
-                {{ tableData["%"]["Maintenace margin"].toFixed(2) }}
+                {{ tableData["%"]["Maintenance margin"].toFixed(2) }}
               </td>
               <td class="field__values">
-                {{ tableData["USD"]["Maintenace margin"].toFixed(2) }}
+                {{ tableData["USD"]["Maintenance margin"].toFixed(2) }}
               </td>
             </tr>
             <tr class="">
@@ -267,7 +267,6 @@ export default {
 
 .gradient-table {
   max-width: 550px;
-  max-height: 248px;
   border-radius: 10px;
   overflow: hidden;
   padding: 1px;
