@@ -245,14 +245,12 @@
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingPosition">
-                        <span v-for="item in position.ExchangePosition" :key="item" class="block">
-                           {{item}}
-                        </span>
+                        {{ position.ExchangePosition }}
                       </p>
-                      <!-- <input
+                      <input
                         v-if="isEditingPosition"
                         v-model="position.ExchangePosition"
-                      /> -->
+                      />
                     </td>
 
                     <td class="field__descriptions">
@@ -333,6 +331,7 @@ export default {
       users: [],
       margins: [],
       positions: [],
+      deals: [],
       active: false,
       activeTab: 1,
       timerId: null,
@@ -407,11 +406,28 @@ export default {
           userId,
           url: "/admin/positions",
         });
+        const dealsResponce = await this.fetchCleintTableInfoByTab({
+          userId,
+          url: "/admin/deals",
+        });
         console.log("marginsResponse", marginsResponse);
+        console.log("dealsResponce", dealsResponce);
         console.log("$store", this.$store.state.calculator.users);
         this.margins = this.convertMargins(marginsResponse);
         this.positions = this.convertPositions(positionsResponse);
+        this.deals = this.convertDeals(dealsResponce);
       }, 2000);
+    },
+
+    convertDeals(response) {
+      let convertDeals = [];
+      const Product_Name = Object.entries(response["Product Name"]);
+
+      Product_Name.forEach((item, index) => {
+        convertDeals[index].ProductName = item[1];
+      });
+
+      return convertDeals;
     },
 
     convertPositions(response) {
@@ -438,11 +454,11 @@ export default {
       });
 
       Exchange_Position.forEach((item, index) => {
-        convertPositions[index].ExchangePosition = item[1].split(',');
+        convertPositions[index].ExchangePosition = item[1];
       });
 
       Fin_Result_USD.forEach((item, index) => {
-        convertPositions[index].FinResultUSD = item[1]
+        convertPositions[index].FinResultUSD = item[1];
       });
 
       Fut_Hedge_flag.forEach((item, index) => {
