@@ -285,7 +285,7 @@
                   </tr>
                 </tbody>
               </table>
-              <div
+              <!--               <div
                 class="wrapper__table__btn__footer flex"
                 v-if="this.positions != 0"
               >
@@ -300,10 +300,144 @@
                   @upGetStatisctics="cancelOrder"
                   >{{ $t("back") }}</v-button
                 >
+              </div> -->
+            </div>
+          </div>
+          <div class="tab-item" v-if="activeTab === 3">
+            <div class="tabe__wrapper">
+              <table class="table__main w-full">
+                <thead class="table__thead">
+                  <tr class="table__tr">
+                    <th class="table__th__header">Product Name</th>
+                    <th class="table__th__header">Client Id</th>
+                    <th class="table__th__header">Comment</th>
+                    <th class="table__th__header">Datetime</th>
+                    <th class="table__th__header">Deal Id</th>
+                    <th class="table__th__header">Exchange Position</th>
+                    <th class="table__th__header">Fut Hedge flag</th>
+                    <th class="table__th__header">Maintenance Margin USD</th>
+                    <th class="table__th__header">Max Slippage</th>
+                    <th class="table__th__header">Price USD</th>
+                    <th class="table__th__header">Status</th>
+                    <th class="table__th__header">Total Margin USD</th>
+                  </tr>
+                </thead>
+                <div class="hr__wrapper">
+                  <hr class="table__hr" />
+                </div>
+                <tbody class="table__tbody">
+                  <tr
+                    class="table__tbody__tr"
+                    v-for="(deal, index) in deals"
+                    :key="index"
+                  >
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">
+                        {{ deal.ProductName }}
+                      </p>
+                      <input v-if="isEditingDeals" v-model="deal.ProductName" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">{{ deal.Client_Id }}</p>
+                      <input v-if="isEditingDeals" v-model="deal.Client_Id" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">{{ deal.Comment }}</p>
+                      <input v-if="isEditingDeals" v-model="deal.Comment" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">{{ deal.Datetime }}</p>
+                      <input v-if="isEditingDeals" v-model="deal.Datetime" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">{{ deal.Deal_Id }}</p>
+                      <input v-if="isEditingDeals" v-model="deal.Deal_Id" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">{{ deal.Exchange_Position }}</p>
+                      <input
+                        v-if="isEditingDeals"
+                        v-model="deal.Exchange_Position"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">{{ deal.Fut_Hedge_flag }}</p>
+                      <input
+                        v-if="isEditingDeals"
+                        v-model="deal.Fut_Hedge_flag"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">
+                        {{ deal.Maintenance_Margin_USD }}
+                      </p>
+                      <input
+                        v-if="isEditingDeals"
+                        v-model="deal.Maintenance_Margin_USD"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">
+                        {{ deal.Max_Slippage }}
+                      </p>
+                      <input
+                        v-if="isEditingDeals"
+                        v-model="deal.Max_Slippage"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">
+                        {{ deal.Price_USD }}
+                      </p>
+                      <input v-if="isEditingDeals" v-model="deal.Price_USD" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">
+                        {{ deal.Status }}
+                      </p>
+                      <input v-if="isEditingDeals" v-model="deal.Status" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingDeals">
+                        {{ deal.Total_Margin_USD }}
+                      </p>
+                      <input
+                        v-if="isEditingDeals"
+                        v-model="deal.Total_Margin_USD"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div
+                class="wrapper__table__btn__footer flex"
+                v-if="this.deals != 0"
+              >
+                <v-button
+                  class="button-recomended "
+                  @upGetStatisctics="SendOrderDeals"
+                >
+                  {{ $t("save") }}</v-button
+                >
+                <v-button
+                  class="button-cancel"
+                  @upGetStatisctics="cancelOrder"
+                  >{{ $t("back") }}</v-button
+                >
               </div>
             </div>
           </div>
-          <div class="tab-item" v-if="activeTab === 3"></div>
         </div>
       </div>
     </div>
@@ -337,6 +471,7 @@ export default {
       timerId: null,
       isEditing: false,
       isEditingPosition: false,
+      isEditingDeals: false,
 
       loguot: () => {
         store.dispatch("auth/signOut");
@@ -361,12 +496,12 @@ export default {
       "fetchCleintTableInfoByTab",
       "getTableStaticsics_actions",
       "sendOrderMargins",
-      "sendOrderPositions",
+      "sendOrderDeals",
     ]),
 
     cancelOrder() {
-      if (this.activeTab === 1) {
-        this.isEditing = false;
+      if (this.activeTab === 3) {
+        this.isEditingDeals = false;
         this.handleUsersSelect();
       } else if (this.activeTab === 2) {
         this.isEditingPosition = false;
@@ -383,12 +518,12 @@ export default {
       this.handleUsersSelect();
     },
 
-    SendOrderPos() {
-      this.sendOrderPositions({
+    SendOrderDeals() {
+      this.sendOrderDeals({
         client_id: this.$store.state.calculator.users,
         table_json: this.positions,
       });
-      this.isEditingPosition = false;
+      this.isEditingDeals = false;
       this.handleUsersSelect();
     },
 
@@ -411,6 +546,7 @@ export default {
           url: "/admin/deals",
         });
         console.log("marginsResponse", marginsResponse);
+        console.log("positionsResponse", positionsResponse);
         console.log("dealsResponce", dealsResponce);
         console.log("$store", this.$store.state.calculator.users);
         this.margins = this.convertMargins(marginsResponse);
@@ -421,10 +557,68 @@ export default {
 
     convertDeals(response) {
       let convertDeals = [];
-      const Product_Name = Object.entries(response["Product Name"]);
+      const ProductName = Object.entries(response["Product Name"]);
+      const Client_Id = Object.entries(response["Client Id"]);
+      const Comment = Object.entries(response["Comment"]);
+      const Datetime = Object.entries(response["Datetime"]);
+      const Deal_Id = Object.entries(response["Deal Id"]);
+      const Exchange_Position = Object.entries(response["Exchange Position"]);
+      const Fut_Hedge_flag = Object.entries(response["Fut Hedge flag"]);
+      const Maintenance_Margin_USD = Object.entries(
+        response["Maintenance Margin USD"]
+      );
+      const Max_Slippage = Object.entries(response["Max Slippage"]);
+      const Price_USD = Object.entries(response["Price USD"]);
+      const Status = Object.entries(response["Status"]);
+      const Total_Margin_USD = Object.entries(response["Total Margin USD"]);
 
-      Product_Name.forEach((item, index) => {
+      /*       ProductName.forEach((item, index) => {
         convertDeals[index].ProductName = item[1];
+      }); */
+
+      Client_Id.forEach((item, index) => {
+        convertDeals.push({});
+        convertDeals[index].Client_Id = item[1];
+      });
+
+      Comment.forEach((item, index) => {
+        convertDeals[index].Comment = item[1];
+      });
+
+      Datetime.forEach((item, index) => {
+        convertDeals[index].Datetime = item[1];
+      });
+
+      Deal_Id.forEach((item, index) => {
+        convertDeals[index].Deal_Id = item[1];
+      });
+
+      Exchange_Position.forEach((item, index) => {
+        convertDeals[index].Exchange_Position = item[1];
+      });
+
+      Fut_Hedge_flag.forEach((item, index) => {
+        convertDeals[index].Fut_Hedge_flag = item[1];
+      });
+
+      Maintenance_Margin_USD.forEach((item, index) => {
+        convertDeals[index].Maintenance_Margin_USD = item[1].toFixed(2);
+      });
+
+      Max_Slippage.forEach((item, index) => {
+        convertDeals[index].Max_Slippage = item[1];
+      });
+
+      Price_USD.forEach((item, index) => {
+        convertDeals[index].Price_USD = item[1].toFixed(2);
+      });
+
+      Status.forEach((item, index) => {
+        convertDeals[index].Status = item[1];
+      });
+
+      Total_Margin_USD.forEach((item, index) => {
+        convertDeals[index].Total_Margin_USD = item[1].toFixed(2);
       });
 
       return convertDeals;
@@ -473,8 +667,8 @@ export default {
     },
 
     onClickEditButton() {
-      if (this.activeTab === 1) {
-        this.isEditing = true;
+      if (this.activeTab === 3) {
+        this.isEditingDeals = true;
         clearInterval(this.timerId);
       } else if (this.activeTab === 2) {
         this.isEditingPosition = true;

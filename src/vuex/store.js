@@ -157,9 +157,11 @@ let store = createStore({
     async fetchCleintTableInfoByTab({ commit, rootState }, { userId, url }) {
       // Получение данных для siteadmin
       try {
-        const options = userId ? {
-          params: { client_id: userId },
-        } : {};
+        const options = userId
+          ? {
+              params: { client_id: userId },
+            }
+          : {};
         const response = await axios.get(url, options);
         const data = response.data.data;
 
@@ -232,11 +234,11 @@ let store = createStore({
       console.log("AN IMPORTANT RES", res.data.data);
     },
 
-    async sendOrderPositions({ commit }, { client_id, table_json }) {
-      console.log("/admin/positions", { client_id, table_json });
-      let res = await $api.admin.positions.create(client_id, table_json);
-      console.log("API-POS", $api);
-      console.log("AN IMPORTANT RES sendOrderPositions", res.data.data);
+    async sendOrderDeals({ commit }, { client_id, table_json }) {
+      console.log("admin/deals", { client_id, table_json });
+      let res = await $api.admin.deals.create(client_id, table_json);
+      console.log("API-DEALS", $api);
+      console.log("AN IMPORTANT RES sendOrderDeals", res.data.data);
     },
 
     async getStrikes_actions(context) {
