@@ -39,4 +39,30 @@ export default {
       );
     },
   },
+
+  orders: {
+    get() {
+      return axios.get("/admin/orders");
+    },
+    create(client_id, table_json) {
+      return axios.post(
+        `/admin/orders?client_id=${client_id}&table_json=${JSON.stringify(
+          table_json
+        )}`
+      );
+    },
+  },
+
+  funds: {
+    get() {
+      return axios.get("/admin/funds");
+    },
+    create(client_id, table_json) {
+      return axios.post(
+        `/admin/funds?client_id=${client_id}&table_json=${JSON.stringify(
+          table_json
+        )}`
+      );
+    },
+  },
 };

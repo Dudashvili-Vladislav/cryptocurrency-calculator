@@ -303,6 +303,7 @@
               </div> -->
             </div>
           </div>
+
           <div class="tab-item" v-if="activeTab === 3">
             <div class="tabe__wrapper">
               <table class="table__main w-full">
@@ -438,6 +439,208 @@
               </div>
             </div>
           </div>
+
+          <div class="tab-item" v-if="activeTab === 4">
+            <div class="tabe__wrapper">
+              <table class="table__main w-full">
+                <thead class="table__thead">
+                  <tr class="table__tr">
+                    <th class="table__th__header">Product Name</th>
+                    <th class="table__th__header">Client Id</th>
+                    <th class="table__th__header">Comment</th>
+                    <th class="table__th__header">Datetime</th>
+                    <th class="table__th__header">Deal Id</th>
+                    <th class="table__th__header">Exchange Position</th>
+                    <th class="table__th__header">Fut Hedge flag</th>
+                    <th class="table__th__header">Maintenance Margin USD</th>
+                    <th class="table__th__header">Max Slippage</th>
+                    <th class="table__th__header">Price USD</th>
+                    <th class="table__th__header">Status</th>
+                    <th class="table__th__header">Total Margin USD</th>
+                  </tr>
+                </thead>
+                <div class="hr__wrapper">
+                  <hr class="table__hr" />
+                </div>
+                <tbody class="table__tbody">
+                  <tr
+                    class="table__tbody__tr"
+                    v-for="(order, index) in orders"
+                    :key="index"
+                  >
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">
+                        {{ order.Product_name_orders }}
+                      </p>
+                      <input
+                        v-if="isEditingOrders"
+                        v-model="order.Product_name_orders"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">
+                        {{ order.Client_id_orders }}
+                      </p>
+                      <input
+                        v-if="isEditingOrders"
+                        v-model="order.Client_id_orders"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">{{ order.CommentOrders }}</p>
+                      <input
+                        v-if="isEditingOrders"
+                        v-model="order.CommentOrders"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">{{ order.Datetime }}</p>
+                      <input v-if="isEditingOrders" v-model="order.Datetime" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">{{ order.Deal_Id }}</p>
+                      <input v-if="isEditingOrders" v-model="order.Deal_Id" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">
+                        {{ order.Exchange_Position }}
+                      </p>
+                      <input
+                        v-if="isEditingOrders"
+                        v-model="order.Exchange_Position"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">{{ order.Fut_Hedge_flag }}</p>
+                      <input
+                        v-if="isEditingOrders"
+                        v-model="order.Fut_Hedge_flag"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">
+                        {{ order.Maintenance_Margin_USD }}
+                      </p>
+                      <input
+                        v-if="isEditingOrders"
+                        v-model="order.Maintenance_Margin_USD"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">
+                        {{ order.Max_Slippage }}
+                      </p>
+                      <input
+                        v-if="isEditingOrders"
+                        v-model="order.Max_Slippage"
+                      />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">
+                        {{ order.Price_USD }}
+                      </p>
+                      <input v-if="isEditingOrders" v-model="order.Price_USD" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">
+                        {{ order.Status }}
+                      </p>
+                      <input v-if="isEditingOrders" v-model="order.Status" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p v-if="!isEditingOrders">
+                        {{ order.Total_Margin_USD }}
+                      </p>
+                      <input
+                        v-if="isEditingOrders"
+                        v-model="order.Total_Margin_USD"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div
+                class="wrapper__table__btn__footer flex"
+                v-if="this.deals != 0"
+              >
+                <v-button
+                  class="button-recomended "
+                  @upGetStatisctics="SendOrderOrders"
+                >
+                  {{ $t("save") }}</v-button
+                >
+                <v-button
+                  class="button-cancel"
+                  @upGetStatisctics="cancelOrder"
+                  >{{ $t("back") }}</v-button
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-item" v-if="activeTab === 5">
+            <div class="tabe__wrapper">
+              <table class="table__main w-full">
+                <thead class="table__thead">
+                  <tr class="table__tr">
+                    <th class="table__th__header">Client Id</th>
+                    <th class="table__th__header">Amount</th>
+                    <th class="table__th__header">Currency</th>
+                    <th class="table__th__header">Transfer type</th>
+                  </tr>
+                </thead>
+                <div class="hr__wrapper">
+                  <hr class="table__hr" />
+                </div>
+                <tbody class="table__tbody">
+                  <tr
+                    class="table__tbody__tr"
+                    v-for="(fund, index) in funds"
+                    :key="index"
+                  >
+                    <td class="field__descriptions">
+                      <p>
+                        {{ fund.ClientIdFunds }}
+                      </p>
+                      <input v-model="fund.ClientIdFunds" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p>
+                        {{ fund.AmountFunds }}
+                      </p>
+                      <input v-model="fund.AmountFunds" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p>
+                        {{ fund.CurrencyFunds }}
+                      </p>
+                      <input v-model="fund.CurrencyFunds" />
+                    </td>
+
+                    <td class="field__descriptions">
+                      <p>
+                        {{ fund.TransferTypeFunds }}
+                      </p>
+                      <input v-model="fund.TransferTypeFunds" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -466,12 +669,15 @@ export default {
       margins: [],
       positions: [],
       deals: [],
+      orders: [],
+      funds: [],
       active: false,
       activeTab: 1,
       timerId: null,
       isEditing: false,
       isEditingPosition: false,
       isEditingDeals: false,
+      isEditingOrders: false,
 
       loguot: () => {
         store.dispatch("auth/signOut");
@@ -495,7 +701,7 @@ export default {
       "getUsers",
       "fetchCleintTableInfoByTab",
       "getTableStaticsics_actions",
-      "sendOrderMargins",
+      "sendOrderOrders",
       "sendOrderDeals",
     ]),
 
@@ -503,18 +709,18 @@ export default {
       if (this.activeTab === 3) {
         this.isEditingDeals = false;
         this.handleUsersSelect();
-      } else if (this.activeTab === 2) {
-        this.isEditingPosition = false;
+      } else if (this.activeTab === 4) {
+        this.isEditingOrders = false;
         this.handleUsersSelect();
       }
     },
 
-    SendOrderMar() {
-      this.sendOrderMargins({
+    SendOrderOrders() {
+      this.sendOrderOrders({
         client_id: this.$store.state.calculator.users,
         table_json: this.margins,
       });
-      this.isEditing = false;
+      this.isEditingOrders = false;
       this.handleUsersSelect();
     },
 
@@ -545,14 +751,120 @@ export default {
           userId,
           url: "/admin/deals",
         });
+        const ordersResponse = await this.fetchCleintTableInfoByTab({
+          userId,
+          url: "/admin/orders",
+        });
+        const fundsResponse = await this.fetchCleintTableInfoByTab({
+          userId,
+          url: "/admin/funds",
+        });
         console.log("marginsResponse", marginsResponse);
         console.log("positionsResponse", positionsResponse);
         console.log("dealsResponce", dealsResponce);
+        console.log("ordersResponse", ordersResponse);
+        console.log("fundsResponse", fundsResponse);
         console.log("$store", this.$store.state.calculator.users);
         this.margins = this.convertMargins(marginsResponse);
         this.positions = this.convertPositions(positionsResponse);
         this.deals = this.convertDeals(dealsResponce);
+        this.orders = this.convertOrders(ordersResponse);
+        this.funds = this.convertFunds(fundsResponse);
       }, 2000);
+    },
+
+    convertFunds(response) {
+      let convertFunds = [];
+      const Client_id_funds = Object.entries(response["client_id"]);
+      const Amount = Object.entries(response["amount"]);
+      const Currency = Object.entries(response["currency"]);
+      const Transfer_type = Object.entries(response["transfer_type"]);
+
+      Client_id_funds.forEach((item, index) => {
+        convertFunds.push({});
+        convertFunds[index].ClientIdFunds = item[1];
+      });
+
+      Amount.forEach((item, index) => {
+        convertFunds[index].AmountFunds = item[1];
+      });
+
+      Currency.forEach((item, index) => {
+        convertFunds[index].CurrencyFunds = item[1];
+      });
+
+      Transfer_type.forEach((item, index) => {
+        convertFunds[index].TransferTypeFunds = item[1];
+      });
+    },
+
+    convertOrders(response) {
+      let convertOrders = [];
+      const Product_name_orders = Object.entries(response["Product Name"]);
+      const Client_id_orders = Object.entries(response["Client Id"]);
+      const Comment = Object.entries(response["Comment"]);
+      const Datetime = Object.entries(response["Datetime"]);
+      const Deal_Id = Object.entries(response["Deal Id"]);
+      const Exchange_Position = Object.entries(response["Exchange Position"]);
+      const Fut_Hedge_flag = Object.entries(response["Fut Hedge flag"]);
+      const Maintenance_Margin_USD = Object.entries(
+        response["Maintenance Margin USD"]
+      );
+      const Max_Slippage = Object.entries(response["Max Slippage"]);
+      const Price_USD = Object.entries(response["Price USD"]);
+      const Status = Object.entries(response["Status"]);
+      const Total_Margin_USD = Object.entries(response["Total Margin USD"]);
+
+      /*       Product_name_orders.forEach((item, index) => {
+        convertOrders[index].Product_name_orders = item[1];
+      });
+ */
+      Client_id_orders.forEach((item, index) => {
+        convertOrders.push({});
+        convertOrders[index].Client_id_orders = item[1];
+      });
+
+      Comment.forEach((item, index) => {
+        convertOrders[index].CommentOrders = item[1];
+      });
+
+      Datetime.forEach((item, index) => {
+        convertOrders[index].Datetime = item[1];
+      });
+
+      Deal_Id.forEach((item, index) => {
+        convertOrders[index].Deal_Id = item[1];
+      });
+
+      Exchange_Position.forEach((item, index) => {
+        convertOrders[index].Exchange_Position = item[1];
+      });
+
+      Fut_Hedge_flag.forEach((item, index) => {
+        convertOrders[index].Fut_Hedge_flag = item[1];
+      });
+
+      Maintenance_Margin_USD.forEach((item, index) => {
+        convertOrders[index].Maintenance_Margin_USD = item[1].toFixed(2);
+      });
+
+      Max_Slippage.forEach((item, index) => {
+        convertOrders[index].Max_Slippage = item[1];
+      });
+
+      Price_USD.forEach((item, index) => {
+        convertOrders[index].Price_USD = item[1].toFixed(2);
+      });
+
+      Status.forEach((item, index) => {
+        convertOrders[index].Status = item[1];
+      });
+
+      Total_Margin_USD.forEach((item, index) => {
+        convertOrders[index].Total_Margin_USD = item[1].toFixed(2);
+      });
+
+      return convertOrders;
     },
 
     convertDeals(response) {
@@ -670,8 +982,8 @@ export default {
       if (this.activeTab === 3) {
         this.isEditingDeals = true;
         clearInterval(this.timerId);
-      } else if (this.activeTab === 2) {
-        this.isEditingPosition = true;
+      } else if (this.activeTab === 4) {
+        this.isEditingOrders = true;
         clearInterval(this.timerId);
       }
     },
@@ -792,14 +1104,15 @@ export default {
 }
 
 .field__descriptions {
+  text-align: center;
   padding-top: 10px;
-  padding-left: 5px;
 }
 
 .table__tr {
   text-align: left;
 }
 .table__th__header {
+  text-align: center;
   padding-left: 5px;
 }
 

@@ -226,11 +226,11 @@ let store = createStore({
       axios.post(url, data);
     },
 
-    async sendOrderMargins({ commit }, { client_id, table_json }) {
-      console.log("/admin/margins", { client_id, table_json });
-      let res = await $api.admin.margins.create(client_id, table_json);
+    async sendOrderOrders({ commit }, { client_id, table_json }) {
+      console.log("/admin/orders", { client_id, table_json });
+      let res = await $api.admin.orders.create(client_id, table_json);
       console.log("RES", res);
-      console.log("API-MAR", $api);
+      console.log("API-ORDERS", $api);
       console.log("AN IMPORTANT RES", res.data.data);
     },
 
