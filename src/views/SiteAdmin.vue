@@ -68,7 +68,7 @@
     </div>
 
     <div class="wrapper__table__btn">
-      <div class="btn__tab-nav" v-if="this.margins != 0">
+      <div class="btn__tab-nav" v-if="margins != 0">
         <button class="btn test" @click="onClickEditButton">
           {{ $t("edit") }}
         </button>
@@ -613,28 +613,24 @@
                       <p>
                         {{ fund.ClientIdFunds }}
                       </p>
-                      <input v-model="fund.ClientIdFunds" />
                     </td>
 
                     <td class="field__descriptions">
                       <p>
                         {{ fund.AmountFunds }}
                       </p>
-                      <input v-model="fund.AmountFunds" />
                     </td>
 
                     <td class="field__descriptions">
                       <p>
                         {{ fund.CurrencyFunds }}
                       </p>
-                      <input v-model="fund.CurrencyFunds" />
                     </td>
 
                     <td class="field__descriptions">
                       <p>
                         {{ fund.TransferTypeFunds }}
                       </p>
-                      <input v-model="fund.TransferTypeFunds" />
                     </td>
                   </tr>
                 </tbody>
@@ -796,6 +792,8 @@ export default {
       Transfer_type.forEach((item, index) => {
         convertFunds[index].TransferTypeFunds = item[1];
       });
+
+      return convertFunds
     },
 
     convertOrders(response) {
@@ -815,12 +813,12 @@ export default {
       const Status = Object.entries(response["Status"]);
       const Total_Margin_USD = Object.entries(response["Total Margin USD"]);
 
-      /*       Product_name_orders.forEach((item, index) => {
+      Product_name_orders.forEach((item, index) => {
+        convertOrders.push({});
         convertOrders[index].Product_name_orders = item[1];
       });
- */
+
       Client_id_orders.forEach((item, index) => {
-        convertOrders.push({});
         convertOrders[index].Client_id_orders = item[1];
       });
 
@@ -884,12 +882,12 @@ export default {
       const Status = Object.entries(response["Status"]);
       const Total_Margin_USD = Object.entries(response["Total Margin USD"]);
 
-      /*       ProductName.forEach((item, index) => {
+      ProductName.forEach((item, index) => {
+        convertDeals.push({});
         convertDeals[index].ProductName = item[1];
-      }); */
+      });
 
       Client_Id.forEach((item, index) => {
-        convertDeals.push({});
         convertDeals[index].Client_Id = item[1];
       });
 
@@ -1075,7 +1073,7 @@ export default {
   opacity: 0.4;
 }
 
-.table__tbody__tr:last-child td {
+.table__tbody__tr:nth-last-child(2) td {
   border-top: 1px solid #fff3;
 }
 
