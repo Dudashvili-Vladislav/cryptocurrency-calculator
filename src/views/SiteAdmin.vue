@@ -68,7 +68,7 @@
     </div>
 
     <div class="wrapper__table__btn">
-      <div class="btn__tab-nav" v-if="margins != 0">
+      <div class="btn__tab-nav" v-if="activeTab === 3 || activeTab === 4">
         <button class="btn test" @click="onClickEditButton">
           {{ $t("edit") }}
         </button>
@@ -142,7 +142,7 @@
                 </div>
                 <tbody class="table__tbody">
                   <tr
-                    class="table__tbody__tr"
+                    class="table__tbody__tr__margins"
                     v-for="(margin, index) in margins"
                     :key="index"
                   >
@@ -176,21 +176,6 @@
                   </tr>
                 </tbody>
               </table>
-              <div
-                class="wrapper__table__btn__footer flex"
-                v-if="this.margins != 0"
-              >
-                <v-button
-                  class="button-recomended "
-                  @upGetStatisctics="SendOrderMar"
-                >
-                  {{ $t("save") }}
-                </v-button>
-
-                <v-button class="button-cancel" @upGetStatisctics="cancelOrder"
-                  >{{ $t("back") }}
-                </v-button>
-              </div>
             </div>
           </div>
 
@@ -285,22 +270,6 @@
                   </tr>
                 </tbody>
               </table>
-              <!--               <div
-                class="wrapper__table__btn__footer flex"
-                v-if="this.positions != 0"
-              >
-                <v-button
-                  class="button-recomended "
-                  @upGetStatisctics="SendOrderPos"
-                >
-                  {{ $t("save") }}</v-button
-                >
-                <v-button
-                  class="button-cancel"
-                  @upGetStatisctics="cancelOrder"
-                  >{{ $t("back") }}</v-button
-                >
-              </div> -->
             </div>
           </div>
 
@@ -336,32 +305,53 @@
                       <p v-if="!isEditingDeals">
                         {{ deal.ProductName }}
                       </p>
-                      <input v-if="isEditingDeals" v-model="deal.ProductName" />
+                      <input
+                        class="input_deals"
+                        v-if="isEditingDeals"
+                        v-model="deal.ProductName"
+                      />
                     </td>
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingDeals">{{ deal.Client_Id }}</p>
-                      <input v-if="isEditingDeals" v-model="deal.Client_Id" />
+                      <input
+                        class="input_deals"
+                        v-if="isEditingDeals"
+                        v-model="deal.Client_Id"
+                      />
                     </td>
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingDeals">{{ deal.Comment }}</p>
-                      <input v-if="isEditingDeals" v-model="deal.Comment" />
+                      <input
+                        class="input_deals"
+                        v-if="isEditingDeals"
+                        v-model="deal.Comment"
+                      />
                     </td>
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingDeals">{{ deal.Datetime }}</p>
-                      <input v-if="isEditingDeals" v-model="deal.Datetime" />
+                      <input
+                        class="input_deals"
+                        v-if="isEditingDeals"
+                        v-model="deal.Datetime"
+                      />
                     </td>
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingDeals">{{ deal.Deal_Id }}</p>
-                      <input v-if="isEditingDeals" v-model="deal.Deal_Id" />
+                      <input
+                        class="input_deals"
+                        v-if="isEditingDeals"
+                        v-model="deal.Deal_Id"
+                      />
                     </td>
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingDeals">{{ deal.Exchange_Position }}</p>
                       <input
+                        class="input_deals"
                         v-if="isEditingDeals"
                         v-model="deal.Exchange_Position"
                       />
@@ -370,6 +360,7 @@
                     <td class="field__descriptions">
                       <p v-if="!isEditingDeals">{{ deal.Fut_Hedge_flag }}</p>
                       <input
+                        class="input_deals"
                         v-if="isEditingDeals"
                         v-model="deal.Fut_Hedge_flag"
                       />
@@ -380,6 +371,7 @@
                         {{ deal.Maintenance_Margin_USD }}
                       </p>
                       <input
+                        class="input_deals"
                         v-if="isEditingDeals"
                         v-model="deal.Maintenance_Margin_USD"
                       />
@@ -390,6 +382,7 @@
                         {{ deal.Max_Slippage }}
                       </p>
                       <input
+                        class="input_deals"
                         v-if="isEditingDeals"
                         v-model="deal.Max_Slippage"
                       />
@@ -399,14 +392,22 @@
                       <p v-if="!isEditingDeals">
                         {{ deal.Price_USD }}
                       </p>
-                      <input v-if="isEditingDeals" v-model="deal.Price_USD" />
+                      <input
+                        class="input_deals"
+                        v-if="isEditingDeals"
+                        v-model="deal.Price_USD"
+                      />
                     </td>
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingDeals">
                         {{ deal.Status }}
                       </p>
-                      <input v-if="isEditingDeals" v-model="deal.Status" />
+                      <input
+                        class="input_deals"
+                        v-if="isEditingDeals"
+                        v-model="deal.Status"
+                      />
                     </td>
 
                     <td class="field__descriptions">
@@ -414,6 +415,7 @@
                         {{ deal.Total_Margin_USD }}
                       </p>
                       <input
+                        class="input_deals"
                         v-if="isEditingDeals"
                         v-model="deal.Total_Margin_USD"
                       />
@@ -473,6 +475,7 @@
                         {{ order.Product_name_orders }}
                       </p>
                       <input
+                        class="input_orders"
                         v-if="isEditingOrders"
                         v-model="order.Product_name_orders"
                       />
@@ -483,6 +486,7 @@
                         {{ order.Client_id_orders }}
                       </p>
                       <input
+                        class="input_orders"
                         v-if="isEditingOrders"
                         v-model="order.Client_id_orders"
                       />
@@ -491,6 +495,7 @@
                     <td class="field__descriptions">
                       <p v-if="!isEditingOrders">{{ order.CommentOrders }}</p>
                       <input
+                        class="input_orders"
                         v-if="isEditingOrders"
                         v-model="order.CommentOrders"
                       />
@@ -498,12 +503,20 @@
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingOrders">{{ order.Datetime }}</p>
-                      <input v-if="isEditingOrders" v-model="order.Datetime" />
+                      <input
+                        class="input_orders"
+                        v-if="isEditingOrders"
+                        v-model="order.Datetime"
+                      />
                     </td>
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingOrders">{{ order.Deal_Id }}</p>
-                      <input v-if="isEditingOrders" v-model="order.Deal_Id" />
+                      <input
+                        class="input_orders"
+                        v-if="isEditingOrders"
+                        v-model="order.Deal_Id"
+                      />
                     </td>
 
                     <td class="field__descriptions">
@@ -511,6 +524,7 @@
                         {{ order.Exchange_Position }}
                       </p>
                       <input
+                        class="input_orders"
                         v-if="isEditingOrders"
                         v-model="order.Exchange_Position"
                       />
@@ -519,6 +533,7 @@
                     <td class="field__descriptions">
                       <p v-if="!isEditingOrders">{{ order.Fut_Hedge_flag }}</p>
                       <input
+                        class="input_orders"
                         v-if="isEditingOrders"
                         v-model="order.Fut_Hedge_flag"
                       />
@@ -529,6 +544,7 @@
                         {{ order.Maintenance_Margin_USD }}
                       </p>
                       <input
+                        class="input_orders"
                         v-if="isEditingOrders"
                         v-model="order.Maintenance_Margin_USD"
                       />
@@ -539,6 +555,7 @@
                         {{ order.Max_Slippage }}
                       </p>
                       <input
+                        class="input_orders"
                         v-if="isEditingOrders"
                         v-model="order.Max_Slippage"
                       />
@@ -548,14 +565,22 @@
                       <p v-if="!isEditingOrders">
                         {{ order.Price_USD }}
                       </p>
-                      <input v-if="isEditingOrders" v-model="order.Price_USD" />
+                      <input
+                        class="input_orders"
+                        v-if="isEditingOrders"
+                        v-model="order.Price_USD"
+                      />
                     </td>
 
                     <td class="field__descriptions">
                       <p v-if="!isEditingOrders">
                         {{ order.Status }}
                       </p>
-                      <input v-if="isEditingOrders" v-model="order.Status" />
+                      <input
+                        class="input_orders"
+                        v-if="isEditingOrders"
+                        v-model="order.Status"
+                      />
                     </td>
 
                     <td class="field__descriptions">
@@ -563,6 +588,7 @@
                         {{ order.Total_Margin_USD }}
                       </p>
                       <input
+                        class="input_orders"
                         v-if="isEditingOrders"
                         v-model="order.Total_Margin_USD"
                       />
@@ -793,7 +819,7 @@ export default {
         convertFunds[index].TransferTypeFunds = item[1];
       });
 
-      return convertFunds
+      return convertFunds;
     },
 
     convertOrders(response) {
@@ -1042,12 +1068,18 @@ export default {
 
   async mounted() {
     this.users = await this.getUsers();
-    /*     this.handleUsersSelect(); */
+    this.handleUsersSelect();
   },
 };
 </script>
 
 <style>
+.input_orders {
+  width: 100%;
+}
+.input_deals {
+  width: 100%;
+}
 .wrapper__table__btn__footer {
   padding-top: 20px;
   float: right;
@@ -1073,7 +1105,11 @@ export default {
   opacity: 0.4;
 }
 
-.table__tbody__tr:nth-last-child(2) td {
+/* .table__tbody__tr:nth-last-child(2) td {
+  border-top: 1px solid #fff3;
+} */
+
+.table__tbody__tr__margins:nth-last-child(2) td {
   border-top: 1px solid #fff3;
 }
 
