@@ -708,8 +708,6 @@ export default {
     };
   },
 
-  watch: {},
-
   computed: {
     ...mapGetters(["fullDataList"]),
 
@@ -749,7 +747,7 @@ export default {
     SendOrderDeals() {
       this.sendOrderDeals({
         client_id: this.$store.state.calculator.users,
-        table_json: this.positions,
+        table_json: this.deals,
       });
       this.isEditingDeals = false;
       this.handleUsersSelect();
@@ -781,11 +779,6 @@ export default {
           userId,
           url: "/admin/funds",
         });
-        console.log("marginsResponse", marginsResponse);
-        console.log("positionsResponse", positionsResponse);
-        console.log("dealsResponce", dealsResponce);
-        console.log("ordersResponse", ordersResponse);
-        console.log("fundsResponse", fundsResponse);
         console.log("$store", this.$store.state.calculator.users);
         this.margins = this.convertMargins(marginsResponse);
         this.positions = this.convertPositions(positionsResponse);
@@ -1002,16 +995,6 @@ export default {
       return convertPositions;
     },
 
-    onClickEditButton() {
-      if (this.activeTab === 3) {
-        this.isEditingDeals = true;
-        clearInterval(this.timerId);
-      } else if (this.activeTab === 4) {
-        this.isEditingOrders = true;
-        clearInterval(this.timerId);
-      }
-    },
-
     convertMargins(response) {
       let convertMargins = [];
       const availableFunds = Object.entries(response["Available Funds"]);
@@ -1043,6 +1026,16 @@ export default {
 
       // const lotsNumber = this.setupFields(lostReq, 'lostNumbers')
       return convertMargins;
+    },
+
+    onClickEditButton() {
+      if (this.activeTab === 3) {
+        this.isEditingDeals = true;
+        clearInterval(this.timerId);
+      } else if (this.activeTab === 4) {
+        this.isEditingOrders = true;
+        clearInterval(this.timerId);
+      }
     },
 
     // setupFields(array, fieldType) {
