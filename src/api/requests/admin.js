@@ -37,6 +37,8 @@ export default {
           table_json
         )}`
       );
+      // return axios.post(
+      //   `/admin/deals`, client_id);
     },
   },
 

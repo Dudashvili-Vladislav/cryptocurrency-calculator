@@ -237,6 +237,11 @@ let store = createStore({
     async sendOrderDeals({ commit }, { client_id, table_json }) {
       console.log("admin/deals", { client_id, table_json });
       let res = await $api.admin.deals.create(client_id, table_json);
+
+      // let res = await $api.admin.deals.create({
+      //   "client_id": 'test_user_01',
+      //   'table_json':{'Deal Id': {'0': '4aa01e04-a868-4ee4-91af-d58157a6b5a6'}, 'Client Id': {'0': 'test_user_01'}, 'Datetime': {'0': '2021-09-30 17:04:40.678232'},'Product Name': {'0': 'Call-spread'},'Fut Hedge flag': {'0': 'True'},'Max Slippage': {'0': 300},'Price USD': {'0': -117.77057712328406},'Total Margin USD': {'0': 708.9630541213185}, 'Maintenance Margin USD': {'0': 591.1924769980344},'Exchange Position': {'0': 'BTC-8OCT21-43000-C: 1, BTC-8OCT21-50000-C: -1'},'Status': {'0': 'done'},'Comment': {'0': ''}}
+      // });
       console.log("API-DEALS", $api);
       console.log("AN IMPORTANT RES sendOrderDeals", res.data.data);
     },

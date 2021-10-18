@@ -747,7 +747,7 @@ export default {
     SendOrderDeals() {
       this.sendOrderDeals({
         client_id: this.$store.state.calculator.users,
-        table_json: this.deals,
+        table_json: this.deals[0],
       });
       this.isEditingDeals = false;
       this.handleUsersSelect();
