@@ -235,8 +235,41 @@ let store = createStore({
     },
 
     async sendOrderDeals({ commit }, { client_id, table_json }) {
-      console.log("admin/deals", { client_id, table_json });
-      let res = await $api.admin.deals.create(client_id, table_json);
+      if (!Array.isArray(table_json)) return;
+      let keys_match = { // Собираем соответствие полей у нас, и полей которые просит сервеник
+        Deal_Id: "Deal Id",
+        Client_Id: "Client Id",
+        Datetime: "Datetime",
+        ProductName: "Product Name",
+        Fut_Hedge_flag: "Fut Hedge flag",
+        Max_Slippage: "Max Slippage",
+        Price_USD: 'Price USD',
+        Total_Margin_USD: 'Total Margin USD',
+        Maintenance_Margin_USD: "Maintenance Margin USD",
+        Exchange_Position: 'Exchange Position',
+        Status: "Status",
+        Comment: 'Comment'
+      }
+      let data = {}
+      table_json.map((row, index) => {
+        Object.keys(row).map(key => {
+          let req_key = keys_match[key] // находим новый ключ для значения
+          if (!req_key) return; // если ключа нет, уходим
+
+          if (data[req_key] === undefined) { // создаем объект в данных на каждый ключ
+            data[ req_key ] = {}
+          }
+          if (['Price_USD', 'Slippage', 'Total_Margin_USD', 'Maintenance_Margin_USD'].indexOf(key) > -1) { // данные, которые должны быть числами, агрессивно приводим к числам
+            data[ req_key ][ index ] = Number( row[ key ] )
+          } else {
+            data[ req_key ][ index ] = row[ key ]
+          }
+        })
+      })
+      data = JSON.stringify(data)
+      data = data.replaceAll('true', 'True').replaceAll('false', 'False') //.replaceAll('"', "'")
+
+      let res = await $api.admin.deals.create(client_id, data);
 
       // let res = await $api.admin.deals.create({
       //   "client_id": 'test_user_01',
