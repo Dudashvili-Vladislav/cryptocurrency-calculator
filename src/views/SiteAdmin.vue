@@ -1092,7 +1092,8 @@ export default {
 
 .wrapper__table__btn__footer {
   padding-top: 20px;
-  float: right;
+  justify-content: end;
+  padding-bottom: 30px;
 }
 
 .with-nav {
@@ -1145,6 +1146,10 @@ export default {
 
 .table__main td {
   padding: 8px 10px;
+}
+
+.table__main td:nth-child(2) {
+  max-width: 100px;
 }
 
 .table__thead {
@@ -1322,7 +1327,7 @@ a {
   align-items: center;
   margin-left: 48px;
   margin-right: 48px;
-  width: 153px;
+  min-width: 153px;
 }
 
 .lang-select {

@@ -195,7 +195,7 @@ a {
   align-items: center;
   margin-left: 48px;
   margin-right: 48px;
-  width: 153px;
+  min-width: 153px;
 }
 
 .lang-select {
