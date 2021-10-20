@@ -227,56 +227,114 @@ let store = createStore({
     },
 
     async sendOrderOrders({ commit }, { client_id, table_json }) {
+      if (!Array.isArray(table_json)) return; // Возвращаем если не массив
+      let keys_match = {
+        // Собираем соответствие полей у нас, и полей которые просит сервеник
+        Deal_Id: "Deal Id",
+        Client_id_orders: "Client Id",
+        Datetime: "Datetime",
+        Product_name_orders: "Product Name",
+        Fut_Hedge_flag: "Fut Hedge flag",
+        Max_Slippage: "Max Slippage",
+        Price_USD: "Price USD",
+        Total_Margin_USD: "Total Margin USD",
+        Maintenance_Margin_USD: "Maintenance Margin USD",
+        Exchange_Position: "Exchange Position",
+        Status: "Status",
+        CommentOrders: "Comment",
+      };
+      let data = {};
+      table_json.map((row, index) => {
+        Object.keys(row).map((key) => {
+          let req_key = keys_match[key]; // находим новый ключ для значения
+          if (!req_key) return; // если ключа нет, уходим
+
+          if (data[req_key] === undefined) {
+            // создаем объект в данных на каждый ключ
+            data[req_key] = {};
+          }
+          if (
+            [
+              "Price_USD",
+              "Slippage",
+              "Total_Margin_USD",
+              "Maintenance_Margin_USD",
+            ].indexOf(key) > -1
+          ) {
+            // данные, которые должны быть числами, агрессивно приводим к числам
+            data[req_key][index] = Number(row[key]);
+          } else {
+            data[req_key][index] = row[key];
+          }
+        });
+      });
+      data = JSON.stringify(data);
+      data = data.replaceAll("true", "True").replaceAll("false", "False");
+      console.log("DATA-REQUEST-DATA", data);
+      console.log("DATA-REQUEST-table_json-ORDER", table_json);
+      let res = await $api.admin.orders.create(client_id, data);
+      /* 
       console.log("/admin/orders", { client_id, table_json });
-      let res = await $api.admin.orders.create(client_id, table_json);
       console.log("RES", res);
       console.log("API-ORDERS", $api);
-      console.log("AN IMPORTANT RES", res.data.data);
+      console.log("AN IMPORTANT RES", res.data.data);  */
     },
 
     async sendOrderDeals({ commit }, { client_id, table_json }) {
-      if (!Array.isArray(table_json)) return;
-      let keys_match = { // Собираем соответствие полей у нас, и полей которые просит сервеник
+      if (!Array.isArray(table_json)) return; // Возвращаем если не массив
+      let keys_match = {
+        // Собираем соответствие полей у нас, и полей которые просит сервеник
         Deal_Id: "Deal Id",
         Client_Id: "Client Id",
         Datetime: "Datetime",
         ProductName: "Product Name",
         Fut_Hedge_flag: "Fut Hedge flag",
         Max_Slippage: "Max Slippage",
-        Price_USD: 'Price USD',
-        Total_Margin_USD: 'Total Margin USD',
+        Price_USD: "Price USD",
+        Total_Margin_USD: "Total Margin USD",
         Maintenance_Margin_USD: "Maintenance Margin USD",
-        Exchange_Position: 'Exchange Position',
+        Exchange_Position: "Exchange Position",
         Status: "Status",
-        Comment: 'Comment'
-      }
-      let data = {}
+        Comment: "Comment",
+      };
+      let data = {};
       table_json.map((row, index) => {
-        Object.keys(row).map(key => {
-          let req_key = keys_match[key] // находим новый ключ для значения
+        Object.keys(row).map((key) => {
+          let req_key = keys_match[key]; // находим новый ключ для значения
           if (!req_key) return; // если ключа нет, уходим
 
-          if (data[req_key] === undefined) { // создаем объект в данных на каждый ключ
-            data[ req_key ] = {}
+          if (data[req_key] === undefined) {
+            // создаем объект в данных на каждый ключ
+            data[req_key] = {};
           }
-          if (['Price_USD', 'Slippage', 'Total_Margin_USD', 'Maintenance_Margin_USD'].indexOf(key) > -1) { // данные, которые должны быть числами, агрессивно приводим к числам
-            data[ req_key ][ index ] = Number( row[ key ] )
+          if (
+            [
+              "Price_USD",
+              "Slippage",
+              "Total_Margin_USD",
+              "Maintenance_Margin_USD",
+            ].indexOf(key) > -1
+          ) {
+            // данные, которые должны быть числами, агрессивно приводим к числам
+            data[req_key][index] = Number(row[key]);
           } else {
-            data[ req_key ][ index ] = row[ key ]
+            data[req_key][index] = row[key];
           }
-        })
-      })
-      data = JSON.stringify(data)
-      data = data.replaceAll('true', 'True').replaceAll('false', 'False') //.replaceAll('"', "'")
+        });
+      });
+      data = JSON.stringify(data);
+      data = data.replaceAll("true", "True").replaceAll("false", "False"); //.replaceAll('"', "'")
 
+      console.log("DATA-REQUEST-DATA-DEALS", data);
+      console.log("DATA-REQUEST-table_json-DEALS", table_json);
       let res = await $api.admin.deals.create(client_id, data);
 
       // let res = await $api.admin.deals.create({
       //   "client_id": 'test_user_01',
       //   'table_json':{'Deal Id': {'0': '4aa01e04-a868-4ee4-91af-d58157a6b5a6'}, 'Client Id': {'0': 'test_user_01'}, 'Datetime': {'0': '2021-09-30 17:04:40.678232'},'Product Name': {'0': 'Call-spread'},'Fut Hedge flag': {'0': 'True'},'Max Slippage': {'0': 300},'Price USD': {'0': -117.77057712328406},'Total Margin USD': {'0': 708.9630541213185}, 'Maintenance Margin USD': {'0': 591.1924769980344},'Exchange Position': {'0': 'BTC-8OCT21-43000-C: 1, BTC-8OCT21-50000-C: -1'},'Status': {'0': 'done'},'Comment': {'0': ''}}
       // });
-      console.log("API-DEALS", $api);
-      console.log("AN IMPORTANT RES sendOrderDeals", res.data.data);
+      /*       console.log("API-DEALS", $api);
+      console.log("AN IMPORTANT RES sendOrderDeals", res.data.data); */
     },
 
     async getStrikes_actions(context) {

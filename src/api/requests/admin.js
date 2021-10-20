@@ -46,9 +46,7 @@ export default {
     },
     create(client_id, table_json) {
       return axios.post(
-        `/admin/orders?client_id=${client_id}&table_json=${JSON.stringify(
-          table_json
-        )}`
+        `/admin/orders?client_id=${client_id}&table_json=${table_json}`
       );
     },
   },
