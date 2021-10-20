@@ -734,7 +734,7 @@ export default {
     SendOrderOrders() {
       this.sendOrderOrders({
         client_id: this.$store.state.calculator.users,
-        table_json: this.margins,
+        table_json: this.orders,
       });
       this.isEditingOrders = false;
       this.handleUsersSelect();
