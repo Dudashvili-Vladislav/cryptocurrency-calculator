@@ -231,9 +231,9 @@ let store = createStore({
       let keys_match = {
         // Собираем соответствие полей у нас, и полей которые просит сервеник
         Deal_Id: "Deal Id",
-        Client_id_orders: "Client Id",
+        Client_Id: "Client Id",
         Datetime: "Datetime",
-        Product_name_orders: "Product Name",
+        ProductName: "Product Name",
         Fut_Hedge_flag: "Fut Hedge flag",
         Max_Slippage: "Max Slippage",
         Price_USD: "Price USD",
@@ -241,9 +241,10 @@ let store = createStore({
         Maintenance_Margin_USD: "Maintenance Margin USD",
         Exchange_Position: "Exchange Position",
         Status: "Status",
-        CommentOrders: "Comment",
+        Comment: "Comment",
       };
       let data = {};
+      console.log("DATA-ORDER", data);
       table_json.map((row, index) => {
         Object.keys(row).map((key) => {
           let req_key = keys_match[key]; // находим новый ключ для значения
@@ -298,6 +299,7 @@ let store = createStore({
         Comment: "Comment",
       };
       let data = {};
+      console.log("DATA-DEALS", data);
       table_json.map((row, index) => {
         Object.keys(row).map((key) => {
           let req_key = keys_match[key]; // находим новый ключ для значения

@@ -1,662 +1,680 @@
 <template>
-  <div class="SiteAdmin">
-    <div class="header-wrapper flex  ">
-      <h1 class="logo font-bold text-xl">
-        Calculator. ADMIN
-      </h1>
+  <div class="wrapper-siteAdmin">
+    <div class="SiteAdmin">
+      <div class="header-wrapper flex  ">
+        <h1 class="logo font-bold text-xl">
+          Calculator. ADMIN
+        </h1>
 
-      <div class="user-panel ml-auto">
-        <!--         <div class="swicher">
+        <div class="user-panel ml-auto">
+          <!--         <div class="swicher">
                   <input class="switch" id="switch1" type="checkbox" />
                   <label class="switch-for" for="switch1"></label>
                 </div> -->
 
-        <vSelect
-          :modelValue="$store.state.calculator.lang"
-          @input="changeLang"
-          class="lang-select"
-        >
-          <option
-            v-for="locale in $i18n.availableLocales"
-            :key="`locale-${locale}`"
-            :value="locale"
-            class="option"
-          >
-            {{ locale.toUpperCase() }}
-          </option>
-        </vSelect>
-
-        <div class="user-panel-wrap">
-          <div class="user-avatar">
-            <i class="icon user-icon"></i>
-          </div>
-
-          <div class="user-info" v-if="$store.state.auth.user">
-            <div class="user-name">
-              {{ $store.state.auth.user.displayName }}
-            </div>
-            <div class="user-type">{{ $t("user") }}</div>
-          </div>
-        </div>
-        <div class="exit">
-          <a @click.prevent="loguot" class="btn">
-            <img
-              class=" pr-2 img__exit"
-              src="@/assets/images/exit-icon.png"
-              alt=""
-            />
-            {{ $t("exit") }}
-          </a>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="select">
-        <div
-          class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start"
-        >
           <vSelect
-            :modelValue="$store.state.calculator.users"
-            :options="users"
-            :label="$t('Select_user_admin')"
-            @input="handleUsersSelect"
-            class="underlying select-gradient"
+            :modelValue="$store.state.calculator.lang"
+            @input="changeLang"
+            class="lang-select"
           >
+            <option
+              v-for="locale in $i18n.availableLocales"
+              :key="`locale-${locale}`"
+              :value="locale"
+              class="option"
+            >
+              {{ locale.toUpperCase() }}
+            </option>
           </vSelect>
+
+          <div class="user-panel-wrap">
+            <div class="user-avatar">
+              <i class="icon user-icon"></i>
+            </div>
+
+            <div class="user-info" v-if="$store.state.auth.user">
+              <div class="user-name">
+                {{ $store.state.auth.user.displayName }}
+              </div>
+              <div class="user-type">{{ $t("user") }}</div>
+            </div>
+          </div>
+          <div class="exit">
+            <a @click.prevent="loguot" class="btn">
+              <img
+                class=" pr-2 img__exit"
+                src="@/assets/images/exit-icon.png"
+                alt=""
+              />
+              {{ $t("exit") }}
+            </a>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="select">
+          <div
+            class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start"
+          >
+            <vSelect
+              :modelValue="$store.state.calculator.users"
+              :options="users"
+              :label="$t('Select_user_admin')"
+              @input="handleUsersSelect"
+              class="underlying select-gradient"
+            >
+            </vSelect>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="wrapper__table__btn">
-      <div class="btn__tab-nav" v-if="activeTab === 3 || activeTab === 4">
-        <button class="btn test" @click="onClickEditButton">
-          {{ $t("edit") }}
-        </button>
-      </div>
-      <!-- Tabs -->
+      <div class="wrapper__table__btn">
+        <div class="btn__tab-nav" v-if="activeTab === 3 || activeTab === 4">
+          <button class="btn test" @click="onClickEditButton">
+            {{ $t("edit") }}
+          </button>
+        </div>
+        <!-- Tabs -->
 
-      <div class="container with-nav">
-        <ul class="tab-nav">
-          <li class="tab-nav-item">
-            <a
-              @mouseover="active = true"
-              @mouseleave="active = false"
-              @click="changeTab(1)"
-              class="tab-link"
-              :class="{ active: activeTab === 1 }"
-              >Margins</a
-            >
-          </li>
-
-          <li class="tab-nav-item">
-            <a
-              @click="changeTab(2)"
-              class="tab-link"
-              :class="{ active: activeTab === 2 }"
-              >Positions</a
-            >
-          </li>
-
-          <li class="tab-nav-item">
-            <a
-              @click="changeTab(3)"
-              class="tab-link"
-              :class="{ active: activeTab === 3 }"
-              >Deals</a
-            >
-          </li>
-
-          <li class="tab-nav-item">
-            <a
-              @click="changeTab(4)"
-              class="tab-link"
-              :class="{ active: activeTab === 4 }"
-              >Orders</a
-            >
-          </li>
-
-          <li class="tab-nav-item">
-            <a
-              @click="changeTab(5)"
-              class="tab-link"
-              :class="{ active: activeTab === 5 }"
-              >Funds</a
-            >
-          </li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-item" v-if="activeTab === 1">
-            <div class="tabe__wrapper">
-              <table class="table__main w-full">
-                <thead class="table__thead">
-                  <tr class="table__tr">
-                    <th class="table__th__header">Client Id</th>
-                    <th class="table__th__header">Available funds</th>
-                    <th class="table__th__header">Currency</th>
-                    <th class="table__th__header">Margin Requirements</th>
-                    <th class="table__th__header">Notional</th>
-                  </tr>
-                </thead>
-                <div class="hr__wrapper">
-                  <hr class="table__hr" />
-                </div>
-                <tbody class="table__tbody">
-                  <tr
-                    class="table__tbody__tr__margins"
-                    v-for="(margin, index) in margins"
-                    :key="index"
-                  >
-                    <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ margin.Client_Id }}</p>
-                      <input v-if="isEditing" v-model="margin.Client_Id" />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ margin.availableFunds }}</p>
-                      <input v-if="isEditing" v-model="margin.availableFunds" />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ margin.currency }}</p>
-                      <input v-if="isEditing" v-model="margin.currency" />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ margin.marginRequirements }}</p>
-                      <input
-                        v-if="isEditing"
-                        v-model="margin.marginRequirements"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditing">{{ margin.fundsNotional }}</p>
-                      <input v-if="isEditing" v-model="margin.fundsNotional" />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="tab-item" v-if="activeTab === 2">
-            <div class="tabe__wrapper">
-              <table class="table__main w-full">
-                <thead class="table__thead">
-                  <tr class="table__tr">
-                    <th class="table__th__header">Product Name</th>
-                    <th class="table__th__header">Client Id</th>
-                    <th class="table__th__header">Amount</th>
-                    <th class="table__th__header">Exchange Position</th>
-                    <th class="table__th__header">Fin Result USD</th>
-                    <th class="table__th__header">Fut Hedge flag</th>
-                    <th class="table__th__header">Initial Price USD</th>
-                  </tr>
-                </thead>
-                <div class="hr__wrapper">
-                  <hr class="table__hr" />
-                </div>
-                <tbody class="table__tbody">
-                  <tr
-                    class="table__tbody__tr"
-                    v-for="(position, index) in positions"
-                    :key="index"
-                  >
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingPosition">
-                        {{ position.ProductName }}
-                      </p>
-                      <input
-                        v-if="isEditingPosition"
-                        v-model="position.ProductName"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingPosition">{{ position.Client_Id }}</p>
-                      <input
-                        v-if="isEditingPosition"
-                        v-model="position.Client_Id"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingPosition">{{ position.Amount }}</p>
-                      <input
-                        v-if="isEditingPosition"
-                        v-model="position.Amount"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingPosition">
-                        {{ position.ExchangePosition }}
-                      </p>
-                      <input
-                        v-if="isEditingPosition"
-                        v-model="position.ExchangePosition"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingPosition">
-                        {{ position.FinResultUSD }}
-                      </p>
-                      <input
-                        v-if="isEditingPosition"
-                        v-model="position.FinResultUSD"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingPosition">
-                        {{ position.FutHedgeFlag }}
-                      </p>
-                      <input
-                        v-if="isEditingPosition"
-                        v-model="position.FutHedgeFlag"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingPosition">
-                        {{ position.InitialPriceUSD }}
-                      </p>
-                      <input
-                        v-if="isEditingPosition"
-                        v-model="position.InitialPriceUSD"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="tab-item" v-if="activeTab === 3">
-            <div class="tabe__wrapper">
-              <table class="table__main w-full">
-                <thead class="table__thead">
-                  <tr class="table__tr">
-                    <th class="table__th__header">Product Name</th>
-                    <th class="table__th__header">Client Id</th>
-                    <th class="table__th__header">Comment</th>
-                    <th class="table__th__header">Datetime</th>
-                    <th class="table__th__header">Deal Id</th>
-                    <th class="table__th__header">Exchange Position</th>
-                    <th class="table__th__header">Fut Hedge flag</th>
-                    <th class="table__th__header">Maintenance Margin USD</th>
-                    <th class="table__th__header">Max Slippage</th>
-                    <th class="table__th__header">Price USD</th>
-                    <th class="table__th__header">Status</th>
-                    <th class="table__th__header">Total Margin USD</th>
-                  </tr>
-                </thead>
-                <div class="hr__wrapper">
-                  <hr class="table__hr" />
-                </div>
-                <tbody class="table__tbody">
-                  <tr
-                    class="table__tbody__tr"
-                    v-for="(deal, index) in deals"
-                    :key="index"
-                  >
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">
-                        {{ deal.ProductName }}
-                      </p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.ProductName"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">{{ deal.Client_Id }}</p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Client_Id"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">{{ deal.Comment }}</p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Comment"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">{{ deal.Datetime }}</p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Datetime"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">{{ deal.Deal_Id }}</p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Deal_Id"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">{{ deal.Exchange_Position }}</p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Exchange_Position"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">{{ deal.Fut_Hedge_flag }}</p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Fut_Hedge_flag"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">
-                        {{ deal.Maintenance_Margin_USD }}
-                      </p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Maintenance_Margin_USD"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">
-                        {{ deal.Max_Slippage }}
-                      </p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Max_Slippage"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">
-                        {{ deal.Price_USD }}
-                      </p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Price_USD"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">
-                        {{ deal.Status }}
-                      </p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Status"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingDeals">
-                        {{ deal.Total_Margin_USD }}
-                      </p>
-                      <input
-                        class="input_deals"
-                        v-if="isEditingDeals"
-                        v-model="deal.Total_Margin_USD"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div
-                class="wrapper__table__btn__footer flex"
-                v-if="this.deals != 0"
+        <div class="container with-nav">
+          <ul class="tab-nav">
+            <li class="tab-nav-item">
+              <a
+                @mouseover="active = true"
+                @mouseleave="active = false"
+                @click="changeTab(1)"
+                class="tab-link"
+                :class="{ active: activeTab === 1 }"
+                >Margins</a
               >
-                <v-button
-                  class="button-recomended "
-                  @upGetStatisctics="SendOrderDeals"
-                >
-                  {{ $t("save") }}
-                </v-button>
-                <v-button class="button-cancel" @upGetStatisctics="cancelOrder"
-                  >{{ $t("back") }}
-                </v-button>
+            </li>
+
+            <li class="tab-nav-item">
+              <a
+                @click="changeTab(2)"
+                class="tab-link"
+                :class="{ active: activeTab === 2 }"
+                >Positions</a
+              >
+            </li>
+
+            <li class="tab-nav-item">
+              <a
+                @click="changeTab(3)"
+                class="tab-link"
+                :class="{ active: activeTab === 3 }"
+                >Deals</a
+              >
+            </li>
+
+            <li class="tab-nav-item">
+              <a
+                @click="changeTab(4)"
+                class="tab-link"
+                :class="{ active: activeTab === 4 }"
+                >Orders</a
+              >
+            </li>
+
+            <li class="tab-nav-item">
+              <a
+                @click="changeTab(5)"
+                class="tab-link"
+                :class="{ active: activeTab === 5 }"
+                >Funds</a
+              >
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-item" v-if="activeTab === 1">
+              <div class="tabe__wrapper">
+                <table class="table__main w-full">
+                  <thead class="table__thead">
+                    <tr class="table__tr">
+                      <th class="table__th__header">Client Id</th>
+                      <th class="table__th__header">Available funds</th>
+                      <th class="table__th__header">Currency</th>
+                      <th class="table__th__header">Margin Requirements</th>
+                      <th class="table__th__header">Notional</th>
+                    </tr>
+                  </thead>
+                  <div class="hr__wrapper">
+                    <hr class="table__hr" />
+                  </div>
+                  <tbody class="table__tbody">
+                    <tr
+                      class="table__tbody__tr__margins"
+                      v-for="(margin, index) in margins"
+                      :key="index"
+                    >
+                      <td class="field__descriptions">
+                        <p v-if="!isEditing">{{ margin.Client_Id }}</p>
+                        <input v-if="isEditing" v-model="margin.Client_Id" />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditing">{{ margin.availableFunds }}</p>
+                        <input
+                          v-if="isEditing"
+                          v-model="margin.availableFunds"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditing">{{ margin.currency }}</p>
+                        <input v-if="isEditing" v-model="margin.currency" />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditing">{{ margin.marginRequirements }}</p>
+                        <input
+                          v-if="isEditing"
+                          v-model="margin.marginRequirements"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditing">{{ margin.fundsNotional }}</p>
+                        <input
+                          v-if="isEditing"
+                          v-model="margin.fundsNotional"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
 
-          <div class="tab-item" v-if="activeTab === 4">
-            <div class="tabe__wrapper">
-              <table class="table__main w-full">
-                <thead class="table__thead">
-                  <tr class="table__tr">
-                    <th class="table__th__header">Product Name</th>
-                    <th class="table__th__header">Client Id</th>
-                    <th class="table__th__header">Comment</th>
-                    <th class="table__th__header">Datetime</th>
-                    <th class="table__th__header">Deal Id</th>
-                    <th class="table__th__header">Exchange Position</th>
-                    <th class="table__th__header">Fut Hedge flag</th>
-                    <th class="table__th__header">Maintenance Margin USD</th>
-                    <th class="table__th__header">Max Slippage</th>
-                    <th class="table__th__header">Price USD</th>
-                    <th class="table__th__header">Status</th>
-                    <th class="table__th__header">Total Margin USD</th>
-                  </tr>
-                </thead>
-                <div class="hr__wrapper">
-                  <hr class="table__hr" />
-                </div>
-                <tbody class="table__tbody">
-                  <tr
-                    class="table__tbody__tr"
-                    v-for="(order, index) in orders"
-                    :key="index"
-                  >
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">
-                        {{ order.ProductName }}
-                      </p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.ProductName"
-                      />
-                    </td>
+            <div class="tab-item" v-if="activeTab === 2">
+              <div class="tabe__wrapper">
+                <table class="table__main w-full">
+                  <thead class="table__thead">
+                    <tr class="table__tr">
+                      <th class="table__th__header">Product Name</th>
+                      <th class="table__th__header">Client Id</th>
+                      <th class="table__th__header">Amount</th>
+                      <th class="table__th__header">Exchange Position</th>
+                      <th class="table__th__header">Fin Result USD</th>
+                      <th class="table__th__header">Fut Hedge flag</th>
+                      <th class="table__th__header">Initial Price USD</th>
+                    </tr>
+                  </thead>
+                  <div class="hr__wrapper">
+                    <hr class="table__hr" />
+                  </div>
+                  <tbody class="table__tbody">
+                    <tr
+                      class="table__tbody__tr"
+                      v-for="(position, index) in positions"
+                      :key="index"
+                    >
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingPosition">
+                          {{ position.ProductName }}
+                        </p>
+                        <input
+                          v-if="isEditingPosition"
+                          v-model="position.ProductName"
+                        />
+                      </td>
 
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">
-                        {{ order.Client_Id }}
-                      </p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Client_Id"
-                      />
-                    </td>
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingPosition">
+                          {{ position.Client_Id }}
+                        </p>
+                        <input
+                          v-if="isEditingPosition"
+                          v-model="position.Client_Id"
+                        />
+                      </td>
 
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">{{ order.Comment }}</p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Comment"
-                      />
-                    </td>
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingPosition">{{ position.Amount }}</p>
+                        <input
+                          v-if="isEditingPosition"
+                          v-model="position.Amount"
+                        />
+                      </td>
 
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">{{ order.Datetime }}</p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Datetime"
-                      />
-                    </td>
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingPosition">
+                          {{ position.ExchangePosition }}
+                        </p>
+                        <input
+                          v-if="isEditingPosition"
+                          v-model="position.ExchangePosition"
+                        />
+                      </td>
 
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">{{ order.Deal_Id }}</p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Deal_Id"
-                      />
-                    </td>
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingPosition">
+                          {{ position.FinResultUSD }}
+                        </p>
+                        <input
+                          v-if="isEditingPosition"
+                          v-model="position.FinResultUSD"
+                        />
+                      </td>
 
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">
-                        {{ order.Exchange_Position }}
-                      </p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Exchange_Position"
-                      />
-                    </td>
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingPosition">
+                          {{ position.FutHedgeFlag }}
+                        </p>
+                        <input
+                          v-if="isEditingPosition"
+                          v-model="position.FutHedgeFlag"
+                        />
+                      </td>
 
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">{{ order.Fut_Hedge_flag }}</p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Fut_Hedge_flag"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">
-                        {{ order.Maintenance_Margin_USD }}
-                      </p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Maintenance_Margin_USD"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">
-                        {{ order.Max_Slippage }}
-                      </p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Max_Slippage"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">
-                        {{ order.Price_USD }}
-                      </p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Price_USD"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">
-                        {{ order.Status }}
-                      </p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Status"
-                      />
-                    </td>
-
-                    <td class="field__descriptions">
-                      <p v-if="!isEditingOrders">
-                        {{ order.Total_Margin_USD }}
-                      </p>
-                      <input
-                        class="input_orders"
-                        v-if="isEditingOrders"
-                        v-model="order.Total_Margin_USD"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div
-                class="wrapper__table__btn__footer flex"
-                v-if="this.deals != 0"
-              >
-                <v-button
-                  class="button-recomended "
-                  @upGetStatisctics="SendOrderOrders"
-                >
-                  {{ $t("save") }}
-                </v-button>
-                <v-button class="button-cancel" @upGetStatisctics="cancelOrder"
-                  >{{ $t("back") }}
-                </v-button>
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingPosition">
+                          {{ position.InitialPriceUSD }}
+                        </p>
+                        <input
+                          v-if="isEditingPosition"
+                          v-model="position.InitialPriceUSD"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
 
-          <div class="tab-item" v-if="activeTab === 5">
-            <div class="tabe__wrapper">
-              <table class="table__main w-full">
-                <thead class="table__thead">
-                  <tr class="table__tr">
-                    <th class="table__th__header">Client Id</th>
-                    <th class="table__th__header">Amount</th>
-                    <th class="table__th__header">Currency</th>
-                    <th class="table__th__header">Transfer type</th>
-                  </tr>
-                </thead>
-                <div class="hr__wrapper">
-                  <hr class="table__hr" />
-                </div>
-                <tbody class="table__tbody">
-                  <tr
-                    class="table__tbody__tr"
-                    v-for="(fund, index) in funds"
-                    :key="index"
+            <div class="tab-item" v-if="activeTab === 3">
+              <div class="tabe__wrapper">
+                <table class="table__main w-full">
+                  <thead class="table__thead">
+                    <tr class="table__tr">
+                      <th class="table__th__header">Product Name</th>
+                      <th class="table__th__header">Client Id</th>
+                      <th class="table__th__header">Comment</th>
+                      <th class="table__th__header">Datetime</th>
+                      <th class="table__th__header">Deal Id</th>
+                      <th class="table__th__header">Exchange Position</th>
+                      <th class="table__th__header">Fut Hedge flag</th>
+                      <th class="table__th__header">Maintenance Margin USD</th>
+                      <th class="table__th__header">Max Slippage</th>
+                      <th class="table__th__header">Price USD</th>
+                      <th class="table__th__header">Status</th>
+                      <th class="table__th__header">Total Margin USD</th>
+                    </tr>
+                  </thead>
+                  <div class="hr__wrapper">
+                    <hr class="table__hr" />
+                  </div>
+                  <tbody class="table__tbody">
+                    <tr
+                      class="table__tbody__tr"
+                      v-for="(deal, index) in deals"
+                      :key="index"
+                    >
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">
+                          {{ deal.ProductName }}
+                        </p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.ProductName"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">{{ deal.Client_Id }}</p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Client_Id"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">{{ deal.Comment }}</p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Comment"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">{{ deal.Datetime }}</p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Datetime"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">{{ deal.Deal_Id }}</p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Deal_Id"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">
+                          {{ deal.Exchange_Position }}
+                        </p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Exchange_Position"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">{{ deal.Fut_Hedge_flag }}</p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Fut_Hedge_flag"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">
+                          {{ deal.Maintenance_Margin_USD }}
+                        </p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Maintenance_Margin_USD"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">
+                          {{ deal.Max_Slippage }}
+                        </p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Max_Slippage"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">
+                          {{ deal.Price_USD }}
+                        </p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Price_USD"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">
+                          {{ deal.Status }}
+                        </p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Status"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingDeals">
+                          {{ deal.Total_Margin_USD }}
+                        </p>
+                        <input
+                          class="input_deals"
+                          v-if="isEditingDeals"
+                          v-model="deal.Total_Margin_USD"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div
+                  class="wrapper__table__btn__footer flex"
+                  v-if="this.deals != 0"
+                >
+                  <v-button
+                    class="button-recomended "
+                    @upGetStatisctics="SendOrderDeals"
                   >
-                    <td class="field__descriptions">
-                      <p>
-                        {{ fund.ClientIdFunds }}
-                      </p>
-                    </td>
+                    {{ $t("save") }}
+                  </v-button>
+                  <v-button
+                    class="button-cancel"
+                    @upGetStatisctics="cancelOrder"
+                    >{{ $t("back") }}
+                  </v-button>
+                </div>
+              </div>
+            </div>
 
-                    <td class="field__descriptions">
-                      <p>
-                        {{ fund.AmountFunds }}
-                      </p>
-                    </td>
+            <div class="tab-item" v-if="activeTab === 4">
+              <div class="tabe__wrapper">
+                <table class="table__main w-full">
+                  <thead class="table__thead">
+                    <tr class="table__tr">
+                      <th class="table__th__header">Product Name</th>
+                      <th class="table__th__header">Client Id</th>
+                      <th class="table__th__header">Comment</th>
+                      <th class="table__th__header">Datetime</th>
+                      <th class="table__th__header">Deal Id</th>
+                      <th class="table__th__header">Exchange Position</th>
+                      <th class="table__th__header">Fut Hedge flag</th>
+                      <th class="table__th__header">Maintenance Margin USD</th>
+                      <th class="table__th__header">Max Slippage</th>
+                      <th class="table__th__header">Price USD</th>
+                      <th class="table__th__header">Status</th>
+                      <th class="table__th__header">Total Margin USD</th>
+                    </tr>
+                  </thead>
+                  <div class="hr__wrapper">
+                    <hr class="table__hr" />
+                  </div>
+                  <tbody class="table__tbody">
+                    <tr
+                      class="table__tbody__tr"
+                      v-for="(order, index) in orders"
+                      :key="index"
+                    >
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">
+                          {{ order.ProductName }}
+                        </p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.ProductName"
+                        />
+                      </td>
 
-                    <td class="field__descriptions">
-                      <p>
-                        {{ fund.CurrencyFunds }}
-                      </p>
-                    </td>
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">
+                          {{ order.Client_Id }}
+                        </p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Client_Id"
+                        />
+                      </td>
 
-                    <td class="field__descriptions">
-                      <p>
-                        {{ fund.TransferTypeFunds }}
-                      </p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">{{ order.Comment }}</p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Comment"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">{{ order.Datetime }}</p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Datetime"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">{{ order.Deal_Id }}</p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Deal_Id"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">
+                          {{ order.Exchange_Position }}
+                        </p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Exchange_Position"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">
+                          {{ order.Fut_Hedge_flag }}
+                        </p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Fut_Hedge_flag"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">
+                          {{ order.Maintenance_Margin_USD }}
+                        </p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Maintenance_Margin_USD"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">
+                          {{ order.Max_Slippage }}
+                        </p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Max_Slippage"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">
+                          {{ order.Price_USD }}
+                        </p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Price_USD"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">
+                          {{ order.Status }}
+                        </p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Status"
+                        />
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p v-if="!isEditingOrders">
+                          {{ order.Total_Margin_USD }}
+                        </p>
+                        <input
+                          class="input_orders"
+                          v-if="isEditingOrders"
+                          v-model="order.Total_Margin_USD"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div
+                  class="wrapper__table__btn__footer flex"
+                  v-if="orders != 0"
+                >
+                  <v-button
+                    class="button-recomended "
+                    @upGetStatisctics="SendOrderOrders"
+                  >
+                    {{ $t("save") }}
+                  </v-button>
+                  <v-button
+                    class="button-cancel"
+                    @upGetStatisctics="cancelOrder"
+                    >{{ $t("back") }}
+                  </v-button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-item" v-if="activeTab === 5">
+              <div class="tabe__wrapper">
+                <table class="table__main w-full">
+                  <thead class="table__thead">
+                    <tr class="table__tr">
+                      <th class="table__th__header">Client Id</th>
+                      <th class="table__th__header">Amount</th>
+                      <th class="table__th__header">Currency</th>
+                      <th class="table__th__header">Transfer type</th>
+                    </tr>
+                  </thead>
+                  <div class="hr__wrapper">
+                    <hr class="table__hr" />
+                  </div>
+                  <tbody class="table__tbody">
+                    <tr
+                      class="table__tbody__tr"
+                      v-for="(fund, index) in funds"
+                      :key="index"
+                    >
+                      <td class="field__descriptions">
+                        <p>
+                          {{ fund.ClientIdFunds }}
+                        </p>
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p>
+                          {{ fund.AmountFunds }}
+                        </p>
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p>
+                          {{ fund.CurrencyFunds }}
+                        </p>
+                      </td>
+
+                      <td class="field__descriptions">
+                        <p>
+                          {{ fund.TransferTypeFunds }}
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -736,6 +754,7 @@ export default {
         client_id: this.$store.state.calculator.users,
         table_json: this.orders,
       });
+      console.log("table_json-orders", this.orders);
       this.isEditingOrders = false;
       this.handleUsersSelect();
     },
@@ -745,6 +764,7 @@ export default {
         client_id: this.$store.state.calculator.users,
         table_json: this.deals,
       });
+      console.log("table_json-deals", this.deals);
       this.isEditingDeals = false;
       this.handleUsersSelect();
     },
@@ -1111,7 +1131,6 @@ export default {
 .tabe__wrapper {
   flex: 1 1 100%;
   max-width: 2000px;
-  max-height: 700px;
   background: linear-gradient(
     210.96deg,
     rgba(55, 36, 88, 0.61) 0.01%,
