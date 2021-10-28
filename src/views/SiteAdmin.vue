@@ -64,6 +64,14 @@
               class="underlying select-gradient"
             >
             </vSelect>
+
+            <vSelect
+              :modelValue="sortCurrency"
+              @input="changeSortCurrency"
+              class="underlying select-gradient"
+              :options="['BTC', 'ETH']"
+            >
+            </vSelect>
           </div>
         </div>
       </div>
@@ -144,7 +152,7 @@
                   <tbody class="table__tbody">
                     <tr
                       class="table__tbody__tr__margins"
-                      v-for="(margin, index) in margins"
+                      v-for="(margin, index) in filtredMargins"
                       :key="index"
                     >
                       <td class="field__descriptions">
@@ -720,6 +728,7 @@ export default {
       isEditingPosition: false,
       isEditingDeals: false,
       isEditingOrders: false,
+      sortCurrency: "BTC",
 
       loguot: () => {
         store.dispatch("auth/signOut");
@@ -734,6 +743,10 @@ export default {
     ...mapState({
       fullDataListState: (state) => state.fullDataList,
     }),
+
+    filtredMargins() {
+      return this.margins.filter((item) => item.currency === this.sortCurrency);
+    },
   },
 
   methods: {
@@ -779,34 +792,38 @@ export default {
       const userId = userID || this.$store.state.calculator.users;
       clearInterval(this.timerId);
       this.$store.commit("calculator/setUserSiteAdmin", userId);
-
+      await this.getUserForTable(userId);
       this.timerId = setInterval(async () => {
-        const marginsResponse = await this.fetchCleintTableInfoByTab({
-          userId,
-          url: "/admin/margins",
-        });
-        const positionsResponse = await this.fetchCleintTableInfoByTab({
-          userId,
-          url: "/admin/positions",
-        });
-        const dealsResponce = await this.fetchCleintTableInfoByTab({
-          userId,
-          url: "/admin/deals",
-        });
-        const ordersResponse = await this.fetchCleintTableInfoByTab({
-          userId,
-          url: "/admin/orders",
-        });
-        const fundsResponse = await this.fetchCleintTableInfoByTab({
-          userId,
-          url: "/admin/funds",
-        });
-        this.margins = this.convertMargins(marginsResponse);
-        this.positions = this.convertPositions(positionsResponse);
-        this.deals = this.convertDeals(dealsResponce);
-        this.orders = this.convertOrders(ordersResponse);
-        this.funds = this.convertFunds(fundsResponse);
+        this.getUserForTable(userId);
       }, 2000);
+    },
+
+    async getUserForTable(userId) {
+      const marginsResponse = await this.fetchCleintTableInfoByTab({
+        userId,
+        url: "/admin/margins",
+      });
+      const positionsResponse = await this.fetchCleintTableInfoByTab({
+        userId,
+        url: "/admin/positions",
+      });
+      const dealsResponce = await this.fetchCleintTableInfoByTab({
+        userId,
+        url: "/admin/deals",
+      });
+      const ordersResponse = await this.fetchCleintTableInfoByTab({
+        userId,
+        url: "/admin/orders",
+      });
+      const fundsResponse = await this.fetchCleintTableInfoByTab({
+        userId,
+        url: "/admin/funds",
+      });
+      this.margins = this.convertMargins(marginsResponse);
+      this.positions = this.convertPositions(positionsResponse);
+      this.deals = this.convertDeals(dealsResponce);
+      this.orders = this.convertOrders(ordersResponse);
+      this.funds = this.convertFunds(fundsResponse);
     },
 
     convertFunds(response) {
