@@ -459,7 +459,7 @@
                   <thead class="table__thead">
                     <tr class="table__tr">
                       <th class="table__th__header">Product Name</th>
-                      <th class="table__th__header">Client Id</th>
+                      <th class="table__th__header__id">Client Id</th>
                       <th class="table__th__header">Comment</th>
                       <th class="table__th__header">Datetime</th>
                       <th class="table__th__header">Deal Id</th>
@@ -493,7 +493,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">
+                        <p class="orders_str" v-if="!isEditingOrders">
                           {{ order.Client_Id }}
                         </p>
                         <input
@@ -504,7 +504,9 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">{{ order.Comment }}</p>
+                        <p class="orders_str" v-if="!isEditingOrders">
+                          {{ order.Comment }}
+                        </p>
                         <input
                           class="input_orders"
                           v-if="isEditingOrders"
@@ -513,7 +515,9 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">{{ order.Datetime }}</p>
+                        <p class="orders_str" v-if="!isEditingOrders">
+                          {{ order.Datetime }}
+                        </p>
                         <input
                           class="input_orders"
                           v-if="isEditingOrders"
@@ -522,7 +526,9 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">{{ order.Deal_Id }}</p>
+                        <p class="orders_str" v-if="!isEditingOrders">
+                          {{ order.Deal_Id }}
+                        </p>
                         <input
                           class="input_orders"
                           v-if="isEditingOrders"
@@ -531,7 +537,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">
+                        <p class="orders_str" v-if="!isEditingOrders">
                           {{ order.Exchange_Position }}
                         </p>
                         <input
@@ -542,7 +548,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">
+                        <p class="orders_str" v-if="!isEditingOrders">
                           {{ order.Fut_Hedge_flag }}
                         </p>
                         <input
@@ -553,7 +559,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">
+                        <p class="orders_str" v-if="!isEditingOrders">
                           {{ order.Maintenance_Margin_USD }}
                         </p>
                         <input
@@ -564,7 +570,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">
+                        <p class="orders_str" v-if="!isEditingOrders">
                           {{ order.Max_Slippage }}
                         </p>
                         <input
@@ -575,7 +581,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">
+                        <p class="orders_str" v-if="!isEditingOrders">
                           {{ order.Price_USD }}
                         </p>
                         <input
@@ -586,7 +592,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">
+                        <p class="orders_str" v-if="!isEditingOrders">
                           {{ order.Status }}
                         </p>
                         <input
@@ -597,7 +603,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingOrders">
+                        <p class="orders_str" v-if="!isEditingOrders">
                           {{ order.Total_Margin_USD }}
                         </p>
                         <input
@@ -816,7 +822,7 @@ export default {
       });
 
       Amount.forEach((item, index) => {
-        convertFunds[index].AmountFunds = item[1];
+        convertFunds[index].AmountFunds = item[1].toFixed(2);
       });
 
       Currency.forEach((item, index) => {
@@ -1020,15 +1026,15 @@ export default {
 
       marginReq.forEach((item, index) => {
         convertMargins.push({});
-        convertMargins[index].marginRequirements = item[1];
+        convertMargins[index].marginRequirements = item[1].toFixed(2);
       });
 
       fundsNotionalReq.forEach((item, index) => {
-        convertMargins[index].fundsNotional = item[1];
+        convertMargins[index].fundsNotional = item[1].toFixed(2);
       });
 
       availableFunds.forEach((item, index) => {
-        convertMargins[index].availableFunds = item[1];
+        convertMargins[index].availableFunds = item[1].toFixed(2);
       });
 
       currency.forEach((item, index) => {
@@ -1077,11 +1083,15 @@ export default {
   async mounted() {
     this.users = await this.getUsers();
     this.handleUsersSelect();
+    console.log("NEW-VERSION!");
   },
 };
 </script>
 
 <style>
+.orders_str {
+  overflow-wrap: anywhere;
+}
 .input_orders {
   width: 100%;
 }
@@ -1166,8 +1176,13 @@ export default {
 }
 
 .table__th__header {
+  overflow: hidden;
   text-align: center;
   padding-left: 5px;
+}
+
+.table__th__header__id {
+  min-width: 90px;
 }
 
 /*  TABLE END */
