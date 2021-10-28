@@ -58,16 +58,15 @@
           >
             <vSelect
               :modelValue="$store.state.calculator.users"
-              :options="users"
               :label="$t('Select_user_admin')"
+              :options="users"
               @input="handleUsersSelect"
               class="underlying select-gradient"
             >
             </vSelect>
 
             <vSelect
-              :modelValue="sortCurrency"
-              @input="changeSortCurrency"
+              v-model="sortCurrency"
               class="underlying select-gradient"
               :options="['BTC', 'ETH']"
             >

@@ -79,6 +79,7 @@ export default {
             },
             set(v) {
                 this.$emit('input', v)
+                this.$emit("update:modelValue", String(v));
             }
         }
     },
