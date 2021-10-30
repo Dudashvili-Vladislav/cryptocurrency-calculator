@@ -54,7 +54,7 @@
         <div class="divider"></div>
         <div class="select">
           <div
-            class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start"
+            class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start flex"
           >
             <vSelect
               :modelValue="$store.state.calculator.users"
@@ -67,8 +67,36 @@
 
             <vSelect
               v-model="sortCurrency"
-              class="underlying select-gradient"
+              :label="$t('Select_currency_admin')"
+              class="underlying select-gradient ml-10"
               :options="['BTC', 'ETH']"
+              v-if="activeTab === 1 || activeTab === 5"
+            >
+            </vSelect>
+
+            <vSelect
+              v-model="sortProductName"
+              :label="$t('Select_product_name_admin')"
+              class="underlying select-gradient ml-10"
+              :options="[
+                'Call-spread',
+                'Put-spread',
+                'Call',
+                'Put',
+                'Call-spread with put',
+                'Call-spread & put-spread',
+                'Strangle',
+              ]"
+              v-if="activeTab === 2 || activeTab === 3 || activeTab === 4"
+            >
+            </vSelect>
+
+            <vSelect
+              v-model="sortfHeadgeFlag"
+              :label="$t('Select_flag_admin')"
+              class="underlying select-gradient ml-10"
+              :options="[true, false]"
+              v-if="activeTab === 2 || activeTab === 3 || activeTab === 4"
             >
             </vSelect>
           </div>
@@ -213,7 +241,7 @@
                   <tbody class="table__tbody">
                     <tr
                       class="table__tbody__tr"
-                      v-for="(position, index) in positions"
+                      v-for="(position, index) in filtredPositionsProductName"
                       :key="index"
                     >
                       <td class="field__descriptions">
@@ -314,7 +342,7 @@
                   <tbody class="table__tbody">
                     <tr
                       class="table__tbody__tr"
-                      v-for="(deal, index) in deals"
+                      v-for="(deal, index) in filtredDealsProductName"
                       :key="index"
                     >
                       <td class="field__descriptions">
@@ -485,7 +513,7 @@
                   <tbody class="table__tbody">
                     <tr
                       class="table__tbody__tr"
-                      v-for="(order, index) in orders"
+                      v-for="(order, index) in filtredOrdersProductName"
                       :key="index"
                     >
                       <td class="field__descriptions">
@@ -658,7 +686,7 @@
                   <tbody class="table__tbody">
                     <tr
                       class="table__tbody__tr"
-                      v-for="(fund, index) in funds"
+                      v-for="(fund, index) in filtredFunds"
                       :key="index"
                     >
                       <td class="field__descriptions">
@@ -701,6 +729,7 @@ import vSelect from "@/components/header/forms/v-select";
 import { useRouter } from "vue-router";
 import { mapGetters, mapActions, mapState, useStore } from "vuex";
 import vButton from "@/components/v-button";
+import { string } from "yup/lib/locale";
 
 export default {
   name: "SiteAdmin",
@@ -727,7 +756,10 @@ export default {
       isEditingPosition: false,
       isEditingDeals: false,
       isEditingOrders: false,
-      sortCurrency: "BTC",
+      sortCurrency: "",
+      sortProductName: "",
+      sortfHeadgeFlag: "true",
+      Client_Id: [],
 
       loguot: () => {
         store.dispatch("auth/signOut");
@@ -744,7 +776,64 @@ export default {
     }),
 
     filtredMargins() {
-      return this.margins.filter((item) => item.currency === this.sortCurrency);
+      return this.margins.filter((item) => {
+        if (this.sortCurrency) {
+          return item.currency === this.sortCurrency;
+        }
+        return item;
+      });
+    },
+
+    filtredPositionsProductName() {
+      return this.positions.filter((item) => {
+        if (this.sortProductName && this.sortfHeadgeFlag) {
+          return (
+            item.ProductName === this.sortProductName &&
+            String(item.FutHedgeFlag) == this.sortfHeadgeFlag
+          );
+        }
+        return item;
+      });
+    },
+
+    filtredDealsProductName() {
+      return this.deals.filter((item) => {
+        if (this.sortProductName && this.sortfHeadgeFlag) {
+          return (
+            item.ProductName === this.sortProductName &&
+            String(item.Fut_Hedge_flag) == this.sortfHeadgeFlag
+          );
+        }
+        return item;
+      });
+    },
+
+    filtredOrdersProductName() {
+      return this.orders.filter((item) => {
+        if (this.sortProductName && this.sortfHeadgeFlag) {
+          return (
+            item.ProductName === this.sortProductName &&
+            String(item.Fut_Hedge_flag) == this.sortfHeadgeFlag
+          );
+        }
+        return item;
+      });
+    },
+
+    filtredFunds() {
+      return this.funds.filter(
+        (item) => item.CurrencyFunds === this.sortCurrency
+      );
+    },
+
+    filtredBorder() {
+      return this.margins.filter((item) => {
+        if (this.client_id[-1] === "SUM") {
+          this.client_id.push(1);
+        } else if (this.client_id[-1] && this.client_id[-2] === "SUM") {
+          this.client_id.push(1);
+        }
+      });
     },
   },
 
