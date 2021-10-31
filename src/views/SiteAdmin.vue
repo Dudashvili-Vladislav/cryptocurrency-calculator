@@ -163,7 +163,10 @@
           <div class="tab-content">
             <div class="tab-item" v-if="activeTab === 1">
               <div class="tabe__wrapper">
-                <table class="table__main w-full">
+                <table
+                  class="table__main w-full"
+                  :class="{ one: sumAmmount === 1, two: sumAmmount === 2 }"
+                >
                   <thead class="table__thead">
                     <tr class="table__tr">
                       <th class="table__th__header">Client Id</th>
@@ -826,14 +829,14 @@ export default {
       );
     },
 
-    filtredBorder() {
-      return this.margins.filter((item) => {
-        if (this.client_id[-1] === "SUM") {
-          this.client_id.push(1);
-        } else if (this.client_id[-1] && this.client_id[-2] === "SUM") {
-          this.client_id.push(1);
+    sumAmmount() {
+      let sumAmmount = 0;
+      this.filtredMargins.forEach((item) => {
+        if (item.Client_Id === "SUM") {
+          sumAmmount++;
         }
       });
+      return sumAmmount;
     },
   },
 
@@ -1226,7 +1229,7 @@ export default {
 
 /*  TABLE */
 
-.hr__wrapper {
+.table__main .hr__wrapper {
   position: relative;
 }
 
@@ -1240,10 +1243,6 @@ export default {
   border-top: 1px solid #fff3;
 } */
 
-.table__tbody__tr__margins:nth-last-child(2) td {
-  border-top: 1px solid #fff3;
-}
-
 .tabe__wrapper {
   flex: 1 1 100%;
   max-width: 2000px;
@@ -1253,6 +1252,14 @@ export default {
     rgba(43, 35, 83, 0.7) 42.05%,
     rgba(63, 59, 115, 0) 104.81%
   );
+}
+
+.table__main.one .table__tbody__tr__margins:nth-last-child(1) td {
+  border-top: 1px solid #fff3;
+}
+
+.table__main.two .table__tbody__tr__margins:nth-last-child(2) td {
+  border-top: 1px solid #fff3;
 }
 
 .table__main td + td {
