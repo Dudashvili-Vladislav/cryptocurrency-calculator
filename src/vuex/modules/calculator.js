@@ -1,57 +1,56 @@
 export default {
-    namespaced: true,
+  namespaced: true,
 
-    state: {
-        selectedUnderlying: null,
-        selectedMaturity: null,
-        coinAmount: 0,
-        hedgeFunding: false,
-        lang: "ru",
-        users: [],
-        
+  state: {
+    selectedUnderlying: null,
+    selectedMaturity: null,
+    coinAmount: 0,
+    hedgeFunding: false,
+    lang: "ru",
+    users: [],
 
-        maturityList: {
-            btc: [],
-            eth: []
-        }
+    maturityList: {
+      btc: [],
+      eth: [],
+    },
+  },
+
+  mutations: {
+    setUserSiteAdmin(state, value) {
+      state.users = value;
+    },
+    setLang(state, value) {
+      state.lang = value;
+    },
+    setUnderlying(state, value) {
+      state.selectedUnderlying = value;
+    },
+    setMaturity(state, value) {
+      state.selectedMaturity = value;
+    },
+    setCoinAmount(state, value) {
+      state.coinAmount = value;
+    },
+    setHedgeFunding(state, value) {
+      state.hedgeFunding = value;
     },
 
-    mutations: {
-        setUserSiteAdmin(state, value) {
-            state.users = value
-        },
-        setLang(state, value) {
-            state.lang = value
-        },
-        setUnderlying(state, value) {
-            state.selectedUnderlying = value
-        },
-        setMaturity(state, value) {
-            state.selectedMaturity = value
-        },
-        setCoinAmount(state, value) {
-            state.coinAmount = value
-        },
-        setHedgeFunding(state, value) {
-            state.hedgeFunding = value
-        },
+    clearForm(state) {
+      state.selectedUnderlying = null;
+      state.selectedMaturity = null;
+      state.coinAmount = 0;
+      state.hedgeFunding = false;
+    },
+    clearFormCustomQa(state) {
+      state.selectedMaturity = null;
+      state.coinAmount = 0;
+      state.hedgeFunding = false;
+    },
 
-        clearForm(state) {
-            state.selectedUnderlying = null
-            state.selectedMaturity = null
-            state.coinAmount = 0
-            state.hedgeFunding = false
-        },
-        clearFormCustomQa(state) {
-            state.selectedMaturity = null
-            state.coinAmount = 0
-            state.hedgeFunding = false
-        },
-
-        clearFormRecomended(state) {
-            state.selectedMaturity = null
-            state.coinAmount = 0
-            state.hedgeFunding = false
-        },
-    }
-}
+    clearFormRecomended(state) {
+      state.selectedMaturity = null;
+      state.coinAmount = 0;
+      state.hedgeFunding = false;
+    },
+  },
+};

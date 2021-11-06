@@ -157,11 +157,12 @@ let store = createStore({
     async fetchCleintTableInfoByTab({ commit, rootState }, { userId, url }) {
       // Получение данных для siteadmin
       try {
-        const options = userId
-          ? {
-              params: { client_id: userId },
-            }
-          : {};
+        const options =
+          userId && userId != " "
+            ? {
+                params: { client_id: userId },
+              }
+            : {};
         const response = await axios.get(url, options);
         const data = response.data.data;
 

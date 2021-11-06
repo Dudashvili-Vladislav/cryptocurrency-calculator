@@ -52,9 +52,9 @@
         </div>
 
         <div class="divider"></div>
-        <div class="select">
+        <div class="select block">
           <div
-            class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start flex"
+            class="form-control text-gray-700 pointer-events-auto  justify-start w-1/4 flex"
           >
             <vSelect
               :modelValue="$store.state.calculator.users"
@@ -69,7 +69,7 @@
               v-model="sortCurrency"
               :label="$t('Select_currency_admin')"
               class="underlying select-gradient ml-10"
-              :options="['BTC', 'ETH']"
+              :options="['BTC', 'ETH', '']"
               v-if="activeTab === 1 || activeTab === 5"
             >
             </vSelect>
@@ -86,6 +86,7 @@
                 'Call-spread with put',
                 'Call-spread & put-spread',
                 'Strangle',
+                '',
               ]"
               v-if="activeTab === 2 || activeTab === 3 || activeTab === 4"
             >
@@ -97,6 +98,16 @@
               class="underlying select-gradient ml-10"
               :options="[true, false]"
               v-if="activeTab === 2 || activeTab === 3 || activeTab === 4"
+            >
+            </vSelect>
+          </div>
+          <div class="wrapper__select__status w-1/4">
+            <vSelect
+              v-model="sortStatus"
+              :label="$t('Select_status_admin')"
+              class="underlying select-gradient ml-10 select-status"
+              :options="['done', 'pending']"
+              v-if="activeTab === 3 || activeTab === 4"
             >
             </vSelect>
           </div>
@@ -326,7 +337,7 @@
                   <thead class="table__thead">
                     <tr class="table__tr">
                       <th class="table__th__header">Product Name</th>
-                      <th class="table__th__header">Client Id</th>
+                      <th class="table__th__header__id">Client Id</th>
                       <th class="table__th__header">Comment</th>
                       <th class="table__th__header">Datetime</th>
                       <th class="table__th__header">Deal Id</th>
@@ -345,11 +356,11 @@
                   <tbody class="table__tbody">
                     <tr
                       class="table__tbody__tr"
-                      v-for="(deal, index) in filtredDealsProductName"
+                      v-for="(deal, index) in filtredDeals"
                       :key="index"
                     >
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">
+                        <p class="deals_str" v-if="!isEditingDeals">
                           {{ deal.ProductName }}
                         </p>
                         <input
@@ -360,7 +371,9 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">{{ deal.Client_Id }}</p>
+                        <p class="deals_str" v-if="!isEditingDeals">
+                          {{ deal.Client_Id }}
+                        </p>
                         <input
                           class="input_deals"
                           v-if="isEditingDeals"
@@ -369,7 +382,9 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">{{ deal.Comment }}</p>
+                        <p class="deals_str" v-if="!isEditingDeals">
+                          {{ deal.Comment }}
+                        </p>
                         <input
                           class="input_deals"
                           v-if="isEditingDeals"
@@ -378,7 +393,9 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">{{ deal.Datetime }}</p>
+                        <p class="deals_str" v-if="!isEditingDeals">
+                          {{ deal.Datetime }}
+                        </p>
                         <input
                           class="input_deals"
                           v-if="isEditingDeals"
@@ -387,7 +404,9 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">{{ deal.Deal_Id }}</p>
+                        <p class="deals_str" v-if="!isEditingDeals">
+                          {{ deal.Deal_Id }}
+                        </p>
                         <input
                           class="input_deals"
                           v-if="isEditingDeals"
@@ -396,7 +415,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">
+                        <p class="deals_str" v-if="!isEditingDeals">
                           {{ deal.Exchange_Position }}
                         </p>
                         <input
@@ -407,7 +426,9 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">{{ deal.Fut_Hedge_flag }}</p>
+                        <p class="deals_str" v-if="!isEditingDeals">
+                          {{ deal.Fut_Hedge_flag }}
+                        </p>
                         <input
                           class="input_deals"
                           v-if="isEditingDeals"
@@ -416,7 +437,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">
+                        <p class="deals_str" v-if="!isEditingDeals">
                           {{ deal.Maintenance_Margin_USD }}
                         </p>
                         <input
@@ -427,7 +448,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">
+                        <p class="deals_str" v-if="!isEditingDeals">
                           {{ deal.Max_Slippage }}
                         </p>
                         <input
@@ -438,7 +459,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">
+                        <p class="deals_str" v-if="!isEditingDeals">
                           {{ deal.Price_USD }}
                         </p>
                         <input
@@ -449,7 +470,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">
+                        <p class="deals_str" v-if="!isEditingDeals">
                           {{ deal.Status }}
                         </p>
                         <input
@@ -460,7 +481,7 @@
                       </td>
 
                       <td class="field__descriptions">
-                        <p v-if="!isEditingDeals">
+                        <p class="deals_str" v-if="!isEditingDeals">
                           {{ deal.Total_Margin_USD }}
                         </p>
                         <input
@@ -516,7 +537,7 @@
                   <tbody class="table__tbody">
                     <tr
                       class="table__tbody__tr"
-                      v-for="(order, index) in filtredOrdersProductName"
+                      v-for="(order, index) in filtredOrders"
                       :key="index"
                     >
                       <td class="field__descriptions">
@@ -763,6 +784,7 @@ export default {
       sortProductName: "",
       sortfHeadgeFlag: "true",
       Client_Id: [],
+      sortStatus: "done",
 
       loguot: () => {
         store.dispatch("auth/signOut");
@@ -799,24 +821,26 @@ export default {
       });
     },
 
-    filtredDealsProductName() {
+    filtredDeals() {
       return this.deals.filter((item) => {
         if (this.sortProductName && this.sortfHeadgeFlag) {
           return (
             item.ProductName === this.sortProductName &&
-            String(item.Fut_Hedge_flag) == this.sortfHeadgeFlag
+            String(item.Fut_Hedge_flag) == this.sortfHeadgeFlag &&
+            item.Status === this.sortStatus
           );
         }
         return item;
       });
     },
 
-    filtredOrdersProductName() {
+    filtredOrders() {
       return this.orders.filter((item) => {
         if (this.sortProductName && this.sortfHeadgeFlag) {
           return (
             item.ProductName === this.sortProductName &&
-            String(item.Fut_Hedge_flag) == this.sortfHeadgeFlag
+            String(item.Fut_Hedge_flag) == this.sortfHeadgeFlag &&
+            item.Status === this.sortStatus
           );
         }
         return item;
@@ -824,9 +848,12 @@ export default {
     },
 
     filtredFunds() {
-      return this.funds.filter(
-        (item) => item.CurrencyFunds === this.sortCurrency
-      );
+      return this.funds.filter((item) => {
+        if (this.sortCurrency) {
+          return item.CurrencyFunds === this.sortCurrency;
+        }
+        return item;
+      });
     },
 
     sumAmmount() {
@@ -880,10 +907,12 @@ export default {
     },
 
     async handleUsersSelect(userID) {
+      console.log("userID", userID);
       const userId = userID || this.$store.state.calculator.users;
       clearInterval(this.timerId);
       this.$store.commit("calculator/setUserSiteAdmin", userId);
       await this.getUserForTable(userId);
+
       this.timerId = setInterval(async () => {
         this.getUserForTable(userId);
       }, 2000);
@@ -1189,15 +1218,22 @@ export default {
   },
 
   async mounted() {
-    this.users = await this.getUsers();
+    /*     this.users = await this.getUsers(); */
+
+    let users = await this.getUsers();
+    this.users = [" ", ...users];
+
     this.handleUsersSelect();
     console.log("NEW-VERSION!");
   },
 };
 </script>
-
 <style>
 .orders_str {
+  overflow-wrap: anywhere;
+}
+
+.deals_str {
   overflow-wrap: anywhere;
 }
 .input_orders {
@@ -1395,7 +1431,7 @@ a {
 
   flex-wrap: wrap;
   align-items: center;
-  padding: 48px 48px 24px;
+  padding: 20px 48px 20px;
   background: linear-gradient(
     210.96deg,
     rgba(55, 36, 88, 0.61) 0.01%,

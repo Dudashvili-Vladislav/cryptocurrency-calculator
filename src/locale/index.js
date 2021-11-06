@@ -24,8 +24,9 @@ export default {
     save: "SAVE",
     back: "BACK",
     Select_currency_admin: "Select currency ",
-    Select_product_name_admin: "Select product name",
-    Select_flag_admin: "Select flag",
+    Select_product_name_admin: "Product Name",
+    Select_flag_admin: "Fut Hedge flag",
+    Select_status_admin: "Status",
   },
 
   ru: {
@@ -54,7 +55,8 @@ export default {
     save: "СОХРАНИТЬ",
     back: "НАЗАД",
     Select_currency_admin: "Выберите валюту",
-    Select_product_name_admin: "Выберите название продукта",
-    Select_flag_admin: "Выберите флаг",
+    Select_product_name_admin: "Product Name",
+    Select_flag_admin: "Fut Hedge flag",
+    Select_status_admin: "Status",
   },
 };
