@@ -1,13 +1,13 @@
 <template>
   <div class="home">
-    <div class="header-wrapper flex  ">
+    <div class="header-wrapper flex">
       <h1 class="logo font-bold text-xl">
         Calculator
       </h1>
-<!--       {{$store.state}} -->
+      <!--       {{$store.state}} -->
 
       <div class="user-panel ml-auto">
-<!--         <div class="swicher">
+        <!--         <div class="swicher">
           <input class="switch" id="switch1" type="checkbox" />
           <label class="switch-for" for="switch1"></label>
         </div> -->
@@ -82,16 +82,19 @@
       <div class="tab-content">
         <div
           class="tab-item"
-          v-if="activeTab === 1 &&$store.state.calculator.selectedUnderlying &&$store.state.calculator.selectedMaturity &&$store.state.calculator.coinAmount">
+          v-if="
+            activeTab === 1 &&
+              $store.state.calculator.selectedUnderlying &&
+              $store.state.calculator.selectedMaturity &&
+              $store.state.calculator.coinAmount
+          "
+        >
           <v-recommended></v-recommended>
         </div>
         <div class="tab-item" v-if="activeTab === 2">
           <v-customPro></v-customPro>
         </div>
-        <div
-        class="tab-item"
-        v-if="activeTab === 3"
-        >
+        <div class="tab-item" v-if="activeTab === 3">
           <vCustomQa></vCustomQa>
         </div>
       </div>
@@ -100,7 +103,7 @@
 </template>
 
 <script>
-import vmainHeader from "@/components/v-mainHeader.vue"
+import vmainHeader from "@/components/v-mainHeader.vue";
 import VRecommended from "@/components/v-recommended.vue";
 import VCustomPro from "@/components/v-customPro.vue";
 import vCustomQa from "@/components/v-customQA.vue";
@@ -130,7 +133,7 @@ export default {
     vCustomQa,
     VCustomPro,
     VRecommended,
-    vmainHeader
+    vmainHeader,
   },
 
   data() {
@@ -146,11 +149,11 @@ export default {
 
     changeTab(value) {
       this.activeTab = value;
-/*      this.$store.commit("calculator/clearForm");   */
+      /*      this.$store.commit("calculator/clearForm");   */
     },
     changeLang(value) {
-      console.log('value', value)
-      this.$root.$i18n.locale = value
+      console.log("value", value);
+      this.$root.$i18n.locale = value;
       this.$store.commit("calculator/setLang", value);
       this.getTableStaticsics_actions();
     },
@@ -407,6 +410,11 @@ a {
 .vue-slider.blue-slider .vue-slider-process {
   background: linear-gradient(0deg, #31afd6, #31afd6), #fb49c0;
 }
-
 /* Slider END */
+
+/* @media (max-width: 1300px) {
+  .user-panel {
+    width: 45%;
+  }
+} */
 </style>

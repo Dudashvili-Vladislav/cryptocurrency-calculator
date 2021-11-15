@@ -167,4 +167,10 @@ export default {
   border-radius: 4px;
   height: 44px;
 }
+
+/* @media (max-width: 1300px) {
+  .user-panel {
+    width: 45%;
+  }
+} */
 </style>

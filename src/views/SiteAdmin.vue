@@ -96,7 +96,7 @@
               v-model="sortfHeadgeFlag"
               :label="$t('Select_flag_admin')"
               class="underlying select-gradient ml-10"
-              :options="[true, false]"
+              :options="[true, false, '']"
               v-if="activeTab === 2 || activeTab === 3 || activeTab === 4"
             >
             </vSelect>
@@ -106,7 +106,7 @@
               v-model="sortStatus"
               :label="$t('Select_status_admin')"
               class="underlying select-gradient ml-10 select-status"
-              :options="['done', 'pending']"
+              :options="['done', 'pending', '']"
               v-if="activeTab === 3 || activeTab === 4"
             >
             </vSelect>
@@ -255,7 +255,7 @@
                   <tbody class="table__tbody">
                     <tr
                       class="table__tbody__tr"
-                      v-for="(position, index) in filtredPositionsProductName"
+                      v-for="(position, index) in filtredPositions"
                       :key="index"
                     >
                       <td class="field__descriptions">
@@ -754,6 +754,7 @@ import { useRouter } from "vue-router";
 import { mapGetters, mapActions, mapState, useStore } from "vuex";
 import vButton from "@/components/v-button";
 import { string } from "yup/lib/locale";
+import _, { spread } from "lodash";
 
 export default {
   name: "SiteAdmin",
@@ -782,9 +783,9 @@ export default {
       isEditingOrders: false,
       sortCurrency: "",
       sortProductName: "",
-      sortfHeadgeFlag: "true",
+      sortfHeadgeFlag: "",
       Client_Id: [],
-      sortStatus: "done",
+      sortStatus: "",
 
       loguot: () => {
         store.dispatch("auth/signOut");
@@ -809,42 +810,49 @@ export default {
       });
     },
 
-    filtredPositionsProductName() {
-      return this.positions.filter((item) => {
-        if (this.sortProductName && this.sortfHeadgeFlag) {
-          return (
-            item.ProductName === this.sortProductName &&
-            String(item.FutHedgeFlag) == this.sortfHeadgeFlag
-          );
-        }
-        return item;
-      });
+    filtredPositions() {
+      let filterParams = {};
+
+      if (this.sortProductName) {
+        filterParams.ProductName = this.sortProductName;
+      }
+      if (this.sortfHeadgeFlag) {
+        filterParams.FutHedgeFlag =
+          this.sortfHeadgeFlag === "true" ? true : false;
+      }
+      return _.filter(this.positions, filterParams);
     },
 
     filtredDeals() {
-      return this.deals.filter((item) => {
-        if (this.sortProductName && this.sortfHeadgeFlag) {
-          return (
-            item.ProductName === this.sortProductName &&
-            String(item.Fut_Hedge_flag) == this.sortfHeadgeFlag &&
-            item.Status === this.sortStatus
-          );
-        }
-        return item;
-      });
+      let filterParams = {};
+
+      if (this.sortProductName) {
+        filterParams.ProductName = this.sortProductName;
+      }
+      if (this.sortfHeadgeFlag) {
+        filterParams.Fut_Hedge_flag =
+          this.sortfHeadgeFlag === "true" ? true : false;
+      }
+      if (this.sortStatus) {
+        filterParams.Status = this.sortStatus;
+      }
+      return _.filter(this.deals, filterParams);
     },
 
     filtredOrders() {
-      return this.orders.filter((item) => {
-        if (this.sortProductName && this.sortfHeadgeFlag) {
-          return (
-            item.ProductName === this.sortProductName &&
-            String(item.Fut_Hedge_flag) == this.sortfHeadgeFlag &&
-            item.Status === this.sortStatus
-          );
-        }
-        return item;
-      });
+      let filterParams = {};
+
+      if (this.sortProductName) {
+        filterParams.ProductName = this.sortProductName;
+      }
+      if (this.sortfHeadgeFlag) {
+        filterParams.Fut_Hedge_flag =
+          this.sortfHeadgeFlag === "true" ? true : false;
+      }
+      if (this.sortStatus) {
+        filterParams.Status = this.sortStatus;
+      }
+      return _.filter(this.orders, filterParams);
     },
 
     filtredFunds() {
