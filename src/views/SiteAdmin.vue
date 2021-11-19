@@ -53,7 +53,6 @@
 
         <div class="divider"></div>
         <div class="select block">
-          {{ $store.state.calculator.users }}
           <div
             class="form-control text-gray-700 pointer-events-auto  justify-start w-1/4 flex"
           >
@@ -953,6 +952,8 @@ export default {
       this.deals = this.convertDeals(dealsResponce);
       this.orders = this.convertOrders(ordersResponse);
       this.funds = this.convertFunds(fundsResponse);
+      console.log("pos", this.positions);
+      console.log("ord", this.orders);
     },
 
     convertFunds(response) {
@@ -1121,8 +1122,11 @@ export default {
     },
 
     convertPositions(response) {
+      console.log("response", response);
+      console.log("responseProductName", response["Product Name"]);
       let convertPositions = [];
-      const Product_Name = Object.entries(response["Product Name"]);
+
+      const ProductName = Object.entries(response["Product Name"]);
       const Client_Id = Object.entries(response["Client Id"]);
       const Amount = Object.entries(response["Amount"]);
       const Exchange_Position = Object.entries(response["Exchange Position"]);
@@ -1132,11 +1136,11 @@ export default {
 
       Client_Id.forEach((item, index) => {
         convertPositions.push({});
-        convertPositions[index].Client_Id = item[1];
+        convertPositions[index].ProductName = item[1];
       });
 
-      Product_Name.forEach((item, index) => {
-        convertPositions[index].ProductName = item[1];
+      ProductName.forEach((item, index) => {
+        convertPositions[index].Client_Id = item[1];
       });
 
       Amount.forEach((item, index) => {

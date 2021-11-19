@@ -17,34 +17,36 @@
           <input class="switch" id="switch1" type="checkbox" />
           <label class="switch-for" for="switch1"></label>
         </div> -->
-
-        <vSelect
-          :modelValue="$store.state.calculator.lang"
-          @input="changeLang"
-          class="lang-select"
-        >
-          <option
-            v-for="locale in $i18n.availableLocales"
-            :key="`locale-${locale}`"
-            :value="locale"
-            class="option"
+        <div class="wrapper-panel-lang-user flex">
+          <vSelect
+            :modelValue="$store.state.calculator.lang"
+            @input="changeLang"
+            class="lang-select"
           >
-            {{ locale.toUpperCase() }}
-          </option>
-        </vSelect>
+            <option
+              v-for="locale in $i18n.availableLocales"
+              :key="`locale-${locale}`"
+              :value="locale"
+              class="option"
+            >
+              {{ locale.toUpperCase() }}
+            </option>
+          </vSelect>
 
-        <div class="user-panel-wrap">
-          <div class="user-avatar">
-            <i class="icon user-icon"></i>
-          </div>
-
-          <div class="user-info">
-            <div class="user-name" v-if="$store.state.auth.user">
-              {{ $store.state.auth.user.displayName }}
+          <div class="user-panel-wrap">
+            <div class="user-avatar">
+              <i class="icon user-icon"></i>
             </div>
-            <div class="user-type">{{ $t("user") }}</div>
+
+            <div class="user-info">
+              <div class="user-name" v-if="$store.state.auth.user">
+                {{ $store.state.auth.user.displayName }}
+              </div>
+              <div class="user-type">{{ $t("user") }}</div>
+            </div>
           </div>
         </div>
+
         <div class="exit">
           <a @click.prevent="loguot" class="btn">
             <img
@@ -550,21 +552,6 @@ a {
     width: 60%;
   }
 }
-@media (max-width: 630px) {
-  .text-chbx-recomended {
-    width: 50%;
-  }
-  .v-header-forms .form-control {
-    width: 70%;
-  }
-  .v-header-forms .wrapper {
-    width: 70%;
-  }
-  .user-panel {
-    width: 100%;
-    display: block;
-  }
-}
 
 @media (min-width: 768px) {
   .user-panel-wrap {
@@ -579,6 +566,35 @@ a {
   .header-wrapper {
     padding: 48px 48px 24px;
     margin: 0 17px;
+  }
+}
+
+@media (max-width: 630px) {
+  .text-chbx-recomended {
+    width: 50%;
+  }
+  .v-header-forms .form-control {
+    width: 70%;
+  }
+  .v-header-forms .wrapper {
+    width: 70%;
+  }
+  .user-panel {
+    display: block;
+  }
+}
+
+@media (max-width: 410px) {
+  .exit {
+    width: 100%;
+    padding-top: 10px;
+  }
+  .exit .btn {
+    width: 100%;
+  }
+  .wrapper-panel-lang-user {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 </style>
