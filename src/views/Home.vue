@@ -233,14 +233,15 @@ a {
 }
 
 .header-wrapper {
-  width: 1280px;
+  max-width: 1280px;
+  width: 100%;
   position: fixed;
   top: 0;
   z-index: 100;
 
   flex-wrap: wrap;
   align-items: center;
-  padding: 48px 48px 24px;
+  padding: 25px 15px 25px;
   background: linear-gradient(
     210.96deg,
     rgba(55, 36, 88, 0.61) 0.01%,
@@ -255,6 +256,7 @@ a {
 
 .user-panel {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -297,13 +299,12 @@ a {
 .user-panel-wrap {
   display: flex;
   align-items: center;
-  margin-left: 48px;
-  margin-right: 48px;
+  margin-left: 15px;
+  margin-right: 15px;
   min-width: 153px;
 }
 
 .lang-select {
-  margin-left: 48px;
   min-width: 70px;
 }
 
@@ -494,9 +495,11 @@ a {
     display: block;
     transform: translateY(-150%);
     transition: all 0.5s;
+    visibility: hidden;
   }
   .v-header-forms.active {
     transform: translateY(0);
+    visibility: visible;
   }
   .wrapper-title {
     justify-content: space-between;
@@ -543,9 +546,6 @@ a {
   .checkbox__label {
     width: 150%;
   }
-  .header-wrapper {
-    margin: 0 17px;
-  }
   .v-header-forms .form-control {
     width: 60%;
   }
@@ -563,6 +563,22 @@ a {
   .user-panel {
     width: 100%;
     display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .user-panel-wrap {
+    margin-left: 48px;
+    margin-right: 48px;
+  }
+
+  .lang-select {
+    margin-left: 48px;
+  }
+
+  .header-wrapper {
+    padding: 48px 48px 24px;
+    margin: 0 17px;
   }
 }
 </style>

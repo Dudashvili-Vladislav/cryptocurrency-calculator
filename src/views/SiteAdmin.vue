@@ -1433,14 +1433,15 @@ a {
 }
 
 .header-wrapper {
-  width: 1280px;
+  max-width: 1280px;
+  width: 100%;
   position: fixed;
   top: 0;
   z-index: 100;
-
+  margin: 0;
   flex-wrap: wrap;
   align-items: center;
-  padding: 20px 48px 20px;
+  padding: 20px 15px 20px;
   background: linear-gradient(
     210.96deg,
     rgba(55, 36, 88, 0.61) 0.01%,
@@ -1455,6 +1456,7 @@ a {
 
 .user-panel {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -1497,13 +1499,12 @@ a {
 .user-panel-wrap {
   display: flex;
   align-items: center;
-  margin-left: 48px;
-  margin-right: 48px;
+  margin-left: 15px;
+  margin-right: 15px;
   min-width: 153px;
 }
 
 .lang-select {
-  margin-left: 48px;
   min-width: 70px;
 }
 
