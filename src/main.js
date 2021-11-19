@@ -20,6 +20,7 @@ $(function() {
     $(".with-nav").toggleClass("active");
   });
 });
+
 const i18n = createI18n({
   locale: "ru",
   fallbackLocale: "en",
