@@ -1,9 +1,15 @@
 <template>
   <div class="home">
     <div class="header-wrapper flex">
-      <h1 class="logo font-bold text-xl">
-        Calculator
-      </h1>
+      <div class="wrapper-title flex">
+        <button class="menu-btn">
+          <span></span>
+        </button>
+        <h1 class="logo font-bold text-xl">
+          Calculator
+        </h1>
+      </div>
+
       <!--       {{$store.state}} -->
 
       <div class="user-panel ml-auto">
@@ -412,9 +418,151 @@ a {
 }
 /* Slider END */
 
-/* @media (max-width: 1300px) {
-  .user-panel {
-    width: 45%;
+.menu-btn {
+  display: none;
+  width: 40px;
+  height: 30px;
+}
+
+.menu-btn span {
+  display: block;
+  height: 2px;
+  background-color: #fff;
+  position: relative;
+}
+
+.menu-btn span::before,
+.menu-btn span::after {
+  content: "";
+  width: 40px;
+  height: 2px;
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+}
+
+.menu-btn span::before {
+  top: -10px;
+}
+.menu-btn span::after {
+  top: 10px;
+}
+
+/* MEDIA */
+
+@media (max-width: 1300px) {
+  .header-wrapper {
+    max-width: 95%;
+    margin-left: 25px;
   }
-} */
+}
+
+@media (max-width: 1243px) {
+  .wrapper {
+    margin-bottom: 14px;
+  }
+}
+
+@media (max-width: 1030px) {
+  .v-header-forms {
+    display: block;
+  }
+  .v-header-forms .form-control {
+    margin: 0 auto;
+    width: 45%;
+    padding-bottom: 10px;
+  }
+  .v-header-forms .select-amount {
+    width: 25%;
+    margin: 0 auto;
+    width: 45%;
+    padding-bottom: 10px;
+  }
+  .v-header-forms .wrapper {
+    padding-top: 10px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    width: 32%;
+  }
+  .v-header-forms .wrapper .checkbox__label {
+    margin: 0;
+  }
+  .menu-btn {
+    display: block;
+  }
+  .v-header-forms {
+    display: block;
+    transform: translateY(-150%);
+    transition: all 0.5s;
+  }
+  .v-header-forms.active {
+    transform: translateY(0);
+  }
+  .wrapper-title {
+    justify-content: space-between;
+    width: 26%;
+  }
+  .header-wrapper {
+    height: 150px;
+    transition: all 0.5s;
+  }
+  .header-wrapper.active {
+    height: auto;
+  }
+  .home {
+    height: 600px;
+  }
+  .with-nav.active {
+    padding-top: 240px;
+  }
+}
+
+@media (max-width: 972px) {
+  .wrapper-title {
+    margin: 0 auto;
+    width: 30%;
+  }
+}
+
+@media (max-width: 845px) {
+  .wrapper-title {
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 5px;
+  }
+  .user-panel {
+    margin: 0 auto;
+    align-items: center;
+  }
+}
+
+@media (max-width: 730px) {
+  .v-header-forms .wrapper {
+    width: 60%;
+  }
+  .checkbox__label {
+    width: 150%;
+  }
+  .header-wrapper {
+    margin: 0 17px;
+  }
+  .v-header-forms .form-control {
+    width: 60%;
+  }
+}
+@media (max-width: 630px) {
+  .text-chbx-recomended {
+    width: 50%;
+  }
+  .v-header-forms .form-control {
+    width: 70%;
+  }
+  .v-header-forms .wrapper {
+    width: 70%;
+  }
+  .user-panel {
+    width: 100%;
+    display: block;
+  }
+}
 </style>

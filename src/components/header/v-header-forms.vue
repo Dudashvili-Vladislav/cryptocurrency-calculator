@@ -1,7 +1,7 @@
 <template>
   <div class="v-header-forms">
     <div
-      class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start"
+      class="form-control  text-gray-700 pointer-events-auto w-1/4 justify-start"
     >
       <vSelect
         :modelValue="$store.state.calculator.selectedUnderlying"
@@ -14,7 +14,7 @@
     </div>
 
     <div
-      class="form-control text-gray-700 pointer-events-auto w-1/4 justify-start ml-8"
+      class="form-control select-maturity text-gray-700 pointer-events-auto w-1/4 justify-start ml-8"
     >
       <vSelect
         :modelValue="$store.state.calculator.selectedMaturity"
@@ -25,7 +25,9 @@
       >
       </vSelect>
     </div>
-    <div class="form-control text-gray-700 pointer-events-auto w-1/6 ml-8">
+    <div
+      class="form-control select-amount text-gray-700 pointer-events-auto w-1/6 ml-8"
+    >
       <vAmount
         :value="$store.state.calculator.coinAmount"
         @input="handleAmountChange($event)"
@@ -110,7 +112,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getMaturity_actions","getUsers"]),
+    ...mapActions(["getMaturity_actions", "getUsers"]),
 
     removeChartSettings() {
       for (const key in localStorage) {
@@ -176,11 +178,10 @@ export default {
       value = Number(typeof value === "object" ? value.target.value : value);
       this.$store.commit("calculator/setCoinAmount", value);
       this.$store.commit("setAmount_mutations", value);
-          console.log("$store-USERR", this.$store.state.auth.user.uid);
-          console.log("$store-USERR-2", this.$store.state.auth.user.displayName);
+      console.log("$store-USERR", this.$store.state.auth.user.uid);
+      console.log("$store-USERR-2", this.$store.state.auth.user.displayName);
     },
   },
-
 };
 </script>
 <style>

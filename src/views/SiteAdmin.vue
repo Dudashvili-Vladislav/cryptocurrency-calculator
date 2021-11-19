@@ -53,6 +53,7 @@
 
         <div class="divider"></div>
         <div class="select block">
+          {{ $store.state.calculator.users }}
           <div
             class="form-control text-gray-700 pointer-events-auto  justify-start w-1/4 flex"
           >
