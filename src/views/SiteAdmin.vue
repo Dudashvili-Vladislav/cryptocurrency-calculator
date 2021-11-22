@@ -902,6 +902,7 @@ export default {
             });
             console.log("table_json-orders", this.orders);
             this.isEditingOrders = false;
+            this.isEditing = false
             this.handleUsersSelect();
         },
 
@@ -912,10 +913,11 @@ export default {
             });
             console.log("table_json-deals", this.deals);
             this.isEditingDeals = false;
+            this.isEditing = false
             this.handleUsersSelect();
         },
 
-        async handleUsersSelect(userID) {
+        async handleUsersSelect(userID = this.currentUser) {
             console.log("userID", userID);
             const userId = userID || this.$store.state.calculator.users;
             //clearInterval(this.timerId);
@@ -961,11 +963,11 @@ export default {
             }
 
             setTimeout(() => {
-                if (this.currentUser === userId) {
+                if (this.currentUser === userId && !this.isEditing) {
                     this.getUserForTable(userId)
                     console.log('Юзер тот же, вызываю рекурсивно')
                 } else {
-                    console.log('Юзер поменялся, завершаю рекурсивность')
+                    console.log('Юзер поменялся или включилось редактирование, завершаю рекурсивность')
                 }
             }, 2000)
             // const marginsResponse = await this.fetchCleintTableInfoByTab({
@@ -1278,12 +1280,13 @@ export default {
         },
 
         onClickEditButton() {
+            this.isEditing = true
             if (this.activeTab === 3) {
                 this.isEditingDeals = true;
-                clearInterval(this.timerId);
+                //clearInterval(this.timerId);
             } else if (this.activeTab === 4) {
                 this.isEditingOrders = true;
-                clearInterval(this.timerId);
+                //clearInterval(this.timerId);
             }
         },
 
