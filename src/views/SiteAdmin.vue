@@ -946,7 +946,7 @@ export default {
                     this.fetchCleintTableInfoByTab({userId, url: "/admin/funds"}),
                 ]) // асинхронно все запросы сразу, а не последовательно
 
-                if (this.currentUser === userId) {
+                if (this.currentUser === userId  && !this.isEditing) {
                     this.margins = this.convertMargins(marginsResponse);
                     this.positions = this.convertPositions(positionsResponse);
                     this.deals = this.convertDeals(dealsResponce);
