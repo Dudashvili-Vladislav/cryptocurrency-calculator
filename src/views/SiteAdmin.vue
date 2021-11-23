@@ -768,6 +768,7 @@ export default {
         const router = useRouter();
         const store = useStore();
         return {
+            recursiveLoadStatus: false,
             users: [],
             margins: [],
             positions: [],
@@ -895,8 +896,8 @@ export default {
             }
         },
 
-        SendOrderOrders() {
-            this.sendOrderOrders({
+        async SendOrderOrders() {
+            await this.sendOrderOrders({
                 client_id: this.$store.state.calculator.users,
                 table_json: this.orders,
             });
@@ -906,8 +907,8 @@ export default {
             this.handleUsersSelect();
         },
 
-        SendOrderDeals() {
-            this.sendOrderDeals({
+        async SendOrderDeals() {
+            await this.sendOrderDeals({
                 client_id: this.$store.state.calculator.users,
                 table_json: this.deals,
             });
@@ -923,6 +924,7 @@ export default {
             //clearInterval(this.timerId);
             this.$store.commit("calculator/setUserSiteAdmin", userId);
             this.currentUser = userId
+            this.recursiveLoadStatus = true
             this.getUserForTable(userId);
 
             // this.timerId = setInterval(() => {
@@ -932,6 +934,8 @@ export default {
 
         async getUserForTable(userId) {
             try {
+                if (!this.recursiveLoadStatus) return;
+
                 let [
                     marginsResponse,
                     positionsResponse,
@@ -946,7 +950,7 @@ export default {
                     this.fetchCleintTableInfoByTab({userId, url: "/admin/funds"}),
                 ]) // асинхронно все запросы сразу, а не последовательно
 
-                if (this.currentUser === userId  && !this.isEditing) {
+                if (this.currentUser === userId  && !this.isEditing && this.recursiveLoadStatus) {
                     this.margins = this.convertMargins(marginsResponse);
                     this.positions = this.convertPositions(positionsResponse);
                     this.deals = this.convertDeals(dealsResponce);
@@ -1099,9 +1103,11 @@ export default {
                     convertOrders[index].Total_Margin_USD = item[1].toFixed(2);
                 });
 
+                console.log(convertOrders)
                 return convertOrders;
             } catch (err) {
                 console.error(`PARSE ORDERS ERR`, err)
+                return []
             }
         },
 
@@ -1320,6 +1326,10 @@ export default {
         this.handleUsersSelect();
         console.log("NEW-VERSION!");
     },
+    beforeUnmount() {
+        this.recursiveLoadStatus = false
+        this.userId = null
+    }
 };
 </script>
 <style>

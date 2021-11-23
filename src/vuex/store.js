@@ -309,7 +309,10 @@ let store = createStore({
                 Object.keys(row)
                       .map((key) => {
                           let req_key = keys_match[key]; // находим новый ключ для значения
-                          if (!req_key) return; // если ключа нет, уходим
+                          if (!req_key) {
+                              console.log('KEYS NOT MATTCH', key, keys_match)
+                              return
+                          } // если ключа нет, уходим
 
                           if (data[req_key] === undefined) {
                               // создаем объект в данных на каждый ключ
