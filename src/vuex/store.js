@@ -247,7 +247,6 @@ let store = createStore({
                 Comment: "Comment",
             };
             let data = {};
-            console.log("DATA-ORDER", data);
             table_json.map((row, index) => {
                 Object.keys(row)
                       .map((key) => {
@@ -273,11 +272,11 @@ let store = createStore({
                           }
                       });
             });
+            console.log("DATA-ORDER", data);
             data = JSON.stringify(data);
-            data = data.replaceAll("true", "True")
-                       .replaceAll("false", "False");
+            // data = data.replaceAll("true", "True")
+            //            .replaceAll("false", "False");
             console.log("DATA-REQUEST-DATA", data);
-            console.log("DATA-REQUEST-table_json-ORDER", table_json);
             let res = await $api.admin.orders.create(client_id, data);
             /*
                   console.log("/admin/orders", { client_id, table_json });
