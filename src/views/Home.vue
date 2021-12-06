@@ -529,7 +529,7 @@ a {
     height: auto;
   }
   .home {
-    height: 600px;
+    /*height: 600px;*/
   }
   .with-nav.active {
     padding-top: 240px;
