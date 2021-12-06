@@ -475,6 +475,9 @@ a {
     width: 50%;
     margin: 0 auto;
   }
+  .button__sendorder {
+    bottom: -20px !important;
+  }
 }
 
 @media (max-width: 1030px) {
@@ -530,6 +533,14 @@ a {
   }
   .with-nav.active {
     padding-top: 240px;
+  }
+
+  .apexcharts-legend {
+    position: unset !important;
+  }
+
+  .discription__button .description {
+    font-size: 13px;
   }
 }
 

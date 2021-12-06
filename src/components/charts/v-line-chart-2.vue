@@ -44,7 +44,7 @@ export default {
       linesSettings: {
         portfolio: false,
         structure: true,
-      }, 
+      },
       // настройки
       seriesResult: [], // Тут хранятся графики полученные из пропсов, но к каждой линии добавлен параметр show отвечающий за отображение. В компонент чарта отдаются только те, где show = true
 
@@ -106,6 +106,16 @@ export default {
             vertical: 10,
           },
         },
+        responsive: [
+          {
+            breakpoint: 1030,
+            options: {
+              legend: {
+                position: "top",
+              },
+            },
+          },
+        ],
         xaxis: {
           type: "numeric",
 
@@ -182,7 +192,8 @@ export default {
           },
         },
         chart: {
-          events: {legendClick: function(chartContext, seriesIndex, config) {
+          events: {
+            legendClick: function(chartContext, seriesIndex, config) {
               console.log(chartContext, seriesIndex, config);
               // The last parameter config contains additional information like `seriesIndex` and `dataPointIndex` for cartesian charts
             },
