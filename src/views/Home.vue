@@ -476,7 +476,45 @@ a {
     margin: 0 auto;
   }
   .button__sendorder {
-    bottom: -20px !important;
+    bottom: -30px !important;
+  }
+}
+
+@media (max-width: 1110px) {
+  .v-table-statistics {
+    padding-top: 30px;
+  }
+  .gradient-table[data-v-78c86b83] {
+    max-width: 100%;
+  }
+  .wrapper-text {
+    display: block !important;
+  }
+  .description {
+    width: 100%;
+    padding-right: 0px;
+  }
+  .discription__button {
+    max-width: 100%;
+    flex-direction: unset;
+  }
+  .gradient-table {
+    max-width: 100%;
+    margin-top: 10px;
+  }
+  .button__sendorder {
+    position: absolute;
+    display: flex;
+    bottom: -80px !important;
+    left: 50%;
+    margin-left: -205.5px;
+  }
+  .description[data-v-78c86b83] {
+    width: 100%;
+    padding-right: 0px;
+  }
+  .discription__button[data-v-78c86b83] {
+    padding-right: 0px;
   }
 }
 
@@ -616,6 +654,40 @@ a {
   .tab-nav {
     width: 90%;
   }
+  .apexcharts-toolbar {
+    top: 0px;
+    margin-left: -70px;
+    position: absolute;
+    left: 50%;
+    bottom: -112%;
+  }
+}
+
+@media (max-width: 475px) {
+  .button__sendorder {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .button-recomended[data-v-78c86b83] {
+    margin-right: 10px;
+    padding: 0px;
+  }
+  .slipage-input[data-v-78c86b83] {
+    padding-right: 0px;
+    padding-left: 5px;
+    font-size: 13px;
+  }
+  .text__spippage-recomended[data-v-78c86b83] {
+    font-size: 13px;
+  }
+  .button[data-v-290ca00e] {
+    font-size: 10px;
+    margin-left: 25px;
+    margin-top: -4px;
+  }
+  .wrapper-text {
+    margin-left: 0px;
+  }
 }
 
 @media (max-width: 410px) {
@@ -635,11 +707,45 @@ a {
     width: 90%;
     margin: 0 auto;
   }
+  .button__sendorder[data-v-78c86b83] {
+    margin-right: -20px;
+  }
 }
 
 @media (max-width: 360px) {
+  #app {
+    padding-bottom: 50px;
+  }
+
   .tab-nav {
     width: 96%;
+  }
+  .button__sendorder[data-v-78c86b83] {
+    margin-right: 0px;
+    display: block;
+    left: 50%;
+    margin-left: -120px;
+    bottom: -130px !important;
+  }
+  .button[data-v-290ca00e] {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .slipage-input[data-v-78c86b83] {
+    width: 85%;
+    margin-left: 25px;
+  }
+  .line-chart-wrapper {
+    padding-top: 27px;
+  }
+}
+
+@media (max-width: 340px) {
+  .wrapper-text[data-v-78c86b83] {
+    margin-left: -25px;
+  }
+  .line-chart-wrapper {
+    margin-left: -20px;
   }
 }
 
