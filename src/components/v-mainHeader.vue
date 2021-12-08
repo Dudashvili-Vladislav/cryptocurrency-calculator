@@ -78,7 +78,7 @@ export default {
 
 .tab-nav {
   display: flex;
-  padding-top: 300px;
+  padding-top: 200px;
 }
 
 .tab-nav-item {

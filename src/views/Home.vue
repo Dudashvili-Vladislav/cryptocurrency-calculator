@@ -605,9 +605,6 @@ a {
   .v-header-forms .wrapper {
     width: 60%;
   }
-  .checkbox__label {
-    width: 150%;
-  }
   .v-header-forms .form-control {
     width: 60%;
   }
@@ -703,7 +700,7 @@ a {
     justify-content: space-between;
   }
   .tab-nav {
-    padding-top: 350px;
+    padding-top: 200px;
     width: 90%;
     margin: 0 auto;
   }

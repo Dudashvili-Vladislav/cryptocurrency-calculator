@@ -1,11 +1,11 @@
 <template>
-  <div class="v-customQA pt-6 container mx-auto ">
+  <div class="v-customQA p-6 sm:p-12 container mx-auto ">
     <div class="header-form w-full">
-      <h3 class="header__select__change__title w-full mt-8  ">
+      <h3 class="header__select__change__title w-full sm:mt-8">
         {{ $t("price_values") }}
       </h3>
       <div
-        class="form-control text-gray-700 pointer-events-auto w-1/3 justify-start mt-2 "
+        class="form-control text-gray-700 pointer-events-auto sm:w-1/3 justify-start mt-2 "
       >
         <vSelect
           v-model="selectedDirection"
@@ -18,7 +18,7 @@
         </vSelect>
       </div>
       <div class="slederCustomQa">
-        <div class="mt-28">
+        <div class="mt-12 sm:mt-28">
           <vue-slider
             v-model="expectedMinPrice"
             :marks="markSliderCoin"
@@ -42,7 +42,7 @@
         {{ $t("expected_price") }}
       </vCheckbox>
 
-      <h3 class="header__title__on__radio w-full mt-20  ">
+      <h3 class="header__title__on__radio w-full mt-5 sm:mt-20">
         {{ $t("save_price") }}
       </h3>
       <div class="form__radio__wrapper flex ">
@@ -74,7 +74,7 @@
       </div>
 
       <div class="slederCustomQa">
-        <div class="mt-20">
+        <div class="mt-10 sm:mt-20">
           <vue-slider
             class="blue-slider"
             v-model="expectedMaxPrice"
@@ -102,7 +102,7 @@
         </vCheckbox>
       </div>
 
-      <h3 class="header__title__on__radio w-full mt-20  ">
+      <h3 class="header__title__on__radio w-full mt-5 sm:mt-20">
         {{ $t("futures") }}
       </h3>
 
@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <h3 class="caption">
+    <h3 class="caption mb-0 sm:mb-9">
       <svg
         width="18"
         height="19"
@@ -658,8 +658,12 @@ export default {
   },
 };
 </script>
-
 <style>
+
+.select_change .select {
+  min-width: 275px;
+}
+
 .text__spippage {
   text-align: center;
   font-family: Gilroy;

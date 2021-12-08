@@ -1,5 +1,5 @@
 <template>
-  <label class="checkbox__label ml-8 flex justify-start items-start">
+  <label class="checkbox__label pt-5 sm:pt-12 sm:ml-8 flex justify-start items-start">
     <div class="wrapper-checkbox">
       <input
         class="input-check"
@@ -89,8 +89,8 @@ export default {
 .wrapper-checkbox>span::before {
   content: '';
   display: inline-block;
-  width: 44px;
-  height: 44px;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
   flex-grow: 0;
   border-radius: 0.25em;
@@ -99,6 +99,14 @@ export default {
   border-radius: 12px;
   border: 1px solid rgba(245, 241, 241, 0.562);
 }
+
+@media (min-width: 768px) {
+  .wrapper-checkbox>span::before {
+    width: 44px;
+    height: 44px;
+  }
+}
+
 
 /* стили при наведении курсора на checkbox */
 .wrapper-checkbox>input:not(:disabled):not(:checked)+span:hover::before {

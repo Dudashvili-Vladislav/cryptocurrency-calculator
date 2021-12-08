@@ -162,15 +162,15 @@ export default {
   font-family: Gilroy;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 21px;
   border-radius: 4px;
   height: 44px;
 }
 
-/* @media (max-width: 1300px) {
-  .user-panel {
-    width: 45%;
+@media (min-width: 768px) {
+  .select {
+    font-size: 18px;
   }
-} */
+}
 </style>
