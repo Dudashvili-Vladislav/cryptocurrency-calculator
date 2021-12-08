@@ -659,7 +659,6 @@ export default {
 };
 </script>
 <style>
-
 .select_change .select {
   min-width: 275px;
 }
@@ -975,5 +974,71 @@ export default {
   margin-top: 0;
   height: 46px;
   max-height: 100%;
+}
+
+@media (max-width: 922px) {
+  .select__wrapper[data-v-811e7516]::before {
+    right: -50px !important;
+  }
+  .select[data-v-811e7516] {
+    font-size: 13px;
+  }
+
+  .icon user-icon {
+    right: 0 !important;
+  }
+
+  .lang-select {
+    margin-left: 0;
+  }
+
+  .select-gradient .select__wrapper[data-v-811e7516]::after {
+    margin-right: -50px;
+  }
+  
+
+
+  
+}
+
+
+@media (max-width: 430px) {
+ .select-gradient .select__wrapper[data-v-811e7516]:before {
+   right: 0 !important;
+  }
+  .select-gradient .select__wrapper[data-v-811e7516]::after {
+   margin-right: 0 !important;
+  }
+
+ 
+  .tab-item{
+    box-sizing: border-box;
+    width: 98%;
+    margin: 0 auto;
+  }
+
+  
+
+}
+
+
+
+@media (max-width: 640px) {
+  .select-gradient .select__wrapper[data-v-811e7516]:before {
+   right: 0 !important;
+  }
+  .select-gradient .select__wrapper[data-v-811e7516]::after {
+   margin-right: 0 !important;
+  }
+}
+
+
+@media (max-width: 320px) {
+  .select-gradient .select__wrapper[data-v-811e7516]:before {
+   right: -3% !important;
+  }
+  .select-gradient .select__wrapper[data-v-811e7516]::after {
+   margin-right: -3%!important;
+  }
 }
 </style>

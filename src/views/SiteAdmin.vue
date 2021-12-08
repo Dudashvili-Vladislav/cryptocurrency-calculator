@@ -17,6 +17,7 @@
                         @input="changeLang"
                         class="lang-select"
                     >
+                    
                         <option
                             v-for="locale in $i18n.availableLocales"
                             :key="`locale-${locale}`"

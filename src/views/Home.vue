@@ -5,9 +5,7 @@
         <button class="menu-btn">
           <span></span>
         </button>
-        <h1 class="logo font-bold text-xl">
-          Calculator
-        </h1>
+        <h1 class="logo font-bold text-xl">Calculator</h1>
       </div>
 
       <!--       {{$store.state}} -->
@@ -50,7 +48,7 @@
         <div class="exit">
           <a @click.prevent="loguot" class="btn">
             <img
-              class=" pr-2 img__exit"
+              class="pr-2 img__exit"
               src="@/assets/images/exit-icon.png"
               alt=""
             />
@@ -630,6 +628,8 @@ a {
   .tab-nav {
     width: 77%;
   }
+
+  
 }
 
 @media (max-width: 630px) {
@@ -707,6 +707,9 @@ a {
   .button__sendorder[data-v-78c86b83] {
     margin-right: -20px;
   }
+  .table.w-full{
+    margin-left: -15px;
+  }
 }
 
 @media (max-width: 360px) {
@@ -744,6 +747,15 @@ a {
   .line-chart-wrapper {
     margin-left: -20px;
   }
+  .text-chbx-recomended {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .v-header-forms .wrapper .checkbox__label {
+    padding-top: 0;
+  }
+  
 }
 
 /* END MEDIA */
