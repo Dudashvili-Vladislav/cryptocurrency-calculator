@@ -777,10 +777,7 @@ a {
   .v-header-forms .wrapper .checkbox__label {
     padding-top: 0;
   }
-  .button[data-v-290ca00e] {
-    margin-left: 65px !important;
-    margin-right: -10px !important;
-  }
+  
   .button__sendorder[data-v-78c86b83] {
     margin-left: -118px !important;
   }
