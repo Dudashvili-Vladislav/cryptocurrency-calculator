@@ -685,6 +685,16 @@ export default {
 };
 </script>
 <style>
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background: radial-gradient(
+    123.22% 129.67% at 100.89% -5.6%,
+    #1f1235 0%,
+    #18153a 100%
+  );
+}
 .select_change .select {
   min-width: 275px;
 }
@@ -1006,6 +1016,17 @@ export default {
   .select[data-v-811e7516] {
     font-size: 15px;
   }
+  .home {
+    min-height: 100%;
+    padding-bottom: 89px !important;
+  }
+  .home.active {
+    min-height: 100%;
+    padding-bottom: 80px;
+  }
+  .v-call-spread-right {
+    margin-bottom: 50px;
+  }
 }
 
 @media (max-width: 922px) {
@@ -1053,12 +1074,61 @@ export default {
   }
 }
 
+@media (max-width: 414px) {
+  .button__sendorder:last-child {
+    padding-bottom: 10px;
+  }
+  .home {
+    padding-bottom: 120px !important;
+  }
+  .home.active {
+    padding-bottom: 120px;
+  }
+  .v-button {
+    margin-top: 3px;
+  }
+  .wrapper__slippage .input_slip {
+    width: 90%;
+  }
+}
+@media (max-width: 375px) {
+  .v-call-spread-right {
+    padding-top: 30px;
+  }
+  .home {
+    height: 100%;
+    padding-bottom: 80px;
+  }
+  .button__sendorder:last-child {
+    padding-bottom: 40px;
+  }
+  .v-button {
+    margin-top: 3px;
+  }
+  .wrapper__slippage .input_slip {
+    width: 96%;
+  }
+}
+
 @media (max-width: 320px) {
   .select-gradient .select__wrapper[data-v-811e7516]:before {
     right: -3% !important;
   }
   .select-gradient .select__wrapper[data-v-811e7516]::after {
     margin-right: -3% !important;
+  }
+  .button__sendorder {
+    grid-template-columns: 1fr !important;
+    display: grid !important;
+    margin-left: -108.5px !important;
+    padding-bottom: 0px !important;
+  }
+  .tables {
+    margin-left: -11px;
+  }
+  .v-button {
+    margin-left: -25px !important;
+    padding: 0px;
   }
 }
 </style>

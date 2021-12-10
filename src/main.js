@@ -18,6 +18,7 @@ $(function() {
     $(".v-header-forms").toggleClass("active");
     $(".header-wrapper").toggleClass("active");
     $(".with-nav").toggleClass("active");
+    $(".home").toggleClass("active");
   });
 });
 

@@ -565,7 +565,10 @@ a {
     height: auto;
   }
   .home {
-    /*height: 600px;*/
+    padding-bottom: 86px !important;
+  }
+  .home.active {
+    padding-bottom: 89px !important;
   }
   .with-nav.active {
     padding-top: 240px;
@@ -622,14 +625,15 @@ a {
     padding: 48px 48px 24px;
     margin: 0 17px;
   }
+  .home {
+    padding-bottom: 86px;
+  }
 }
 
 @media (max-width: 680px) {
   .tab-nav {
     width: 77%;
   }
-
-  
 }
 
 @media (max-width: 630px) {
@@ -686,6 +690,15 @@ a {
     margin-left: 0px;
   }
 }
+@media (max-width: 414px) {
+  .button__sendorder[data-v-78c86b83] {
+    margin-right: -20px;
+    padding-bottom: 0px !important;
+  }
+  .text-chbx-recomended {
+    font-size: 16px;
+  }
+}
 
 @media (max-width: 410px) {
   .exit {
@@ -705,10 +718,16 @@ a {
     margin: 0 auto;
   }
   .button__sendorder[data-v-78c86b83] {
-    margin-right: -20px;
+    margin-right: -10px;
+    padding-bottom: 0px !important;
   }
-  .table.w-full{
+  .table.w-full {
     margin-left: -15px;
+  }
+}
+@media (max-width: 375px) {
+  .text-chbx-recomended {
+    font-size: 15px;
   }
 }
 
@@ -751,11 +770,20 @@ a {
     width: 100%;
     font-size: 13px;
   }
+  .text-chbx-recomended {
+    font-size: 15px;
+  }
 
   .v-header-forms .wrapper .checkbox__label {
     padding-top: 0;
   }
-  
+  .button[data-v-290ca00e] {
+    margin-left: 65px !important;
+    margin-right: -10px !important;
+  }
+  .button__sendorder[data-v-78c86b83] {
+    margin-left: -118px !important;
+  }
 }
 
 /* END MEDIA */
