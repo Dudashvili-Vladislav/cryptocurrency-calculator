@@ -241,51 +241,77 @@
             <tr class="border-gray-400 bg-emerald-200">
               <td class="field__description">Max profit</td>
               <td class="field__values">
-                {{ tableData[selectedCoin]["Max profit"].toFixed(2) }}
+                <span v-if="tableData[selectedCoin]['Max profit']">
+                  {{ tableData[selectedCoin]["Max profit"].toFixed(2) }}
+                </span>
               </td>
               <td class="field__values">
-                {{ tableData["%"]["Max profit"].toFixed(2) }}
+                <span v-if="tableData['%']['Max profit']">
+                  {{ tableData["%"]["Max profit"].toFixed(2) }}
+                </span>
               </td>
               <td class="field__values">
-                {{ tableData["USD"]["Max profit"].toFixed(2) }}
+                <span v-if="tableData['USD']['Max profit']">
+                  {{ tableData["USD"]["Max profit"].toFixed(2) }}
+                </span>
               </td>
             </tr>
             <tr class="border-gray-400">
               <td class="field__description">Structure product price</td>
               <td class="field__values">
-                {{
-                  tableData[selectedCoin]["Structure product price"].toFixed(2)
-                }}
+                <span v-if="tableData[selectedCoin]['Structure product price']">
+                  {{
+                    tableData[selectedCoin]["Structure product price"].toFixed(
+                      2
+                    )
+                  }}
+                </span>
               </td>
               <td class="field__values">
-                {{ tableData["%"]["Structure product price"].toFixed(2) }}
+                <span v-if="tableData['%']['Structure product price']">
+                  {{ tableData["%"]["Structure product price"].toFixed(2) }}
+                </span>
               </td>
               <td class="field__values">
-                {{ tableData["USD"]["Structure product price"].toFixed(2) }}
+                <span v-if="tableData['USD']['Structure product price']">
+                  {{ tableData["USD"]["Structure product price"].toFixed(2) }}
+                </span>
               </td>
             </tr>
             <tr class="border-gray-400">
               <td class="field__description">Maintenance margin</td>
               <td class="field__values">
-                {{ tableData[selectedCoin]["Maintenace margin"].toFixed(2) }}
+                <span v-if="tableData[selectedCoin]['Maintenance margin']">
+                  {{ tableData[selectedCoin]["Maintenance margin"].toFixed(2) }}
+                </span>
               </td>
               <td class="field__values">
-                {{ tableData["%"]["Maintenace margin"].toFixed(2) }}
+                <span v-if="tableData['%']['Maintenance margin']">
+                  {{ tableData["%"]["Maintenance margin"].toFixed(2) }}
+                </span>
               </td>
               <td class="field__values">
-                {{ tableData["USD"]["Maintenace margin"].toFixed(2) }}
+                <span v-if="tableData['USD']['Maintenance margin']">
+                  {{ tableData["USD"]["Maintenance margin"].toFixed(2) }}
+                </span>
               </td>
             </tr>
             <tr class="border-gray-400">
               <td class="field__description">Total margin</td>
               <td class="field__values">
-                {{ tableData[selectedCoin]["Total margin"].toFixed(2) }}
+                <span v-if="tableData[selectedCoin]['Total margin']">
+                  {{ tableData[selectedCoin]["Total margin"].toFixed(2) }}
+                </span>
               </td>
               <td class="field__values">
-                {{ tableData["%"]["Total margin"].toFixed(2) }}
+                <span v-if="tableData['%']['Total margin']">
+                  {{ tableData["%"]["Total margin"].toFixed(2) }}
+                </span>
               </td>
               <td class="field__values">
-                {{ tableData["USD"]["Total margin"].toFixed(2) }}
+                <span v-if="tableData['USD']['Total margin']">
+                  {{ tableData["USD"]["Total margin"].toFixed(2) }}
+                </span>
               </td>
             </tr>
           </tbody>
@@ -976,6 +1002,12 @@ export default {
   max-height: 100%;
 }
 
+@media (max-width: 1024px) {
+  .select[data-v-811e7516] {
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 922px) {
   .select__wrapper[data-v-811e7516]::before {
     right: -50px !important;
@@ -995,50 +1027,38 @@ export default {
   .select-gradient .select__wrapper[data-v-811e7516]::after {
     margin-right: -50px;
   }
-  
-
-
-  
 }
 
-
 @media (max-width: 430px) {
- .select-gradient .select__wrapper[data-v-811e7516]:before {
-   right: 0 !important;
+  .select-gradient .select__wrapper[data-v-811e7516]:before {
+    right: 0 !important;
   }
   .select-gradient .select__wrapper[data-v-811e7516]::after {
-   margin-right: 0 !important;
+    margin-right: 0 !important;
   }
 
- 
-  .tab-item{
+  .tab-item {
     box-sizing: border-box;
     width: 98%;
     margin: 0 auto;
   }
-
-  
-
 }
-
-
 
 @media (max-width: 640px) {
   .select-gradient .select__wrapper[data-v-811e7516]:before {
-   right: 0 !important;
+    right: 0 !important;
   }
   .select-gradient .select__wrapper[data-v-811e7516]::after {
-   margin-right: 0 !important;
+    margin-right: 0 !important;
   }
 }
 
-
 @media (max-width: 320px) {
   .select-gradient .select__wrapper[data-v-811e7516]:before {
-   right: -3% !important;
+    right: -3% !important;
   }
   .select-gradient .select__wrapper[data-v-811e7516]::after {
-   margin-right: -3%!important;
+    margin-right: -3% !important;
   }
 }
 </style>
